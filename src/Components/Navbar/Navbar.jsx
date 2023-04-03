@@ -40,7 +40,12 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" component={"nav"}>
+    <AppBar
+      position="static"
+      component={"nav"}
+      color="inherit"
+      sx={{ boxShadow: "none" }}
+    >
       <Toolbar component={"ul"} sx={{ listStyle: "none" }}>
         <Box component={"li"} ref={elementDropdown2}>
           <IconButton
@@ -68,39 +73,53 @@ const Navbar = () => {
             open={Boolean(dropdown2)}
             onClose={() => handleCloseDropdown2()}
           >
-            <MenuItem onClick={() => handleCloseDropdown2()}>
-              {user.isLogged ? (
-                <Link
-                  to={"/"}
-                  style={{ color: "black", textDecoration: "none" }}
-                >
-                  Dashboard
-                </Link>
-              ) : (
+            {user.isLogged ? (
+              <>
+                <MenuItem onClick={() => handleCloseDropdown2()}>
+                  <Link
+                    to={"/"}
+                    style={{ color: "black", textDecoration: "none" }}
+                  >
+                    Dashboard
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={() => handleCloseDropdown2()}>
+                  <Link
+                    to={"/licencia"}
+                    style={{ color: "black", textDecoration: "none" }}
+                  >
+                    Licencia
+                  </Link>
+                </MenuItem>
+                {user.rol.administrator && (
+                  <MenuItem onClick={() => handleCloseDropdown2()}>
+                    <Link
+                      to={"/admin-usuarios"}
+                      style={{ color: "black", textDecoration: "none" }}
+                    >
+                      Administrar usuarios
+                    </Link>
+                  </MenuItem>
+                )}
+                <MenuItem onClick={() => handleCloseDropdown2()}>
+                  <Link
+                    to={"/calendario"}
+                    style={{ color: "black", textDecoration: "none" }}
+                  >
+                    Calendario
+                  </Link>
+                </MenuItem>
+              </>
+            ) : (
+              <MenuItem onClick={() => handleCloseDropdown2()}>
                 <Link
                   to={"/"}
                   style={{ color: "black", textDecoration: "none" }}
                 >
                   Ingresar
                 </Link>
-              )}
-            </MenuItem>
-            <MenuItem onClick={() => handleCloseDropdown2()}>
-              <Link
-                to={"/licencia"}
-                style={{ color: "black", textDecoration: "none" }}
-              >
-                Licencia
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={() => handleCloseDropdown2()}>
-              <Link
-                to={"/calendario"}
-                style={{ color: "black", textDecoration: "none" }}
-              >
-                Calendario
-              </Link>
-            </MenuItem>
+              </MenuItem>
+            )}
           </Menu>
         </Box>
         <Typography
@@ -112,8 +131,8 @@ const Navbar = () => {
             display: "flex",
           }}
         >
-          <Link to={"/"} style={{ color: "white", textDecoration: "none" }}>
-            Adviters
+          <Link to={"/"} style={{ color: "#797979", textDecoration: "none" }}>
+            Una gran empresa
           </Link>
         </Typography>
         {user.isLogged && (
@@ -144,10 +163,12 @@ const Navbar = () => {
               onClose={() => handleCloseDropdown1()}
             >
               <MenuItem onClick={() => handleCloseDropdown1()} component={"li"}>
-                Profile
-              </MenuItem>
-              <MenuItem onClick={() => handleCloseDropdown1()} component={"li"}>
-                My account
+                <Link
+                  to={"/perfil"}
+                  style={{ color: "black", textDecoration: "none" }}
+                >
+                  Mi perfil
+                </Link>
               </MenuItem>
               <MenuItem
                 onClick={() => {

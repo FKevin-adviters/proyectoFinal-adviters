@@ -9,6 +9,7 @@ import LoginPage from "./pages/Login/Login";
 import EditarUsuario from "./pages/Perfil/EditarUsuario/EditarUsuario";
 import Perfil from "./pages/Perfil/Perfil";
 import NotFound from "./pages/NotFound/NotFound";
+import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
 
 function App() {
   const { user } = useContext(ActionContext);
@@ -26,11 +27,9 @@ function App() {
                 <Route path="perfil" element={<Perfil />}>
                   <Route path="editar" element={<EditarUsuario />} />
                 </Route>
+
                 {user.rol.administrator && (
-                  <Route
-                    path="panel-usuarios"
-                    element={<DashboardPage admin={true} />}
-                  />
+                  <Route path="admin-usuarios" element={<AdminUsuarios />} />
                 )}
               </>
             ) : (
