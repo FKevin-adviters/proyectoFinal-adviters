@@ -1,0 +1,42 @@
+.root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #f5f5f5;
+  }
+  
+  .img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  .balance {
+    font-weight: bold;
+  }
+  
+  .status {
+    display: inline-block;
+    border-radius: 50%;
+    padding: 8px;
+    background-color: green;
+    color: white;
+  }
+
+  /*
+  fazer o maquetado de um componente usando react e @mui/material :
+  no canto superior esqeurdo da pagina, tera foto de perfil do usuario, sendo redonda.
+  essa imagem sera cargada da base de dados, por agora colocar somente o circulo, ao lado da
+  imagem, colocar o primeiro nome do usuario, que tambem vai trazer da base de dados, por agora 
+  colocar um nome generio "Maicon".
+  no lado, quase ao centro mostrar titulo "balence atual", ao lado do titulo, tera o numero de
+  dias que tem disponivel para solicitar, esse numero tambem sera carregado desde a base de dados, 
+  por agora, colocar o texto generico "24 dias".
+  no canto superior direito, tera um tiulo "ESTADO", abaixo dele tera o estado da solicitacao que vai trazer 
+  da base de dados se esta ("aun no enviado" ou "enviado")
+  abaixo de tudo, no lado inferior direito, colocar um botao com o texto "Solicitar Aprobacion".
+  
+  */
+  

@@ -36,7 +36,7 @@ const Login = () => {
           endIcon={<LoginIcon />}
           className="login-button"
         >
-          Ingresar
+          Iniciar
         </Button>
       </Box>
     </section>
