@@ -4,29 +4,17 @@ export const ActionContext = createContext();
 
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState({
-    isLogged: true,
+    isLogged: false,
     rol: {
-      administrator: false,
+      administrator: true,
       user: true,
     },
   });
   const userLogIn = () => {
-    setUser({
-      isLogged: true,
-      rol: {
-        administrator: true,
-        user: true,
-      },
-    });
+    setUser({ ...user, isLogged: true });
   };
   const userLogOut = () => {
-    setUser({
-      isLogged: false,
-      rol: {
-        administrator: false,
-        user: false,
-      },
-    });
+    setUser({ ...user, isLogged: false });
   };
   const setAdmin = () => {
     setUser((old) => {

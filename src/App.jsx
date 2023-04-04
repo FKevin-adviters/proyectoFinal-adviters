@@ -38,7 +38,10 @@ function App() {
               </Route>
             </>
           ) : (
-            <Route index element={<LoginPage />} />
+            <>
+              <Route index element={<LoginPage />} />
+              <Route path="*" element={<NotFound />} />
+            </>
           )}
         </Routes>
       </BrowserRouter>
