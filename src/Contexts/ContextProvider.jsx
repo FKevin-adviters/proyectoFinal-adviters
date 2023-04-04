@@ -17,8 +17,8 @@ const ContextProvider = ({ children }) => {
     setUser({ ...user, isLogged: false });
   };
   const setAdmin = () => {
-    setUser((old) => {
-      return { ...old, [old.rol.administrator]: true };
+    setUser({
+      ...user,
     });
   };
 

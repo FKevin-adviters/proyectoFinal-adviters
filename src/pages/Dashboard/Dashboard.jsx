@@ -3,8 +3,8 @@ import React from "react";
 import "./Dashboard.css";
 import CardDashboard from "./Components/CardDashboard";
 import Buscador from "./Components/Buscador";
-import ListLicencias from "../AdminUsuarios/Components/ListLicencias";
-import CardDiasDisp from "../AdminUsuarios/Components/CardDiasDisp";
+import ListLicencias from "./Components/ListLicencias";
+import CardDiasDisp from "./Components/CardDiasDisp";
 
 const Dashboard = ({ admin }) => {
   const clima = {

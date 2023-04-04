@@ -4,13 +4,11 @@ import {
   Box,
   ListItem,
   ListItemAvatar,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography,
 } from "@mui/material";
-import React, { useContext } from "react";
-import { ActionContext } from "../../../Contexts/ContextProvider";
+import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import shrek from "../../../Assets/Navbar/shrek.jpg";
