@@ -18,10 +18,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            {user.isLogged ? (
-              <>
-                <Route index element={<DashboardPage />} />
+          {user.isLogged ? (
+            <>
+              <Route path="/" element={<Layout />}>
+                <Route
+                  index
+                  element={<DashboardPage admin={user.rol.administrator} />}
+                />
                 <Route path="licencia" element={<Licencia />} />
                 <Route path="calendario" element={<Calendario />} />
                 <Route path="perfil" element={<Perfil />}>
@@ -31,12 +34,12 @@ function App() {
                 {user.rol.administrator && (
                   <Route path="admin-usuarios" element={<AdminUsuarios />} />
                 )}
-              </>
-            ) : (
-              <Route index element={<LoginPage />} />
-            )}
-            <Route path="*" element={<NotFound />} />
-          </Route>
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </>
+          ) : (
+            <Route index element={<LoginPage />} />
+          )}
         </Routes>
       </BrowserRouter>
     </div>

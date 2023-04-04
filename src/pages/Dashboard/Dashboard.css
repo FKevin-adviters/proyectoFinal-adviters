@@ -1,0 +1,25 @@
+.dashboard_section {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+  background-color: #fbfbfb;
+  min-height: 90vh;
+  padding: 50px 0;
+}
+.dashboard_list {
+  list-style-type: none;
+  display: flex;
+  gap: 10px;
+}
+.dashboard_list-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+@media screen and (min-width: 1008px) {
+  .item1 {
+    width: 300px;
+  }
+}

@@ -9,7 +9,7 @@ const Login = () => {
   const { userLogIn } = useContext(ActionContext);
 
   return (
-    <Container component={"section"} className="section">
+    <section className="login-section">
       <Box className="login-container">
         <TextField
           id="email"
@@ -39,7 +39,7 @@ const Login = () => {
           Ingresar
         </Button>
       </Box>
-    </Container>
+    </section>
   );
 };
 
