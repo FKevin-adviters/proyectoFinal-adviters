@@ -2,16 +2,7 @@ import { Card, CardContent, Divider, List, Typography } from "@mui/material";
 import React from "react";
 import ListItemUser from "./ListItemUser";
 
-const ListLicencias = ({ admin }) => {
-  const licencia = {
-    tipo: "Vacaciones",
-    fecha: {
-      inicio: "17/09",
-      final: "25/10",
-    },
-    usuario: "Jennifer",
-  };
-
+const ListLicencias = ({ admin, licencia }) => {
   return (
     <Card sx={{ width: 300 }}>
       <CardContent>

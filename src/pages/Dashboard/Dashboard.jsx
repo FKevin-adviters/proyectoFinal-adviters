@@ -1,19 +1,10 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  InputAdornment,
-  List,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import "./Dashboard.css";
 import CardDashboard from "./Components/CardDashboard";
 import Buscador from "./Components/Buscador";
 import ListLicencias from "../AdminUsuarios/Components/ListLicencias";
+import CardDiasDisp from "../AdminUsuarios/Components/CardDiasDisp";
 
 const Dashboard = ({ admin }) => {
   const clima = {
@@ -29,17 +20,36 @@ const Dashboard = ({ admin }) => {
     { dia: 24, mes: "febrero", desc: "Carnaval" },
   ];
 
+  // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
+  // parecido a este
+  const licencia = {
+    tipo: "Vacaciones",
+    fecha: {
+      inicio: "17/09",
+      final: "25/10",
+    },
+    usuario: "Jennifer",
+  };
+
   return (
     <section className="dashboard_section">
-      {admin && <Buscador />}
-      <Container
+      {admin ? (
+        <Buscador />
+      ) : (
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button variant="contained" color="success">
+            Crear Nueva Solicitud
+          </Button>
+        </Box>
+      )}
+      <Box
         component={"ul"}
         sx={{
           display: "flex",
           gap: "50px",
           listStyleType: "none",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "flex-start",
           flexWrap: "wrap",
         }}
       >
@@ -59,10 +69,19 @@ const Dashboard = ({ admin }) => {
                   Lista solicitudes pendientes
                 </Typography>
 
-                <ListLicencias admin={true} />
+                <ListLicencias admin={true} licencia={licencia} />
               </>
             ) : (
-              <ListLicencias />
+              <>
+                <Typography
+                  variant="overline"
+                  color="text.secondary"
+                  mx={"5px"}
+                >
+                  Mi Historial de Solicitudes
+                </Typography>
+                <ListLicencias licencia={licencia} />
+              </>
             )}
           </section>
           <section>
@@ -75,26 +94,34 @@ const Dashboard = ({ admin }) => {
                 >
                   PROXIMAS LICENCIAS (APROBADAS)
                 </Typography>
-                <ListLicencias />
+                <ListLicencias licencia={licencia} />
               </>
             ) : (
-              <ul>PROXIMAS LICENCIAS (APROBADAS) DEL USUARIO</ul>
+              <>
+                <Typography
+                  variant="overline"
+                  color="text.secondary"
+                  mx={"5px"}
+                >
+                  Mis Próximas licencias
+                </Typography>
+                <ListLicencias licencia={licencia} />
+              </>
             )}
           </section>
         </li>
         {!admin && (
-          <li className="dashboard_list-item">
+          <li className="dashboard_list-item item2">
             <section>
-              <h3>Quien está ausente?</h3>
-              <ul>LISTA DE AUSENTES</ul>
+              <Typography variant="overline" color="text.secondary" mx={"5px"}>
+                Quien está ausente?
+              </Typography>
+              <ListLicencias licencia={licencia} />
             </section>
-            <section>
-              <h4>Días disponibles</h4>
-              <span>24</span>
-            </section>
+            <CardDiasDisp />
           </li>
         )}
-      </Container>
+      </Box>
     </section>
   );
 };

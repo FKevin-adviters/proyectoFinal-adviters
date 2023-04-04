@@ -16,7 +16,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 import shrek from "../../../Assets/Navbar/shrek.jpg";
 
 const ListItemUser = ({ licencia, admin }) => {
-  const { user } = useContext(ActionContext);
   const { usuario, fecha, tipo } = licencia;
 
   const colores = {

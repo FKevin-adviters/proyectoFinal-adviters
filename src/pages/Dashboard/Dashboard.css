@@ -1,7 +1,6 @@
 .dashboard_section {
   display: flex;
   flex-direction: column;
-
   gap: 20px;
   background-color: #fbfbfb;
   min-height: 90vh;
@@ -18,6 +17,12 @@
   justify-content: center;
   gap: 10px;
 }
+
+.item2 {
+  display: flex;
+  flex-direction: column;
+}
+
 @media screen and (min-width: 1008px) {
   .item1 {
     width: 300px;
