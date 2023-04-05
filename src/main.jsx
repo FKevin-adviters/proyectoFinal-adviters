@@ -8,6 +8,8 @@ import "@fontsource/roboto/700.css";
 import ContextProvider from "./Contexts/ContextProvider";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,10 +23,12 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ContextProvider>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
-    </ContextProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </ContextProvider>
+    </LocalizationProvider>
   </React.StrictMode>
 );

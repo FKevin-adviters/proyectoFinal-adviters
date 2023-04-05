@@ -5,6 +5,7 @@ import {
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -71,24 +72,28 @@ const ListItemUser = ({ licencia, admin }) => {
       {admin && (
         <Box sx={{ display: "flex", marginLeft: "50px" }}>
           <ListItemIcon sx={{ gap: "15px", justifyContent: "center" }}>
-            <CheckIcon
-              sx={{
-                backgroundColor: "#86FF73",
-                borderRadius: "50%",
-                padding: "2px",
-                color: "white",
-                cursor: "pointer",
-              }}
-            />
-            <ClearIcon
-              sx={{
-                backgroundColor: "#FF8B8B",
-                borderRadius: "50%",
-                padding: "2px",
-                color: "white",
-                cursor: "pointer",
-              }}
-            />
+            <Tooltip title="Aprobar" arrow>
+              <CheckIcon
+                sx={{
+                  backgroundColor: "#86FF73",
+                  borderRadius: "50%",
+                  padding: "2px",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              />
+            </Tooltip>
+            <Tooltip title="Denegar" arrow>
+              <ClearIcon
+                sx={{
+                  backgroundColor: "#FF8B8B",
+                  borderRadius: "50%",
+                  padding: "2px",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              />
+            </Tooltip>
           </ListItemIcon>
         </Box>
       )}
