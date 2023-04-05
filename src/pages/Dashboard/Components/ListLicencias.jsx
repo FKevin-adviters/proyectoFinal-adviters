@@ -2,7 +2,7 @@ import { Card, CardContent, Divider, List, Typography } from "@mui/material";
 import React from "react";
 import ListItemUser from "./ListItemUser";
 
-const ListLicencias = ({ admin, licencia }) => {
+const ListLicencias = ({ admin, licencias }) => {
   return (
     <Card sx={{ width: 300 }}>
       <CardContent>
@@ -18,19 +18,19 @@ const ListLicencias = ({ admin, licencia }) => {
             overflowY: "auto",
           }}
         >
-          {[0, 1, 2, 3, 4, 5, 6, 7].map((value, i, arr) => {
-            return (
-              <>
-                <ListItemUser
-                  value={value}
-                  key={value + i}
-                  licencia={licencia}
-                  admin={admin}
-                />
-                {arr.length - 1 !== i ? <Divider variant="fullWidth" /> : ""}
-              </>
-            );
-          })}
+          {Array.isArray(licencias) &&
+            licencias.map((licencia, i, arr) => {
+              return (
+                <>
+                  <ListItemUser
+                    key={licencia.id}
+                    licencia={licencia}
+                    admin={admin}
+                  />
+                  {arr.length - 1 !== i ? <Divider variant="fullWidth" /> : ""}
+                </>
+              );
+            })}
         </List>
       </CardContent>
     </Card>

@@ -4,7 +4,7 @@ export const ActionContext = createContext();
 
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState({
-    isLogged: false,
+    isLogged: true,
     rol: {
       administrator: true,
       user: true,

@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Badge,
   Box,
   ListItem,
   ListItemAvatar,
@@ -12,9 +11,10 @@ import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import shrek from "../../../Assets/Navbar/shrek.jpg";
+import { convertDates } from "../../../Utils/convertDates";
 
 const ListItemUser = ({ licencia, admin }) => {
-  const { usuario, fecha, tipo } = licencia;
+  const { usuario, fechaInicio, fechaFinal, tipo } = licencia;
 
   const colores = {
     Vacaciones: "purple",
@@ -41,7 +41,7 @@ const ListItemUser = ({ licencia, admin }) => {
               variant="subtitle2"
               color="text.secondary"
             >
-              {fecha.inicio} - {fecha.final}
+              {convertDates(fechaInicio)} - {convertDates(fechaFinal)}
             </Typography>
 
             <Typography
