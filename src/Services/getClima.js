@@ -5,7 +5,7 @@ export const getClima = async () => {
 
   try {
     let res = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=Buenos Aires&appid=${apikey}&lang=sp, es&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?q=Buenos%20Aires&appid=${apikey}&units=metric&lang=sp,%20es`
     );
     return res.data;
   } catch (error) {

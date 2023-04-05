@@ -35,9 +35,12 @@ const ListItemUser = ({ licencia, admin }) => {
       <ListItemText
         primary={usuario}
         secondary={
-          <>
+          <Box
+            component={"span"}
+            sx={{ display: "flex", flexDirection: "column" }}
+          >
             <Typography
-              component="div"
+              component="span"
               variant="subtitle2"
               color="text.secondary"
             >
@@ -45,7 +48,7 @@ const ListItemUser = ({ licencia, admin }) => {
             </Typography>
 
             <Typography
-              component="div"
+              component="span"
               variant="subtitle2"
               color="text.secondary"
             >
@@ -53,21 +56,24 @@ const ListItemUser = ({ licencia, admin }) => {
                 sx={{
                   backgroundColor: colores[tipo],
                   padding: "5px",
+                  margin: "0 5px",
                   borderRadius: "100%",
                   display: "inline-block",
                 }}
-              ></Box>{" "}
+                component={"span"}
+              ></Box>
               {tipo}
             </Typography>
-          </>
+          </Box>
         }
+        sx={{ display: "flex", flexDirection: "column" }}
       />
       {admin && (
-        <Box sx={{ display: "flex" }}>
-          <ListItemIcon sx={{ gap: "5px", justifyContent: "center" }}>
+        <Box sx={{ display: "flex", marginLeft: "50px" }}>
+          <ListItemIcon sx={{ gap: "15px", justifyContent: "center" }}>
             <CheckIcon
               sx={{
-                backgroundColor: "green",
+                backgroundColor: "#86FF73",
                 borderRadius: "50%",
                 padding: "2px",
                 color: "white",
@@ -76,7 +82,7 @@ const ListItemUser = ({ licencia, admin }) => {
             />
             <ClearIcon
               sx={{
-                backgroundColor: "red",
+                backgroundColor: "#FF8B8B",
                 borderRadius: "50%",
                 padding: "2px",
                 color: "white",

@@ -4,7 +4,10 @@ import ListItemUser from "./ListItemUser";
 
 const ListLicencias = ({ admin, licencias }) => {
   return (
-    <Card sx={{ width: 300 }}>
+    <Card
+      sx={{ minWidth: "clamp(300px, 80%, 500px)" }}
+      className="listLicencias_card"
+    >
       <CardContent>
         <List
           sx={{
@@ -22,12 +25,8 @@ const ListLicencias = ({ admin, licencias }) => {
             licencias.map((licencia, i, arr) => {
               return (
                 <>
-                  <ListItemUser
-                    key={licencia.id}
-                    licencia={licencia}
-                    admin={admin}
-                  />
-                  {arr.length - 1 !== i ? <Divider variant="fullWidth" /> : ""}
+                  <ListItemUser key={i} licencia={licencia} admin={admin} />
+                  {arr.length - 1 !== i ? <Divider /> : ""}
                 </>
               );
             })}

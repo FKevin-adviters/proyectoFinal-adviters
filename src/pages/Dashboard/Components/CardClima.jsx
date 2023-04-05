@@ -12,14 +12,6 @@ const CardClima = () => {
     tipo: data?.weather[0].main,
   };
 
-  const clima = {
-    ciudad: "Buenos Aires",
-    temp: 35,
-    humedad: 21,
-    precipitaciones: 0,
-    viento: 21,
-  };
-
   if (isLoading) {
     return (
       <Skeleton
@@ -31,7 +23,12 @@ const CardClima = () => {
     );
   }
   if (isError) {
-    throw new Error("[CardClima error]: " + error);
+    console.log("[CardClima error]: " + error);
+    return (
+      <Typography variant="subtitle1">
+        "Error al cargar la información"
+      </Typography>
+    );
   }
 
   return (
