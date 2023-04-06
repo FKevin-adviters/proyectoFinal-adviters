@@ -1,5 +1,16 @@
 import React from "react";
-import { Box, Avatar, Typography, Stack, Button, FormControl, Select, MenuItem } from "@mui/material";
+import {
+  Box,
+  Avatar,
+  Typography,
+  Stack,
+  Button,
+  FormControl,
+  Select,
+  MenuItem,
+  TextField,
+} from "@mui/material";
+
 import MiniCalendariio from "../../Components/MiniCalendario/MiniCalendario";
 
 const Licencia = () => {
@@ -61,8 +72,10 @@ const Licencia = () => {
         </Box>
       </Stack>
 
-      <Box sx={{ display: "flex", border: '0.5px solid black', width: "90%", justifyContent: "space-between",
-          alignItems: "center", paddingLeft: '5px', paddingRight: '10px'}}>
+      <Box sx={{
+        display: "flex", border: '0.5px solid black', width: "90%", justifyContent: "space-between",
+        alignItems: "center", paddingLeft: '5px', paddingRight: '10px'
+      }}>
         <Stack direction="column" alignItems="flex-start" marginTop="20px">
           <Typography variant="subtitle1" sx={{ fontFamily: "Roboto", fontSize: "14px", color: "#797979" }}>
             TIPO DE LICENCIA
@@ -97,7 +110,36 @@ const Licencia = () => {
           Solicitar Aprobacion
         </Button>
       </Box>
-    </>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Typography variant="h6">Descripcion</Typography>
+          <TextField
+            id="descripcion"
+            label="Ingrese una descripción"
+            variant="outlined"
+            margin="normal"
+            multiline
+            rows={4} />
+        </Box>
+
+        <Box sx={{ position: "absolute", bottom: "20px", right: "20px" }}>
+          <Button variant="contained" color="primary" size="large">
+            Solicitar Aprobacion
+          </Button>
+        </Box>
+
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mb: 2 }}>
+          <Typography variant="h6" sx={{ mb: 1 }}>
+            APROBACION A CARGO DE:
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              alt="Foto del responsable"
+              src=""
+              sx={{ width: 64, height: 64, mr: 1 }} />
+            <Typography variant="subtitle1" sx={{ ml: 1 }}>MAICON ASSIS</Typography>
+          </Box>
+        </Box>    
+        </>
   );
 };
 
