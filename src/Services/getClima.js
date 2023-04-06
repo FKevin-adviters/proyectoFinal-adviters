@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export const getClima = async () => {
-  let apikey = "7fccf964410c688f356c391b886514d4";
+  let apikey = "0277cfe854bd41509f8144100230604";
 
   try {
     let res = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=Buenos%20Aires&appid=${apikey}&units=metric&lang=sp,%20es`
+      `http://api.weatherapi.com/v1/current.json?key=${apikey}&q=Buenos%20Aires&aqi=no&lang=es`
     );
     return res.data;
   } catch (error) {
