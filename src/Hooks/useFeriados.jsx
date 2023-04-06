@@ -1,11 +1,11 @@
 import { useQuery } from "react-query";
-import { getClima } from "../Services/climaServices";
+import { getFeriados } from "../Services/feriadosServices";
 
-export const useClima = () => {
+export const useFeriados = (id) => {
   const { data, isLoading, isError, error } = useQuery(
-    ["useClima"],
+    ["useFeriados", id || ""],
     async () => {
-      return getClima();
+      return getFeriados(id || "");
     }
   );
 

@@ -35,7 +35,7 @@ const Dashboard = ({ admin }) => {
       {admin ? (
         <Buscador />
       ) : (
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mx: "20%" }}>
           <Button variant="contained" color="success">
             Crear Nueva Solicitud
           </Button>
