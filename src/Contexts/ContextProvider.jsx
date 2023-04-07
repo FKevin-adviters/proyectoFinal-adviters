@@ -6,7 +6,7 @@ const ContextProvider = ({ children }) => {
   const [user, setUser] = useState({
     isLogged: true,
     rol: {
-      administrator: false,
+      administrator: true,
       user: true,
     },
   });
