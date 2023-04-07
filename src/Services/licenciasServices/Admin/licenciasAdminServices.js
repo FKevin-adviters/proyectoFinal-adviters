@@ -3,24 +3,25 @@ import { setQueryParams } from "../../../Utils/setQueryParams";
 
 // Funciones de admin
 
-// get
+// [get]: getLicenciasAdm => recibe todas las licencias sin/con filtro y/o estado
 export const getLicenciasAdm = async (filtro, estado) => {
   try {
     return await fetchContent(`/licencias${setQueryParams(filtro, estado)}`);
   } catch (error) {
-    throw new Error("[getLicencias service error]: " + error);
+    throw new Error("[getLicenciasAdm service error]: " + error);
   }
 };
 
-// patch
-export const setEstadoByIdLicenciaAdm = async (
+// [patch]: updateEstadoByIdLicenciaAdm => actualiza el estado de la licencia a: aprobado, rechazado o pendiente; y campos de la licencia si se necesita.
+export const updateEstadoByIdLicenciaAdm = async (
   idUsuario,
   idLicencia,
-  estado
+  estado,
+  licencia = {}
 ) => {
   let options = {
     method: "PATCH",
-    body: { estado, idUsuario, idLicencia },
+    body: { estado, idUsuario, idLicencia, licencia },
   };
 
   try {
@@ -29,6 +30,6 @@ export const setEstadoByIdLicenciaAdm = async (
       options
     );
   } catch (error) {
-    throw new Error("[setNewLicencia service error]: " + error);
+    throw new Error("[updateEstadoByIdLicenciaAdm service error]: " + error);
   }
 };

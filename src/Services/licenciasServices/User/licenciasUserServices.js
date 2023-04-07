@@ -1,15 +1,24 @@
 import { fetchContent } from "../../../Utils/fetchContent";
-import { setQueryParams } from "../../../Utils/setQueryParams";
 
 // Funciones de usuario
 
-// get
-export const getLicenciasByIdUsuario = async (idUsuario, filtro, estado) => {
+// [patch]: updateLicenciaByIdUserLog => actualiza los campos de una licencia a través de [idUsuarioLogeado, idLicencia]
+export const updateLicenciaByIdUserLog = async (
+  idUsuarioLogeado,
+  idLicencia,
+  cambios
+) => {
+  let options = {
+    method: "PATCH",
+    body: { idUsuarioLogeado, idLicencia, cambios },
+  };
+
   try {
     return await fetchContent(
-      `/licencias/${idUsuario}${setQueryParams(filtro, estado)}`
+      `/licencias/${idUsuarioLogeado}/${idLicencia}`,
+      options
     );
   } catch (error) {
-    throw new Error("[getLicenciasById service error]: " + error);
+    throw new Error("[updateLicenciaById service error]: " + error);
   }
 };
