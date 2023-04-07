@@ -25,7 +25,7 @@ const CardClima = () => {
       <Skeleton
         variant="rectangular"
         width={"300px"}
-        height={"130px"}
+        height={"270px"}
         animation="wave"
       />
     );

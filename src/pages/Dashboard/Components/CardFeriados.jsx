@@ -11,7 +11,7 @@ const CardFeriados = () => {
       <Skeleton
         variant="rectangular"
         width={"300px"}
-        height={"250px"}
+        height={"270px"}
         animation="wave"
       />
     );

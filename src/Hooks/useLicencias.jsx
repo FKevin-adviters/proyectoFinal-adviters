@@ -1,11 +1,12 @@
 import { useQuery } from "react-query";
-import { getLicencias } from "../Services/licenciasServices";
+// de forma provisoria se utiliza esta función para ver la información del mockapi
+import { getLicenciasAdm } from "../Services/licenciasServices/Admin/licenciasAdminServices";
 
 export const useLicencias = (id) => {
   const { data, isLoading, isError, error } = useQuery(
     ["useLicencias", id || ""],
     async () => {
-      return getLicencias(id || "");
+      return getLicenciasAdm(id || "");
     }
   );
 
