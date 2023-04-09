@@ -12,9 +12,11 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import shrek from "../../../Assets/Navbar/shrek.jpg";
 import { convertDates } from "../../../Utils/convertDates";
+import { toast } from "react-toastify";
+import NotificacionUndo from "../../../Components/Notificacion/NotificacionUndo";
 
 const ListItemUser = ({ licencia, admin }) => {
-  const { usuario, fechaInicio, fechaFinal, tipo } = licencia;
+  const { usuario, fechaInicio, fechaFinal, tipo, id } = licencia;
 
   const colores = {
     Vacaciones: "purple",
@@ -79,6 +81,11 @@ const ListItemUser = ({ licencia, admin }) => {
                 color: "white",
                 cursor: "pointer",
               }}
+              onClick={() =>
+                toast.success(
+                  <NotificacionUndo idLicencia={id} estado={true} />
+                )
+              }
             />
             <ClearIcon
               sx={{
@@ -88,6 +95,11 @@ const ListItemUser = ({ licencia, admin }) => {
                 color: "white",
                 cursor: "pointer",
               }}
+              onClick={() =>
+                toast.success(
+                  <NotificacionUndo idLicencia={id} estado={false} />
+                )
+              }
             />
           </ListItemIcon>
         </Box>

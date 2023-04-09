@@ -8,6 +8,8 @@ import "@fontsource/roboto/700.css";
 import ContextProvider from "./Contexts/ContextProvider";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,6 +25,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ContextProvider>
       <QueryClientProvider client={queryClient}>
+        <ToastContainer
+          closeOnClick={false}
+          limit={3}
+          position={"bottom-left"}
+          autoClose={2000}
+        />
         <App />
       </QueryClientProvider>
     </ContextProvider>

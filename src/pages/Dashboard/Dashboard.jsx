@@ -16,22 +16,15 @@ import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
 
 const Dashboard = ({ admin }) => {
-  const { data, isLoading, isError } = useLicencias();
-  console.log(data);
+  const { data, isLoading, isError, isRefetching, isRefetchingError } =
+    useLicencias();
 
   // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
   // parecido a este
-  const licencia = {
-    tipo: "Vacaciones",
-    fecha: {
-      inicio: "17/09",
-      final: "25/10",
-    },
-    usuario: "Jennifer",
-  };
 
   return (
     <section className="dashboard_section">
+      {/* hacer componente */}
       {admin ? (
         <Buscador />
       ) : (
@@ -57,8 +50,10 @@ const Dashboard = ({ admin }) => {
           <CardFeriados />
         </li>
         <li className="dashboard_list-item ">
+          {/* hacer dos componentes */}
           <section>
             {admin ? (
+              // es admin
               <>
                 <Typography
                   variant="overline"
@@ -67,8 +62,7 @@ const Dashboard = ({ admin }) => {
                 >
                   Lista solicitudes pendientes
                 </Typography>
-
-                {isLoading && (
+                {(isLoading || isRefetching) && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -76,10 +70,14 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {data && <ListLicencias admin={true} licencias={data} />}
+                {(isError || isRefetchingError) &&
+                  "ERROR AL CARGAR LAS LICENCIAS"}
+                {data && !isRefetching && (
+                  <ListLicencias admin={true} licencias={data} />
+                )}
               </>
             ) : (
+              // es usuario
               <>
                 <Typography
                   variant="overline"
@@ -103,6 +101,7 @@ const Dashboard = ({ admin }) => {
           </section>
           <section>
             {admin ? (
+              // es admin
               <>
                 <Typography
                   variant="overline"
@@ -111,7 +110,7 @@ const Dashboard = ({ admin }) => {
                 >
                   PROXIMAS LICENCIAS (APROBADAS)
                 </Typography>
-                {isLoading && (
+                {(isLoading || isRefetching) && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -119,10 +118,12 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {data && <ListLicencias licencias={data} />}
+                {(isError || isRefetchingError) &&
+                  "ERROR AL CARGAR LAS LICENCIAS"}
+                {data && !isRefetching && <ListLicencias licencias={data} />}
               </>
             ) : (
+              // es usuario
               <>
                 <Typography
                   variant="overline"
@@ -145,7 +146,9 @@ const Dashboard = ({ admin }) => {
             )}
           </section>
         </li>
+        {/* es usuario */}
         {!admin && (
+          /* hacer otro componente */
           <li className="dashboard_list-item item2">
             <section>
               <Typography variant="overline" color="text.secondary" mx={"5px"}>
