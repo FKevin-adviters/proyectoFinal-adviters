@@ -7,7 +7,7 @@ const Buscador = () => {
     <Container className="dashboard_list-item">
       <TextField
         id="outlined-search"
-        label="Buscar usuario"
+        label="Búsqueda"
         type="search"
         InputProps={{
           endAdornment: (
