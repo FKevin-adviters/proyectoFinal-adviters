@@ -4,13 +4,13 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  MenuList,
   Toolbar,
   Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import React, { useContext, useRef, useState } from "react";
 import { ActionContext } from "../../Contexts/ContextProvider";
-import { AccountCircle } from "@mui/icons-material";
 import shrek from "../../Assets/Navbar/shrek.jpg";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
@@ -74,7 +74,7 @@ const Navbar = () => {
             onClose={() => handleCloseDropdown2()}
           >
             {user.isLogged ? (
-              <>
+              <MenuList>
                 <MenuItem onClick={() => handleCloseDropdown2()}>
                   <Link
                     to={"/"}
@@ -109,7 +109,7 @@ const Navbar = () => {
                     Calendario
                   </Link>
                 </MenuItem>
-              </>
+              </MenuList>
             ) : (
               <MenuItem onClick={() => handleCloseDropdown2()}>
                 <Link

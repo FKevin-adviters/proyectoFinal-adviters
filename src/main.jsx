@@ -8,6 +8,8 @@ import "@fontsource/roboto/700.css";
 import ContextProvider from "./Contexts/ContextProvider";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -24,11 +26,17 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <ContextProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <ContextProvider>
+          <ToastContainer
+            closeOnClick={false}
+            limit={3}
+            position={"bottom-left"}
+            autoClose={2000}
+          />
           <App />
-        </QueryClientProvider>
-      </ContextProvider>
+        </ContextProvider>
+      </QueryClientProvider>
     </LocalizationProvider>
   </React.StrictMode>
 );

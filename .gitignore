@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+package-lock.json
+package-lock.json
+package.json
+src/Components/MiniCalendario/miniCalendario.css
+src/Components/MiniCalendario/MiniCalendario.jsx
+*.json
+*.json
+package-lock.json
+package-lock.json
+src/pages/Licencia/Licencia.jsx
+*.jsx
