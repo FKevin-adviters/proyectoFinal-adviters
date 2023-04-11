@@ -15,7 +15,7 @@ import shrek from "../../../Assets/Navbar/shrek.jpg";
 import { convertDates } from "../../../Utils/convertDates";
 import { toast } from "react-toastify";
 
-// import NotificacionUndo from "../../../Components/Notificacion/NotificacionUndo";
+import NotificacionUndo from "../../../Components/Notificacion/NotificacionUndo";
 
 const ListItemUser = ({ licencia, admin }) => {
   const { usuario, fechaInicio, fechaFinal, tipo, id } = licencia;
