@@ -13,17 +13,20 @@ const CalendarioButtons = ({ setLicenciaData }) => {
     return day !== 0 && day !== 6;
   };
 
-  const setInfo = (e) => {
-    console.log(e);
+  const setInfo = (date, dateName) => {
+    console.log(date, dateName);
+    setLicenciaData((old) => {
+      return { ...old, [dateName]: date };
+    });
   };
 
   return (
     <Box sx={{ display: "flex", gap: "40px" }}>
       <ReactDatePicker
         selected={startDate}
-        onChange={(date, e) => {
+        onChange={(date) => {
           setStartDate(date);
-          setInfo(e);
+          setInfo(date, "startDate");
         }}
         withPortal
         name="startDate"
@@ -35,10 +38,11 @@ const CalendarioButtons = ({ setLicenciaData }) => {
         selected={endDate}
         onChange={(date) => {
           setEndDate(date);
-          setInfo(e);
+          setInfo(date, "endDate");
         }}
         withPortal
         name="endDate"
+        filterDate={isWeekday}
         customInput={<MiniCalendario fecha={endDate} />}
       />
     </Box>

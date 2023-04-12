@@ -16,6 +16,7 @@ const initialState = {
   user: "",
   diasDisp: 24,
   tipoLicencia: "",
+  supervisor: "",
 };
 
 const usuarios = ["Maicon", "Ezequiel", "Kevin"];
@@ -183,16 +184,19 @@ const Licencia = () => {
             <Typography variant="h6" sx={{ mb: 1 }}>
               APROBACION A CARGO DE:
             </Typography>
-            <SelectFieldLicencia
-              valores={supervisores}
-              label={"Supervisor"}
-              name={"supervisor"}
-              setLicenciaData={setLicenciaData}
-            />
+            <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <Avatar>JP</Avatar>
+              <Typography variant="h4">Juan Pablo</Typography>
+            </Box>
           </Box>
           {/* Botão de solicitação de aprovação */}
           <Box component={"li"} sx={{ alignSelf: "flex-end" }}>
-            <Button variant="contained" color="primary" size="large">
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={handleSubmit}
+            >
               Solicitar Aprobacion
             </Button>
           </Box>
