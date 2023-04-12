@@ -11,6 +11,7 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarioButtons from "./Components/CalendarioButtons";
 import SelectFieldLicencia from "./Components/SelectFieldLicencia";
+import { minHeight, minWidth } from "@mui/system";
 
 const initialState = {
   user: "",
@@ -30,13 +31,12 @@ const Licencia = () => {
   };
 
   return (
-    <section
+    <><section
       style={{
         backgroundColor: "#fbfbfb",
         minHeight: "calc(100vh - 64px)",
         display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
+        alignItems: "flex-start",
       }}
     >
       <Box
@@ -44,8 +44,8 @@ const Licencia = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          width: "80vw",
-          margin: "5px 20px",
+          width: "65vw",
+          margin: "5px 10px",
           border: "0.5px solid #797979",
           borderRadius: "8px",
         }}
@@ -61,8 +61,7 @@ const Licencia = () => {
             valores={usuarios}
             label={"Usuario"}
             name={"user"}
-            setLicenciaData={setLicenciaData}
-          />
+            setLicenciaData={setLicenciaData} />
 
           {/* Título "Estado" e status da solicitação */}
           {/* TODO: hacer componente "estado de licencia" */}
@@ -112,8 +111,7 @@ const Licencia = () => {
               valores={tipoLicencias}
               label={"Licencia"}
               name={"tipoLicencia"}
-              setLicenciaData={setLicenciaData}
-            />
+              setLicenciaData={setLicenciaData} />
           </Box>
 
           <Box
@@ -168,8 +166,7 @@ const Licencia = () => {
               label="Ingrese una descripción"
               variant="outlined"
               multiline
-              rows={5}
-            />
+              rows={5} />
           </Box>
 
           <Box
@@ -187,8 +184,7 @@ const Licencia = () => {
               valores={supervisores}
               label={"Supervisor"}
               name={"supervisor"}
-              setLicenciaData={setLicenciaData}
-            />
+              setLicenciaData={setLicenciaData} />
           </Box>
           {/* Botão de solicitação de aprovação */}
           <Box component={"li"} sx={{ alignSelf: "flex-end" }}>
@@ -198,7 +194,25 @@ const Licencia = () => {
           </Box>
         </Box>
       </Box>
+      <Box sx={{
+        border: "1px solid grey",
+        minHeight: "100vh",
+        minWidth: "30vw",
+        borderRadius: "10px",
+        margin: "5px 10px"
+      }}>
+        <Box sx={{
+          borderBottom: "1px solid grey",
+          display: "flex",
+          flexDirection: "column"
+        }}>
+          <Typography sx={{
+            alignSelf: "center",
+          }}>Detalle de Vacaciones</Typography>
+        </Box>
+      </Box>
     </section>
+  </>
   );
 };
 

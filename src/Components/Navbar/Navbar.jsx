@@ -1,6 +1,7 @@
 import {
   AppBar,
   Avatar,
+  Badge,
   IconButton,
   Menu,
   MenuItem,
@@ -14,15 +15,18 @@ import { ActionContext } from "../../Contexts/ContextProvider";
 import shrek from "../../Assets/Navbar/shrek.jpg";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 // probando material ui, es un navbar de prueba je
 const Navbar = () => {
   const { user, userLogOut } = useContext(ActionContext);
   const [dropdown1, setDropdown1] = useState(null);
   const [dropdown2, setDropdown2] = useState(null);
+  const [dropdown3, setDropdown3] = useState(null);
   const elementDropdown1 = useRef();
   const elementDropdown2 = useRef();
-
+  const elementDropdown3 = useRef();
+  
   const handleDropdown1 = () => {
     setDropdown1(elementDropdown1.current);
   };
@@ -37,6 +41,14 @@ const Navbar = () => {
 
   const handleCloseDropdown2 = () => {
     setDropdown2(null);
+  };
+
+  const handleDropdown3 = () => {
+    setDropdown3(elementDropdown3.current);
+  };
+
+  const handleCloseDropdown3 = () => {
+    setDropdown3(null);
   };
 
   return (
@@ -58,6 +70,7 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
+          {/* menu izquierda */}
           <Menu
             id="menu-appbar1"
             anchorEl={dropdown2}
@@ -136,7 +149,39 @@ const Navbar = () => {
           </Link>
         </Typography>
         {user.isLogged && (
-          <Box component={"li"} ref={elementDropdown1}>
+          <Box component={"li"} ref={elementDropdown1} sx={{ height: "100%", display: "flex", alignItems: "center" }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar3"
+              aria-haspopup="true"
+              onClick={() => handleDropdown3()}
+              color="inherit"
+              ref={elementDropdown3}
+            >
+            <Badge badgeContent={2} color="primary">
+              <NotificationsIcon/>
+            </Badge>
+            </IconButton>
+            <Menu id="menu-appbar3"
+            anchorEl={dropdown3}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            open={Boolean(dropdown3)}
+            onClose={() => handleCloseDropdown3()}>
+              
+              <MenuItem onClick={() => handleCloseDropdown3()}>
+                <Typography>Esto es una notificacion numero 1</Typography>
+              </MenuItem>
+            </Menu>
+            {/* menu derecha avatar */}
             <IconButton
               size="large"
               aria-label="account of current user"

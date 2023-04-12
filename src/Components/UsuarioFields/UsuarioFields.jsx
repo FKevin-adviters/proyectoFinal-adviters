@@ -147,9 +147,6 @@ const UsuarioFields = () => {
             )
           })
         }
-        {/* {
-          user.rol.administrator && (<FormControlLabel control={<Switch defaultChecked />} label="Administrador"/>)
-        } */}
       </Box>
       <Box
         component={"div"}
@@ -172,7 +169,6 @@ const UsuarioFields = () => {
     </Box>
     </>
   );
-  
 };
 
 export default UsuarioFields;
