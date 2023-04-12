@@ -2,123 +2,31 @@ import {
   Box,
   Button,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
-  TextField,
-  Typography,
+  Switch,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import InputGenerico from "./InputGenerico";
-import { DateField } from "@mui/x-date-pickers";
+import { Column1, Column2, Column3 } from "../../constants/constantes";
+import SelectFieldLicencia from "../../pages/Licencia/Components/SelectFieldLicencia";
+import { ActionContext } from "../../Contexts/ContextProvider";
+
+const supervisores = ["Lautaro", "Luis", "Eric"];
+// constantes de los inputs
 
 const UsuarioFields = () => {
-  const [num, setNum] = useState(10);
+  const { user } = useContext(ActionContext);
   // Crear un componente para los Inputs, que se le pase el handleChange,
   // el type, name, label y mapear un obj con los datos.
 
-  const [userInfo, setUserInfo] = useState();
-  const handleSelect = (e) => {
-    setNum(e.target.value);
+  const [userInfo, setUserInfo] = useState({});
+  const userData = {
+    name: "jorge",
   };
-
-  const Column1 = [
-    { id: "outlined-dni-number", label: "DNI", type: "number", name: "dni" },
-    {
-      id: "outlined-correo-email",
-      label: "Correo electronico",
-      type: "email",
-      name: "email",
-    },
-    { id: "outlined-calle-text", label: "Calle", type: "text", name: "calle" },
-    { id: "outlined-torre-text", label: "Torre", type: "text", name: "torre" },
-    {
-      id: "outlined-localidad-text",
-      label: "Localidad",
-      type: "text",
-      name: "localidad",
-    },
-    {
-      id: "outlined-diasVacaciones-number",
-      label: "Dias vacaciones",
-      type: "number",
-      name: "vacaciones",
-    },
-  ];
-  const Column2 = [
-    {
-      id: "outlined-nombre-text",
-      label: "Nombre",
-      type: "text",
-      name: "nombre",
-    },
-    {
-      id: "outlined-apellido-text",
-      label: "Apellido",
-      type: "text",
-      name: "apellido",
-    },
-    {
-      id: "outlined-fechaNacimiento-number",
-      label: "Fecha de nacimiento",
-      type: "number",
-      name: "fnacimiento",
-    },
-    { id: "outlined-cuil-text", label: "Cuil", type: "text", name: "cuil" },
-    {
-      id: "outlined-telefono-text",
-      label: "Telefono",
-      type: "number",
-      name: "telefono",
-    },
-    {
-      id: "outlined-calleNumber-number",
-      label: "Altura",
-      type: "number",
-      name: "altura",
-    },
-    { id: "outlined-piso-number", label: "Piso", type: "number", name: "piso" },
-    {
-      id: "outlined-provincia-text",
-      label: "Provincia",
-      type: "text",
-      name: "provincia",
-    },
-  ];
-  const Column3 = [
-    {
-      id: "outlined-passwordNuevo-pass",
-      label: "Password nuevo",
-      type: "password",
-      name: "newpass",
-    },
-    {
-      id: "outlined-passwordRepetir-pass",
-      label: "Repetir password",
-      type: "password",
-      name: "repeatpass",
-    },
-    {
-      id: "outlined-fechaIngreso-number",
-      label: "Fecha de ingreso",
-      type: "number",
-      name: "fingreso",
-    },
-    {
-      id: "outlined-codigoPostal-number",
-      label: "Codigo postal",
-      type: "number",
-      name: "cp",
-    },
-    {
-      id: "outlined-departamento-text",
-      label: "Departamento",
-      type: "text",
-      name: "depto",
-    },
-    { id: "outlined-pais-text", label: "Pais", type: "text", name: "pais" },
-  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -173,20 +81,12 @@ const UsuarioFields = () => {
               />
             </Button>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-simple-select-standard-label">
-                Bajo supervisión de:
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                label="Bajo supervisión de:"
-                value={num}
-                onChange={(e) => handleSelect(e)}
-              >
-                <MenuItem value={10}>Roberto</MenuItem>
-                <MenuItem value={20}>Juan</MenuItem>
-                <MenuItem value={30}>Pablito</MenuItem>
-              </Select>
+              <SelectFieldLicencia
+                valores={supervisores}
+                name={"supervisor"}
+                label={"Bajo supervision de:"}
+                setLicenciaData={setUserInfo}
+              />
             </FormControl>
             {Column1.map((input) => {
               return (
@@ -194,6 +94,7 @@ const UsuarioFields = () => {
                   id={input.id}
                   label={input.label}
                   type={input.type}
+                  defaultValue={userData[input.backName]}
                 ></InputGenerico>
               );
             })}
@@ -219,9 +120,6 @@ const UsuarioFields = () => {
                 ></InputGenerico>
               );
             })}
-            {/* {
-          user.rol.administrator && (<FormControlLabel control={<Switch defaultChecked />} label="Administrador"/>)
-        } */}
           </Box>
           <Box
             component={"div"}
@@ -242,6 +140,12 @@ const UsuarioFields = () => {
                 ></InputGenerico>
               );
             })}
+            {user.rol.administrator && (
+              <FormControlLabel
+                control={<Switch defaultChecked disabled />}
+                label="Administrador"
+              />
+            )}
           </Box>
         </Box>
         <Button sx={{ alignSelf: "flex-end" }} variant="contained">

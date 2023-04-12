@@ -6,7 +6,6 @@ import Calendario from "./pages/Calendario/Calendario";
 import DashboardPage from "./pages/Dashboard/Dashboard";
 import Licencia from "./pages/Licencia/Licencia";
 import LoginPage from "./pages/Login/Login";
-// import EditarUsuario from "./pages/Perfil/EditarUsuario/EditarUsuario";
 import Perfil from "./pages/Perfil/Perfil";
 import NotFound from "./pages/NotFound/NotFound";
 import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
@@ -29,9 +28,7 @@ function App() {
                 />
                 <Route path="licencia" element={<Licencia />} />
                 <Route path="calendario" element={<Calendario />} />
-                <Route path="perfil" element={<Perfil />}>
-                  {/* <Route path="editar" element={<EditarUsuario />} /> */}
-                </Route>
+                <Route path="perfil" element={<Perfil />} />
 
                 {user.rol.administrator && (
                   <>

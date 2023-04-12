@@ -21,7 +21,7 @@ const initialState = {
 };
 
 const usuarios = ["Maicon", "Ezequiel", "Kevin"];
-const supervisores = ["Lautaro", "Luis", "Eric"];
+
 const tipoLicencias = ["Vacaciones", "Enfermedad", "Examen"];
 
 const Licencia = () => {
