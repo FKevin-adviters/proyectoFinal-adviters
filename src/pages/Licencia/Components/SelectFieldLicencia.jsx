@@ -1,13 +1,19 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useState } from "react";
 
-const SelectFieldLicencia = ({ valores, name, setLicenciaData, label }) => {
-  const [selected, setSelected] = useState(valores[0]);
+const SelectFieldLicencia = ({
+  valores,
+  name,
+  licenciaData,
+  label,
+  setLicenciaData,
+}) => {
+  const [selected, setSelected] = useState();
 
   const handleChange = (e) => {
     setSelected(e.target.value);
-    setLicenciaData((old) => {
-      return { ...old, [e.target.name]: e.target.value };
+    setLicenciaData(() => {
+      return { ...licenciaData, [e.target.name]: e.target.value };
     });
   };
 
@@ -22,6 +28,7 @@ const SelectFieldLicencia = ({ valores, name, setLicenciaData, label }) => {
         name={name}
         onChange={handleChange}
       >
+        <MenuItem disabled>Seleccionar {label}</MenuItem>
         {valores.map((valor) => (
           <MenuItem value={valor} key={valor}>
             {valor}
