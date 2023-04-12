@@ -10,6 +10,8 @@ import LoginPage from "./pages/Login/Login";
 import Perfil from "./pages/Perfil/Perfil";
 import NotFound from "./pages/NotFound/NotFound";
 import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
+import AdminUsuariosCreate from "./pages/AdminUsuarios/createUser/AdminUsuariosCreate";
+import AdminUsuariosEdit from "./pages/AdminUsuarios/editUser/AdminUsuariosEdit";
 
 function App() {
   const { user } = useContext(ActionContext);
@@ -32,7 +34,17 @@ function App() {
                 </Route>
 
                 {user.rol.administrator && (
-                  <Route path="admin-usuarios" element={<AdminUsuarios />} />
+                  <>
+                    <Route path="admin-usuarios" element={<AdminUsuarios />} />
+                    <Route
+                      path="admin-usuarios/create"
+                      element={<AdminUsuariosCreate />}
+                    />
+                    <Route
+                      path="admin-usuarios/edit/:idUser"
+                      element={<AdminUsuariosEdit />}
+                    />
+                  </>
                 )}
                 <Route path="*" element={<NotFound />} />
               </Route>

@@ -2,6 +2,7 @@ import { Box, Button, Divider, List, Stack, Typography } from "@mui/material";
 import React from "react";
 import ListItemAdm from "./Components/ListItemAdm";
 import "./AdminUsuario.css";
+import { Link } from "react-router-dom";
 
 const AdminUsuarios = () => {
   return (
@@ -26,9 +27,11 @@ const AdminUsuarios = () => {
             })}
           </List>
         </Stack>
-        <Button variant="contained" color="success">
-          Crear usuario
-        </Button>
+        <Link className="admin_link" to={"/admin-usuarios/create"}>
+          <Button variant="contained" color="success">
+            Crear usuario
+          </Button>
+        </Link>
       </Box>
     </Box>
   );
