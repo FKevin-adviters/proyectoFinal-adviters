@@ -1,12 +1,7 @@
 import { Box } from "@mui/material";
-import { format, isToday } from "date-fns";
-import { es } from "date-fns/locale";
+import moment from "moment/moment";
 
-function MiniCalendario({ onClick }) {
-  const hoy = new Date();
-  const mesAbreviado = format(hoy, "MMM", { locale: es });
-  const diaSemana = format(hoy, "EEEE", { locale: es });
-
+function MiniCalendario({ fecha, onClick }) {
   const estilosEncabezado = {
     width: "100%",
     height: "37px",
@@ -68,6 +63,8 @@ function MiniCalendario({ onClick }) {
     cursor: "pointer",
   };
 
+  const fechaParsed = fecha ? moment(fecha) : null;
+
   return (
     <Box sx={estilosCuadrado} onClick={onClick}>
       {/* Encabezado */}
@@ -81,16 +78,18 @@ function MiniCalendario({ onClick }) {
           justifyContent: "center",
         }}
       >
-        {mesAbreviado}
+        {fechaParsed ? moment.months(fechaParsed.get("month")) : ""}
       </Box>
 
       {/* Contenido del cuadrado */}
       <Box sx={estilosContenido}>
         {/* Día actual */}
-        <Box sx={estilosDia}>{isToday(hoy) ? format(hoy, "d") : ""}</Box>
+        <Box sx={estilosDia}>{fechaParsed ? fechaParsed.date() : ""}</Box>
 
         {/* Día de la semana */}
-        <Box sx={estilosDiaSemana}>{diaSemana}</Box>
+        <Box sx={estilosDiaSemana}>
+          {fechaParsed ? moment.weekdays(fechaParsed.get("day")) : ""}
+        </Box>
       </Box>
     </Box>
   );

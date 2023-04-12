@@ -15,6 +15,8 @@ import { DateField } from "@mui/x-date-pickers";
 
 const UsuarioFields = () => {
   const [num, setNum] = useState(10);
+  // Crear un componente para los Inputs, que se le pase el handleChange,
+  // el type, name, label y mapear un obj con los datos.
 
   const [userInfo, setUserInfo] = useState()
   const handleSelect = (e) => {

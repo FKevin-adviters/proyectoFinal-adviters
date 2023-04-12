@@ -1,26 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Avatar,
   Typography,
   Stack,
   Button,
-  FormControl,
-  Select,
-  MenuItem,
   TextField,
-  Container,
-  InputLabel,
   Divider,
 } from "@mui/material";
+import "react-datepicker/dist/react-datepicker.css";
+import CalendarioButtons from "./Components/CalendarioButtons";
+import SelectFieldLicencia from "./Components/SelectFieldLicencia";
 
-import MiniCalendariio from "../../Components/MiniCalendario/MiniCalendario";
+const initialState = {
+  user: "",
+  diasDisp: 24,
+  tipoLicencia: "",
+};
+
+const usuarios = ["Maicon", "Ezequiel", "Kevin"];
+const supervisores = ["Lautaro", "Luis", "Eric"];
+const tipoLicencias = ["Vacaciones", "Enfermedad", "Examen"];
 
 const Licencia = () => {
-  const [tipoLicencia, setTipoLicencia] = React.useState("");
+  const [licenciaData, setLicenciaData] = useState(initialState);
 
-  const handleChange = (event) => {
-    setTipoLicencia(event.target.value);
+  const handleSubmit = () => {
+    console.log(licenciaData);
   };
 
   return (
@@ -30,9 +36,11 @@ const Licencia = () => {
         minHeight: "calc(100vh - 64px)",
         display: "flex",
         alignItems: "center",
+        flexDirection: "column",
       }}
     >
       <Box
+        component={"form"}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -41,6 +49,7 @@ const Licencia = () => {
           border: "0.5px solid #797979",
           borderRadius: "8px",
         }}
+        onSubmit={handleSubmit}
       >
         <Stack
           direction="row"
@@ -48,25 +57,15 @@ const Licencia = () => {
           justifyContent="space-between"
           sx={{ padding: "10px" }}
         >
-          <Box sx={{ display: "flex", gap: "70px" }}>
-            {/* Foto e nome do usuário */}
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Avatar
-                sx={{ width: 64, height: 64, marginRight: "10px" }}
-                alt="Foto do usuário"
-              />
-              <Typography variant="h6">Maicon</Typography>
-            </Box>
-            {/* Título "Balance actual" y número de dias disponíbles */}
-            <Box sx={{ display: "flex", alignItems: "center", margin: "20px" }}>
-              <Typography variant="h6">Balance actual</Typography>
-              <Typography variant="subtitle1" sx={{ marginLeft: "10px" }}>
-                24 dias
-              </Typography>
-            </Box>
-          </Box>
+          <SelectFieldLicencia
+            valores={usuarios}
+            label={"Usuario"}
+            name={"user"}
+            setLicenciaData={setLicenciaData}
+          />
 
           {/* Título "Estado" e status da solicitação */}
+          {/* TODO: hacer componente "estado de licencia" */}
           <Box
             sx={{
               display: "flex",
@@ -82,8 +81,7 @@ const Licencia = () => {
                 background: "#05CB3C",
                 borderRadius: "16px",
                 color: "white",
-                width: "164px",
-                height: "19px",
+                padding: "0 15px",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -109,20 +107,13 @@ const Licencia = () => {
             <Typography variant="subtitle2" color="text.secondary">
               TIPO DE LICENCIA
             </Typography>
-            <FormControl sx={{ minWidth: 120 }}>
-              <InputLabel id="licencia-label">Licencia</InputLabel>
-              <Select
-                labelId="licencia-label"
-                id="licencia-select"
-                value={tipoLicencia}
-                label="Licencia"
-                onChange={handleChange}
-              >
-                <MenuItem value="vacaciones">Vacaciones</MenuItem>
-                <MenuItem value="enfermedad">Enfermedad</MenuItem>
-                <MenuItem value="examen">Examen</MenuItem>
-              </Select>
-            </FormControl>
+
+            <SelectFieldLicencia
+              valores={tipoLicencias}
+              label={"Licencia"}
+              name={"tipoLicencia"}
+              setLicenciaData={setLicenciaData}
+            />
           </Box>
 
           <Box
@@ -136,10 +127,9 @@ const Licencia = () => {
               width: "fit-content",
             }}
           >
-            <Box sx={{ display: "flex", gap: "40px" }}>
-              <MiniCalendariio />
-              <MiniCalendariio />
-            </Box>
+            {/* calendario */}
+            <CalendarioButtons setLicenciaData={setLicenciaData} />
+
             <Box
               sx={{
                 border: " 0.5px solid #797979",
@@ -187,21 +177,18 @@ const Licencia = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
+              alignItems: "flex-start",
             }}
           >
             <Typography variant="h6" sx={{ mb: 1 }}>
               APROBACION A CARGO DE:
             </Typography>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Avatar
-                alt="Foto del responsable"
-                src=""
-                sx={{ width: 64, height: 64, mr: 1 }}
-              />
-              <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                MAICON ASSIS
-              </Typography>
-            </Box>
+            <SelectFieldLicencia
+              valores={supervisores}
+              label={"Supervisor"}
+              name={"supervisor"}
+              setLicenciaData={setLicenciaData}
+            />
           </Box>
           {/* Botão de solicitação de aprovação */}
           <Box component={"li"} sx={{ alignSelf: "flex-end" }}>
