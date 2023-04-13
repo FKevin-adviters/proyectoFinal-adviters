@@ -100,3 +100,8 @@ export const Column3 = [
   },
   { id: "outlined-pais-text", label: "Pais", type: "text", name: "pais" },
 ];
+export const LicenciaColumn = [
+  {
+    
+  }
+]

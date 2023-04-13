@@ -11,6 +11,9 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarioButtons from "./Components/CalendarioButtons";
 import SelectFieldLicencia from "./Components/SelectFieldLicencia";
+import { Create } from "@mui/icons-material";
+import { LicenciasDetalles } from "./Components/LicenciasDetalles";
+import { AdjuntarArchivo } from "./Components/AdjuntarArchivo";
 
 const initialState = {
   user: "",
@@ -113,10 +116,10 @@ const Licencia = () => {
             }}
           >
             <Box component={"li"}>
+            <AdjuntarArchivo/>
               <Typography variant="subtitle2" color="text.secondary">
                 TIPO DE LICENCIA
               </Typography>
-
               <SelectFieldLicencia
                 valores={tipoLicencias}
                 label={"Licencia"}
@@ -125,7 +128,6 @@ const Licencia = () => {
                 licenciaData={licenciaData}
               />
             </Box>
-
             <Box
               component={"li"}
               sx={{
@@ -241,6 +243,9 @@ const Licencia = () => {
             >
               Detalle de Vacaciones
             </Typography>
+            <LicenciasDetalles/>
+            <LicenciasDetalles/>
+            <LicenciasDetalles/>
           </Box>
         </Box>
       </section>
