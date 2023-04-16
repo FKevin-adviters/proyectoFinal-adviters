@@ -16,8 +16,11 @@ import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
 
 const Dashboard = ({ admin }) => {
-  const { data, isLoading, isError, isRefetching, isRefetchingError } =
-    useLicencias();
+  // const { data, isLoading, isError, isRefetching, isRefetchingError } =
+  //   useLicencias();
+  let isLoading = true;
+  let isError = false;
+  let data = false;
 
   // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
   // parecido a este

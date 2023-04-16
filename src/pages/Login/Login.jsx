@@ -1,33 +1,41 @@
-import React, { useContext, useState } from 'react';
-import { ActionContext } from '../../Contexts/ContextProvider';
-import { Button, TextField } from '@mui/material';
-import { Box } from '@mui/system';
-import CircularProgress from '@mui/material/CircularProgress';
-import LoginIcon from '@mui/icons-material/Login';
-import './login.css';
+import React, { useContext, useState } from "react";
+import { ActionContext } from "../../Contexts/ContextProvider";
+import { Button, TextField } from "@mui/material";
+import { Box } from "@mui/system";
+import CircularProgress from "@mui/material/CircularProgress";
+import LoginIcon from "@mui/icons-material/Login";
+import "./login.css";
+import { useLogin } from "../../Hooks/useLogin";
 
 function CircularIndeterminate() {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
       <CircularProgress size={280} />
     </Box>
   );
 }
 
 function Login() {
-  const { userLogIn } = useContext(ActionContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState({});
+  const { isLoading, submitLogin, isError } = useLogin();
 
   function handleLoginClick() {
-    // Cuando se hace clic en el botón "Iniciar sesión", cambia el estado isLoading a true
-    setIsLoading(true);
-    // Simula una operación asincrónica para demostrar el uso del componente de carga
-    setTimeout(() => {
-      // Después de 2 segundos, cambia el estado isLoading a false para mostrar los campos de inicio de sesión nuevamente
-      setIsLoading(false);
-      userLogIn();
-    }, 1000);
+    submitLogin(user);
   }
+
+  const handleChange = (e) => {
+    setUser(() => {
+      return { ...user, [e.target.name]: e.target.value };
+    });
+    console.log(user);
+  };
 
   return (
     <section className="login-section">
@@ -39,15 +47,18 @@ function Login() {
         <Box className="login-container">
           <TextField
             id="email"
+            name="email"
             label="Usuario"
             variant="outlined"
             margin="normal"
             className="input-field"
             fullWidth
             required
+            onChange={handleChange}
           />
           <TextField
             id="password"
+            name="password"
             label="Contraseña"
             type="password"
             variant="outlined"
@@ -55,6 +66,7 @@ function Login() {
             className="input-field"
             fullWidth
             required
+            onChange={handleChange}
           />
           <Button
             variant="contained"

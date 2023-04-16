@@ -15,7 +15,7 @@ import { ActionContext } from "../../Contexts/ContextProvider";
 import shrek from "../../Assets/Navbar/shrek.jpg";
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 // probando material ui, es un navbar de prueba je
 const Navbar = () => {
@@ -26,7 +26,7 @@ const Navbar = () => {
   const elementDropdown1 = useRef();
   const elementDropdown2 = useRef();
   const elementDropdown3 = useRef();
-  
+
   const handleDropdown1 = () => {
     setDropdown1(elementDropdown1.current);
   };
@@ -104,7 +104,7 @@ const Navbar = () => {
                     Licencia
                   </Link>
                 </MenuItem>
-                {user.rol.administrator && (
+                {user.data?.roles[0] === "SUPERVISOR" && (
                   <MenuItem onClick={() => handleCloseDropdown2()}>
                     <Link
                       to={"/admin-usuarios"}
@@ -149,7 +149,11 @@ const Navbar = () => {
           </Link>
         </Typography>
         {user.isLogged && (
-          <Box component={"li"} ref={elementDropdown1} sx={{ height: "100%", display: "flex", alignItems: "center" }}>
+          <Box
+            component={"li"}
+            ref={elementDropdown1}
+            sx={{ height: "100%", display: "flex", alignItems: "center" }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -159,24 +163,25 @@ const Navbar = () => {
               color="inherit"
               ref={elementDropdown3}
             >
-            <Badge badgeContent={2} color="primary">
-              <NotificationsIcon/>
-            </Badge>
+              <Badge badgeContent={2} color="primary">
+                <NotificationsIcon />
+              </Badge>
             </IconButton>
-            <Menu id="menu-appbar3"
-            anchorEl={dropdown3}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            open={Boolean(dropdown3)}
-            onClose={() => handleCloseDropdown3()}>
-              
+            <Menu
+              id="menu-appbar3"
+              anchorEl={dropdown3}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(dropdown3)}
+              onClose={() => handleCloseDropdown3()}
+            >
               <MenuItem onClick={() => handleCloseDropdown3()}>
                 <Typography>Esto es una notificacion numero 1</Typography>
               </MenuItem>

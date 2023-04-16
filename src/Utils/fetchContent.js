@@ -1,6 +1,6 @@
 import axios from "axios";
 const httpClient = axios.create({
-  baseURL: "https://642bfc82208dfe254724c128.mockapi.io/api/",
+  baseURL: "http://localhost:8080/api",
 });
 export const Method = {
   GET: "GET",
@@ -24,18 +24,14 @@ export const login = async (user) => {
 
   const promise = httpClient.request(request);
   const {
-    data: { accessTokenId },
+    data: { token },
   } = await promise;
-  return accessTokenId;
-
-  //   return camelcaseKeys(accessTokenId, { deep: true });
+  return token;
 };
 
 export const fetchContent = async (url, config = {}) => {
   try {
-    const { headers: headersOptions } = config;
-    // const token = await login();
-    let token;
+    const { headers: headersOptions, token } = config;
     const headers = token
       ? {
           Authorization: `Bearer ${token}`,
@@ -58,6 +54,7 @@ export const fetchContent = async (url, config = {}) => {
     };
     if (body) {
       request.data = body;
+      console.log(body);
     }
     const promise = httpClient.request(request);
     promise.cancel = () => source.cancel("cancelled");

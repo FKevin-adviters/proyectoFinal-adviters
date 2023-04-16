@@ -1,31 +1,30 @@
 import React, { createContext, useState } from "react";
-import { toast } from "react-toastify";
 
 export const ActionContext = createContext();
 
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState({
-    isLogged: true,
-    rol: {
-      administrator: true,
-      user: true,
-    },
+    token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
+    isLogged: false,
   });
   const userLogIn = () => {
     setUser({ ...user, isLogged: true });
-    toast.success("Ha ingresado correctamente", { position: "bottom-left" });
   };
   const userLogOut = () => {
     setUser({ ...user, isLogged: false });
   };
-  const setAdmin = () => {
+  const setUserData = (userData) => {
     setUser({
       ...user,
+      data: userData,
+      isLogged: true,
     });
   };
 
   return (
-    <ActionContext.Provider value={{ user, setAdmin, userLogIn, userLogOut }}>
+    <ActionContext.Provider
+      value={{ user, userLogIn, userLogOut, setUserData }}
+    >
       {children}
     </ActionContext.Provider>
   );

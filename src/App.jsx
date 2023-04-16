@@ -24,13 +24,15 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route
                   index
-                  element={<DashboardPage admin={user.rol.administrator} />}
+                  element={
+                    <DashboardPage admin={user.user?.roles === "SUPERVISOR"} />
+                  }
                 />
                 <Route path="licencia" element={<Licencia />} />
                 <Route path="calendario" element={<Calendario />} />
                 <Route path="perfil" element={<Perfil />} />
 
-                {user.rol.administrator && (
+                {user.data?.roles[0] === "SUPERVISOR" && (
                   <>
                     <Route path="admin-usuarios" element={<AdminUsuarios />} />
                     <Route

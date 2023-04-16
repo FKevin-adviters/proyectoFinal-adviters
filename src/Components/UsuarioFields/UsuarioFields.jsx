@@ -140,7 +140,7 @@ const UsuarioFields = () => {
                 ></InputGenerico>
               );
             })}
-            {user.rol.administrator && (
+            {user.data?.roles[0] === "SUPERVISOR" && (
               <FormControlLabel
                 control={<Switch defaultChecked disabled />}
                 label="Administrador"

@@ -9,10 +9,10 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { redirect } from "react-router-dom";
-import { redirectUrl } from "../../../Utils/changeUrl";
+import { useNavigate } from "react-router-dom";
 
 const ListItemAdm = ({ value }) => {
+  const navigate = useNavigate();
   const labelId = `checkbox-list-secondary-label-${value}`;
   return (
     <ListItem key={value}>
@@ -25,7 +25,7 @@ const ListItemAdm = ({ value }) => {
         <EditIcon
           sx={{ cursor: "pointer" }}
           color={"warning"}
-          onClick={() => redirectUrl(`/admin-usuarios/edit/${value}`)}
+          onClick={() => navigate(`/admin-usuarios/edit/${value}`)}
         />
         <DeleteIcon sx={{ cursor: "pointer" }} color={"error"} />
       </ListItemIcon>
