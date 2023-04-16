@@ -1,5 +1,7 @@
 import { Box } from "@mui/material";
 import moment from "moment/moment";
+import "moment/locale/es"; // without this line it didn't work
+moment.locale("es");
 
 function MiniCalendario({ fecha, onClick }) {
   const estilosEncabezado = {

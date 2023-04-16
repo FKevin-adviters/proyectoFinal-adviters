@@ -1,8 +1,11 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
-import ReactDatePicker from "react-datepicker";
+import ReactDatePicker, { registerLocale } from "react-datepicker";
 import MiniCalendario from "../../../Components/MiniCalendario/MiniCalendario";
 import moment from "moment";
+import { es } from "date-fns/locale";
+
+registerLocale("es", es);
 
 const CalendarioButtons = ({ setLicenciaData }) => {
   const [startDate, setStartDate] = useState(null);
@@ -32,6 +35,7 @@ const CalendarioButtons = ({ setLicenciaData }) => {
         name="startDate"
         filterDate={isWeekday}
         customInput={<MiniCalendario fecha={startDate} />}
+        locale={"es"}
       />
 
       <ReactDatePicker
@@ -43,7 +47,9 @@ const CalendarioButtons = ({ setLicenciaData }) => {
         withPortal
         name="endDate"
         filterDate={isWeekday}
+        minDate={startDate}
         customInput={<MiniCalendario fecha={endDate} />}
+        locale={"es"}
       />
     </Box>
   );

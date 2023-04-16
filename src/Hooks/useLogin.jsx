@@ -27,7 +27,10 @@ export const useLogin = () => {
     data?.token
       ? localStorage.setItem("token", JSON.stringify(data?.token))
       : "";
-    toast.success("Ha ingresado correctamente", { position: "bottom-left" });
+    toast.success("Ha ingresado correctamente", {
+      position: "bottom-left",
+      toastId: "logInSuccess",
+    });
   }
 
   return {

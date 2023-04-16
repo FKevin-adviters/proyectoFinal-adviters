@@ -8,30 +8,80 @@ import {
   Select,
   Switch,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import InputGenerico from "./InputGenerico";
 import { Column1, Column2, Column3 } from "../../constants/constantes";
-import SelectFieldLicencia from "../../pages/Licencia/Components/SelectFieldLicencia";
-import { ActionContext } from "../../Contexts/ContextProvider";
+import SelectFieldGenerico from "../../pages/Licencia/Components/SelectFieldGenerico";
+import { toast } from "react-toastify";
+import { CardMedia } from "@mui/material";
 
 const supervisores = ["Lautaro", "Luis", "Eric"];
 // constantes de los inputs
 
-const UsuarioFields = () => {
-  const { user } = useContext(ActionContext);
-  // Crear un componente para los Inputs, que se le pase el handleChange,
-  // el type, name, label y mapear un obj con los datos.
+const userFieldsData = {
+  available_days: 24,
+  birth_date: "2023-04-16T01:02:11.586+00:00",
+  country: "Argentina",
+  createdAt: "2023-04-16T01:02:11.586+00:00",
+  created_by: null,
+  email: "correo@test.com",
+  id: "987e86f9-97e3-4c7a-b5a2-a2092cd7c7bb",
+  lastname: "flores",
+  name: "kevin",
+  password: "$2a$10$toNJ3u0TIfR1ndn3Trd0B.X.pcr3AQZceXwiOTrw2ad7WGH66JOsC",
+  phone: 1138084961,
+  profile_picture: "string",
+  roles: ["SUPERVISOR"],
+  state: "string",
+  street: "string",
+  street_number: 2222,
+  town: "string",
+};
 
-  const [userInfo, setUserInfo] = useState({});
-  const userData = {
-    name: "jorge",
-  };
+const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
+const UsuarioFields = ({ defaultValues, setter, state, createdMode }) => {
+  const [file, setFile] = useState(null);
+  const [fileDataURL, setFileDataURL] = useState(null);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(userInfo);
+    console.log(state);
   };
+
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    if (!file.type.match(imageMimeType)) {
+      toast.error("El tipo de imagen ingresado no es válido.");
+      return;
+    }
+    setFile(file);
+  };
+
+  useEffect(() => {
+    let fileReader,
+      isCancel = false;
+    if (file) {
+      fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        const { result } = e.target;
+        if (result && !isCancel) {
+          console.log(result);
+          setFileDataURL(result);
+          setter(() => {
+            return { ...state, profile_picture: result };
+          });
+        }
+      };
+      fileReader.readAsDataURL(file);
+    }
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [file]);
 
   return (
     <>
@@ -43,7 +93,6 @@ const UsuarioFields = () => {
           display: "flex",
           flexDirection: "column",
         }}
-        onSubmit={handleSubmit}
       >
         <Box
           sx={{
@@ -62,6 +111,9 @@ const UsuarioFields = () => {
               gap: "20px",
             }}
           >
+            {fileDataURL && (
+              <img alt="profile image" src={fileDataURL} width={150} />
+            )}
             <Button
               variant="contained"
               component="label"
@@ -72,20 +124,19 @@ const UsuarioFields = () => {
                 hidden
                 accept="image/*"
                 type="file"
-                onChange={(event) => {
-                  let res = event.target.files[0].type;
-                }}
+                onChange={handleChange}
                 onClick={(e) => {
                   e.target.value = null;
                 }}
               />
             </Button>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-              <SelectFieldLicencia
+              <SelectFieldGenerico
                 valores={supervisores}
                 name={"supervisor"}
                 label={"Bajo supervision de:"}
-                setLicenciaData={setUserInfo}
+                setter={setter}
+                state={state}
               />
             </FormControl>
             {Column1.map((input) => {
@@ -94,8 +145,14 @@ const UsuarioFields = () => {
                   id={input.id}
                   label={input.label}
                   type={input.type}
-                  defaultValue={userData[input.backName]}
-                ></InputGenerico>
+                  name={input.name}
+                  setter={setter}
+                  defaultValue={
+                    defaultValues && !createdMode
+                      ? defaultValues[input.backName]
+                      : null
+                  }
+                />
               );
             })}
           </Box>
@@ -116,8 +173,13 @@ const UsuarioFields = () => {
                   label={input.label}
                   type={input.type}
                   name={input.name}
-                  setUserInfo={setUserInfo}
-                ></InputGenerico>
+                  setter={setter}
+                  defaultValue={
+                    defaultValues && !createdMode
+                      ? defaultValues[input.backName]
+                      : null
+                  }
+                />
               );
             })}
           </Box>
@@ -137,18 +199,36 @@ const UsuarioFields = () => {
                   id={input.id}
                   label={input.label}
                   type={input.type}
-                ></InputGenerico>
+                  name={input.name}
+                  setter={setter}
+                  defaultValue={
+                    defaultValues && !createdMode
+                      ? defaultValues[input.backName]
+                      : null
+                  }
+                />
               );
             })}
-            {user.data?.roles[0] === "SUPERVISOR" && (
+            {defaultValues?.roles[0] === "SUPERVISOR" && (
               <FormControlLabel
-                control={<Switch defaultChecked disabled />}
+                control={
+                  <Switch
+                    defaultChecked={
+                      defaultValues?.roles[0] == "USUARIO" ? false : true
+                    }
+                  />
+                }
+                name="roles"
                 label="Administrador"
               />
             )}
           </Box>
         </Box>
-        <Button sx={{ alignSelf: "flex-end" }} variant="contained">
+        <Button
+          sx={{ alignSelf: "flex-end" }}
+          variant="contained"
+          onClick={handleSubmit}
+        >
           Guardar
         </Button>
       </Box>

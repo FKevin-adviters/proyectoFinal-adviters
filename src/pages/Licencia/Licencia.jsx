@@ -10,8 +10,7 @@ import {
 } from "@mui/material";
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarioButtons from "./Components/CalendarioButtons";
-import SelectFieldLicencia from "./Components/SelectFieldLicencia";
-import { Create } from "@mui/icons-material";
+import SelectFieldGenerico from "./Components/SelectFieldGenerico";
 import { LicenciasDetalles } from "./Components/LicenciasDetalles";
 import { AdjuntarArchivo } from "./Components/AdjuntarArchivo";
 
@@ -69,12 +68,12 @@ const Licencia = () => {
             justifyContent="space-between"
             sx={{ padding: "10px" }}
           >
-            <SelectFieldLicencia
+            <SelectFieldGenerico
               valores={usuarios}
               label={"Usuario"}
               name={"user"}
-              setLicenciaData={setLicenciaData}
-              licenciaData={licenciaData}
+              setter={setLicenciaData}
+              state={licenciaData}
             />
 
             {/* Título "Estado" e status da solicitação */}
@@ -115,18 +114,30 @@ const Licencia = () => {
               listStyleType: "none",
             }}
           >
-            <Box component={"li"}>
-            <AdjuntarArchivo/>
-              <Typography variant="subtitle2" color="text.secondary">
-                TIPO DE LICENCIA
-              </Typography>
-              <SelectFieldLicencia
-                valores={tipoLicencias}
-                label={"Licencia"}
-                name={"tipoLicencia"}
-                setLicenciaData={setLicenciaData}
-                licenciaData={licenciaData}
-              />
+            <Box component={"li"} sx={{ display: "flex", gap: "100px" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "fit-content",
+                }}
+              >
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  sx={{ display: "inline" }}
+                >
+                  TIPO DE LICENCIA
+                </Typography>
+                <SelectFieldGenerico
+                  valores={tipoLicencias}
+                  label={"Licencia"}
+                  name={"tipoLicencia"}
+                  setter={setLicenciaData}
+                  state={licenciaData}
+                />
+              </Box>
+              <AdjuntarArchivo />
             </Box>
             <Box
               component={"li"}
@@ -243,9 +254,9 @@ const Licencia = () => {
             >
               Detalle de Vacaciones
             </Typography>
-            <LicenciasDetalles/>
-            <LicenciasDetalles/>
-            <LicenciasDetalles/>
+            <LicenciasDetalles />
+            <LicenciasDetalles />
+            <LicenciasDetalles />
           </Box>
         </Box>
       </section>

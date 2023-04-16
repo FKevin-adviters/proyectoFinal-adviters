@@ -12,6 +12,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import moment from "moment";
+import "moment/locale/es";
+moment.locale("es");
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             limit={3}
             position={"bottom-left"}
             autoClose={2000}
+            newestOnTop
           />
           <App />
         </ContextProvider>

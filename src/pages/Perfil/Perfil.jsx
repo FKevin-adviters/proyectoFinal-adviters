@@ -1,8 +1,14 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext, useState } from "react";
 import UsuarioFields from "../../Components/UsuarioFields/UsuarioFields";
+import { ActionContext } from "../../Contexts/ContextProvider";
 
 const Perfil = () => {
+  const { user } = useContext(ActionContext);
+  const [userInfo, setUserInfo] = useState();
+  if (userInfo) {
+    console.log(userInfo);
+  }
   return (
     <Box
       component={"section"}
@@ -21,7 +27,12 @@ const Perfil = () => {
         <Typography variant="h4" color={"red"} padding={"20px"}>
           Mi perfil
         </Typography>
-        <UsuarioFields />
+        <UsuarioFields
+          defaultValues={user?.data}
+          setter={setUserInfo}
+          state={userInfo}
+          createdMode={false}
+        />
       </Box>
     </Box>
   );

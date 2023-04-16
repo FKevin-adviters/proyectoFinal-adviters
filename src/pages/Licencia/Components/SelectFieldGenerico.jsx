@@ -1,19 +1,13 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useState } from "react";
 
-const SelectFieldLicencia = ({
-  valores,
-  name,
-  licenciaData,
-  label,
-  setLicenciaData,
-}) => {
+const SelectFieldGenerico = ({ valores, name, state, label, setter }) => {
   const [selected, setSelected] = useState();
 
   const handleChange = (e) => {
     setSelected(e.target.value);
-    setLicenciaData(() => {
-      return { ...licenciaData, [e.target.name]: e.target.value };
+    setter(() => {
+      return { ...state, [e.target.name]: e.target.value };
     });
   };
 
@@ -39,4 +33,4 @@ const SelectFieldLicencia = ({
   );
 };
 
-export default SelectFieldLicencia;
+export default SelectFieldGenerico;
