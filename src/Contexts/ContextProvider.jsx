@@ -4,7 +4,6 @@ export const ActionContext = createContext();
 
 const ContextProvider = ({ children }) => {
   const [user, setUser] = useState({
-    token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
     isLogged: false,
   });
   const userLogIn = () => {
@@ -12,6 +11,7 @@ const ContextProvider = ({ children }) => {
   };
   const userLogOut = () => {
     setUser({ ...user, isLogged: false });
+    localStorage.clear();
   };
   const setUserData = (userData) => {
     setUser({

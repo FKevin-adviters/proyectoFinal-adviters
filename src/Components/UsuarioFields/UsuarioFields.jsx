@@ -3,42 +3,16 @@ import {
   Button,
   FormControl,
   FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
   Switch,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import InputGenerico from "./InputGenerico";
 import { Column1, Column2, Column3 } from "../../constants/constantes";
 import SelectFieldGenerico from "../../pages/Licencia/Components/SelectFieldGenerico";
 import { toast } from "react-toastify";
-import { CardMedia } from "@mui/material";
 
 const supervisores = ["Lautaro", "Luis", "Eric"];
-// constantes de los inputs
-
-const userFieldsData = {
-  available_days: 24,
-  birth_date: "2023-04-16T01:02:11.586+00:00",
-  country: "Argentina",
-  createdAt: "2023-04-16T01:02:11.586+00:00",
-  created_by: null,
-  email: "correo@test.com",
-  id: "987e86f9-97e3-4c7a-b5a2-a2092cd7c7bb",
-  lastname: "flores",
-  name: "kevin",
-  password: "$2a$10$toNJ3u0TIfR1ndn3Trd0B.X.pcr3AQZceXwiOTrw2ad7WGH66JOsC",
-  phone: 1138084961,
-  profile_picture: "string",
-  roles: ["SUPERVISOR"],
-  state: "string",
-  street: "string",
-  street_number: 2222,
-  town: "string",
-};
-
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 const UsuarioFields = ({ defaultValues, setter, state, createdMode }) => {
