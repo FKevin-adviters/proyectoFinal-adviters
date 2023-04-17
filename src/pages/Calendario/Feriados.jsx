@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import FeriadosGenerico from "./components/FeriadosGenerico";
+import "./feriados.css"
 
 function Feriados() {
   const [feriados, setFeriados] = useState([
@@ -32,6 +33,7 @@ function Feriados() {
   };
 
   return (
+    <section className="seccionFeriados">
     <>
       <Box
         sx={{
@@ -44,6 +46,7 @@ function Feriados() {
         <Box
           sx={{
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "space-between",
             width: "100%",
             padding: "10px 20px",
@@ -60,7 +63,7 @@ function Feriados() {
             Nuevo Feriado
           </Button>
         </Box>
-        <Box
+        <Box id="seccionFeriados"
           sx={{
             padding: "20px",
             boxSizing: "border-box",
@@ -92,6 +95,7 @@ function Feriados() {
         </Box>
       </Box>
     </>
+    </section>
   );
 }
 
@@ -152,5 +156,6 @@ function FeriadoModal({ onClose, onGuardar }) {
     </Modal>
   );
 }
+
 
 export default Feriados;
