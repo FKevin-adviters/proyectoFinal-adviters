@@ -31,7 +31,7 @@ const queryClient = new QueryClient({
   },
 });
 
-export const LoggedUser = () => {
+export const LoggedUser = ({ children }) => {
   const { setUserData } = useContext(ActionContext);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export const LoggedUser = () => {
     };
     fetchUser();
   }, []);
-  return <></>;
+  return <>{children}</>;
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -62,7 +62,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <QueryClientProvider client={queryClient}>
         <ContextProvider>
-          <LoggedUser />
+          <LoggedUser></LoggedUser>
           <ToastContainer
             closeOnClick={false}
             limit={3}

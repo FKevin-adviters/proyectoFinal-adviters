@@ -20,6 +20,7 @@ const Dashboard = ({ admin }) => {
   //   useLicencias();
   let isLoading = true;
   let isError = false;
+  let isRefetchingError = false;
   let data = false;
 
   // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
