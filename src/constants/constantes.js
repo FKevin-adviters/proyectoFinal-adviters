@@ -104,14 +104,16 @@ export const Column3 = [
   {
     id: "outlined-passwordNuevo-pass",
     label: "Password nuevo",
-    type: "newpass",
+    type: "password",
     name: "newpass",
+    backName: "password1",
   },
   {
     id: "outlined-passwordRepetir-pass",
     label: "Repetir password",
     type: "repeatedPass",
     name: "repeatedPass",
+    backName: "password",
   },
   {
     id: "outlined-fechaIngreso-number",
@@ -142,4 +144,23 @@ export const Column3 = [
     backName: "country",
   },
 ];
-export const LicenciaColumn = [{}];
+export const MenuDesplegable1 = {
+  id: "menu-desplegable1",
+  values: [
+    { name: "Dashboard", link: "/" },
+    { name: "Crear licencia", link: "/licencia" },
+    { name: "Administrar usuarios", link: "/admin-usuarios" },
+    { name: "Calendario", link: "/calendario" },
+  ],
+};
+export const MenuDesplegable2 = {
+  id: "menu-desplegable1",
+  values: [{ name: "Esto es una notificación" }],
+};
+export const MenuDesplegable3 = {
+  id: "menu-desplegable1",
+  values: [
+    { name: "Mi perfil", link: "/perfil" },
+    { name: "Cerrar sesión", link: "/", userLogOut: true },
+  ],
+};

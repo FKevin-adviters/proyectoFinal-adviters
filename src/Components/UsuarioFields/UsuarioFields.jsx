@@ -177,7 +177,8 @@ const UsuarioFields = ({ defaultValues, setter, state, createdMode }) => {
                   setter={setter}
                   defaultValue={
                     defaultValues && !createdMode
-                      ? defaultValues[input.backName]
+                      ? input.backName !== "password" &&
+                        defaultValues[input.backName]
                       : null
                   }
                 />

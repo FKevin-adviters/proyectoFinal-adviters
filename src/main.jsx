@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "@fontsource/roboto/300.css";
@@ -15,10 +15,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment";
 import "moment/locale/es";
 import {
-  checkLocalStorageAndToken,
-  getDecryptedUserFromLS,
+  checkSessionStorageAndToken,
+  getDecryptedUserFromSS,
   loginUser,
 } from "./Services/loginUser";
+import { Box } from "@mui/system";
+import { CircularProgress } from "@mui/material";
 moment.locale("es");
 
 const queryClient = new QueryClient({
@@ -37,15 +39,17 @@ export const LoggedUser = ({ children }) => {
   useEffect(() => {
     let fetchUser = async () => {
       try {
-        let isTokenValid = await checkLocalStorageAndToken();
+        let isTokenValid = await checkSessionStorageAndToken();
         if (isTokenValid) {
-          let user = getDecryptedUserFromLS();
+          let user = getDecryptedUserFromSS();
           let data = await loginUser(user);
           if (data?.user) {
             setUserData(data?.user);
             data?.token
-              ? localStorage.setItem("token", JSON.stringify(data?.token))
+              ? sessionStorage.setItem("token", JSON.stringify(data?.token))
               : "";
+          } else {
+            sessionStorage.clear();
           }
         }
       } catch (error) {
@@ -54,7 +58,24 @@ export const LoggedUser = ({ children }) => {
     };
     fetchUser();
   }, []);
-  return <>{children}</>;
+  return (
+    <Suspense
+      fallback={
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <CircularProgress size={280} />
+        </Box>
+      }
+    >
+      {children}
+    </Suspense>
+  );
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -62,15 +83,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <QueryClientProvider client={queryClient}>
         <ContextProvider>
-          <LoggedUser></LoggedUser>
-          <ToastContainer
-            closeOnClick={false}
-            limit={3}
-            position={"bottom-left"}
-            autoClose={2000}
-            newestOnTop
-          />
-          <App />
+          <LoggedUser>
+            <ToastContainer
+              closeOnClick={false}
+              limit={3}
+              position={"bottom-left"}
+              autoClose={2000}
+              newestOnTop
+            />
+            <App />
+          </LoggedUser>
         </ContextProvider>
       </QueryClientProvider>
     </LocalizationProvider>

@@ -11,7 +11,7 @@ const ContextProvider = ({ children }) => {
   };
   const userLogOut = () => {
     setUser({ ...user, isLogged: false });
-    localStorage.clear();
+    sessionStorage.clear();
   };
   const setUserData = (userData) => {
     setUser({

@@ -1,4 +1,4 @@
-import { loginUser, sendEncryptUserToLS } from "../Services/loginUser";
+import { loginUser, sendEncryptUserToSS } from "../Services/loginUser";
 import { useContext, useEffect, useState } from "react";
 import { ActionContext } from "../Contexts/ContextProvider";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ export const useLogin = () => {
 
   const submitLogin = async (user) => {
     try {
-      sendEncryptUserToLS(user);
+      sendEncryptUserToSS(user);
       setIsLoading(true);
       let data = await loginUser(user);
       setIsLoading(false);
@@ -26,7 +26,7 @@ export const useLogin = () => {
     if (data?.user) {
       setUserData(data?.user);
       data?.token
-        ? localStorage.setItem("token", JSON.stringify(data?.token))
+        ? sessionStorage.setItem("token", JSON.stringify(data?.token))
         : "";
 
       toast.success("Ha ingresado correctamente", {

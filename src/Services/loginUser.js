@@ -18,13 +18,13 @@ export const loginUser = async (user) => {
   }
 };
 
-export const checkLocalStorageAndToken = async () => {
+export const checkSessionStorageAndToken = async () => {
   try {
-    const cachedToken = localStorage.getItem("token")
-      ? JSON.parse(localStorage.getItem("token"))
+    const cachedToken = sessionStorage.getItem("token")
+      ? JSON.parse(sessionStorage.getItem("token"))
       : false;
-    let cachedUser = localStorage.getItem("userEncrypted")
-      ? localStorage.getItem("userEncrypted")
+    let cachedUser = sessionStorage.getItem("userEncrypted")
+      ? sessionStorage.getItem("userEncrypted")
       : false;
     if (cachedToken && cachedUser) {
       let options = {
@@ -40,17 +40,17 @@ export const checkLocalStorageAndToken = async () => {
   }
 };
 
-export const sendEncryptUserToLS = (user) => {
+export const sendEncryptUserToSS = (user) => {
   let encryptedUser = CryptoJS.AES.encrypt(
     JSON.stringify(user),
     key_secreta
   ).toString();
-  localStorage.setItem("userEncrypted", encryptedUser);
+  sessionStorage.setItem("userEncrypted", encryptedUser);
 };
 
-export const getDecryptedUserFromLS = () => {
-  let userEncrypted = localStorage.getItem("userEncrypted")
-    ? localStorage.getItem("userEncrypted")
+export const getDecryptedUserFromSS = () => {
+  let userEncrypted = sessionStorage.getItem("userEncrypted")
+    ? sessionStorage.getItem("userEncrypted")
     : false;
 
   if (userEncrypted) {
