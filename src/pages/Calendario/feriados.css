@@ -1,0 +1,13 @@
+#calendarioFeriados {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100vw;
+    justify-content: center;
+}
+@media screen and (max-width: 600px){
+    #seccionFeriados {
+        flex-wrap: wrap;
+        max-width: 80vw;
+    }
+    
+}

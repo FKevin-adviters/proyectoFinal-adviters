@@ -4,10 +4,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { Box, Typography } from "@mui/material";
 import Feriados from "./Feriados";
+import "./feriados.css"
 
 const Calendario = () => {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box id="calendarioFeriados"
+    sx={{ display: "flex" }}>
       <Box
         sx={{
           padding: "20px",

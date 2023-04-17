@@ -7,7 +7,9 @@ import {
   Button,
   TextField,
   Divider,
+  Grid,
 } from "@mui/material";
+import "../Licencia/licencia.css"
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarioButtons from "./Components/CalendarioButtons";
 import SelectFieldGenerico from "./Components/SelectFieldGenerico";
@@ -50,7 +52,7 @@ const Licencia = () => {
           alignItems: "flex-start",
         }}
       >
-        <Box
+        <Box id="licencias"
           component={"form"}
           sx={{
             display: "flex",
@@ -231,7 +233,7 @@ const Licencia = () => {
             </Box>
           </Box>
         </Box>
-        <Box
+        <Box id="detallesVacaciones"
           sx={{
             border: "1px solid grey",
             minHeight: "100vh",
@@ -240,11 +242,12 @@ const Licencia = () => {
             margin: "5px 10px",
           }}
         >
-          <Box
+          <Box 
             sx={{
               borderBottom: "1px solid grey",
               display: "flex",
               flexDirection: "column",
+              flexWrap: "wrap"
             }}
           >
             <Typography
