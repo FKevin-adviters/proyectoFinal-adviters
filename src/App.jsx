@@ -25,7 +25,9 @@ function App() {
                 <Route
                   index
                   element={
-                    <DashboardPage admin={user.user?.roles === "SUPERVISOR"} />
+                    <DashboardPage
+                      admin={user.data?.roles[0] === "SUPERVISOR"}
+                    />
                   }
                 />
                 <Route path="licencia" element={<Licencia />} />
