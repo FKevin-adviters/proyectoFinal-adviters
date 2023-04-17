@@ -1,8 +1,11 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import UsuarioFields from "../../../Components/UsuarioFields/UsuarioFields";
 
 const AdminUsuariosCreate = () => {
+  const [userInfo, setUserInfo] = useState({});
+  console.log(userInfo);
+
   return (
     <Box
       sx={{
@@ -17,7 +20,7 @@ const AdminUsuariosCreate = () => {
       <Typography variant="h4" color={"red"} padding={"20px"}>
         Crear usuario
       </Typography>
-      <UsuarioFields />
+      <UsuarioFields setter={setUserInfo} state={userInfo} createdMode={true} />
     </Box>
   );
 };

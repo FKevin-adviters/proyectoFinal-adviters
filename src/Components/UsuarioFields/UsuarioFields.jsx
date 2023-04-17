@@ -11,7 +11,7 @@ import InputGenerico from "./InputGenerico";
 import { Column1, Column2, Column3 } from "../../constants/constantes";
 import SelectFieldGenerico from "../../pages/Licencia/Components/SelectFieldGenerico";
 import { toast } from "react-toastify";
-import "./usuarioFields.css"
+import "./usuarioFields.css";
 
 const supervisores = ["Lautaro", "Luis", "Eric"];
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
