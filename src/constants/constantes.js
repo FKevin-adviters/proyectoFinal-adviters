@@ -105,14 +105,14 @@ export const Column3 = [
     id: "outlined-passwordNuevo-pass",
     label: "Password nuevo",
     type: "password",
-    name: "newpass",
-    backName: "password1",
+    name: "password",
+    backName: "password",
   },
   {
     id: "outlined-passwordRepetir-pass",
     label: "Repetir password",
-    type: "repeatedPass",
-    name: "repeatedPass",
+    type: "password",
+    name: "password",
     backName: "password",
   },
   {

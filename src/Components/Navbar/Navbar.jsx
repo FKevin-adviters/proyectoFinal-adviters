@@ -34,7 +34,6 @@ const Navbar = () => {
             Liberty
           </Link>
         </Typography>
-
         {/* menu 2 */}
         <MenuDesplegable
           menu={MenuDesplegable2}

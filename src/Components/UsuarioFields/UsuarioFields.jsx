@@ -16,12 +16,22 @@ import "./usuarioFields.css";
 const supervisores = ["Lautaro", "Luis", "Eric"];
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
-const UsuarioFields = ({ defaultValues, setter, state, createdMode }) => {
+const UsuarioFields = ({
+  defaultValues,
+  setter,
+  state,
+  createdMode,
+  idUser,
+  fetchFn,
+}) => {
   const [file, setFile] = useState(null);
   const [fileDataURL, setFileDataURL] = useState(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(state);
+
+    fetchFn(state, idUser || "");
   };
 
   const handleChange = (e) => {

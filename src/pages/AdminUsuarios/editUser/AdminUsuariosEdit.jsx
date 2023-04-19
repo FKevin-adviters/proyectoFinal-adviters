@@ -3,9 +3,10 @@ import React from "react";
 import UsuarioFields from "../../../Components/UsuarioFields/UsuarioFields";
 import { useParams } from "react-router-dom";
 
-const AdminUsuariosEdit = ({ createMode, editMode }) => {
+const AdminUsuariosEdit = () => {
+  const { editUser } = useUsuario();
   const { idUser } = useParams();
-  console.log(idUser);
+
   return (
     <Box
       sx={{
@@ -20,7 +21,7 @@ const AdminUsuariosEdit = ({ createMode, editMode }) => {
       <Typography variant="h4" color={"red"} padding={"20px"}>
         Editar usuario
       </Typography>
-      <UsuarioFields />
+      <UsuarioFields idUser={idUser} fetchFn={editUser} />
     </Box>
   );
 };

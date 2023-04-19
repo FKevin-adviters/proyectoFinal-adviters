@@ -9,7 +9,7 @@ import {
   Divider,
   Grid,
 } from "@mui/material";
-import "../Licencia/licencia.css"
+import "../Licencia/licencia.css";
 import "react-datepicker/dist/react-datepicker.css";
 import CalendarioButtons from "./Components/CalendarioButtons";
 import SelectFieldGenerico from "./Components/SelectFieldGenerico";
@@ -28,7 +28,7 @@ const usuarios = ["Maicon", "Ezequiel", "Kevin"];
 
 const tipoLicencias = ["Vacaciones", "Enfermedad", "Examen"];
 
-const Licencia = () => {
+const Licencia = ({ dashboardLic }) => {
   const [licenciaData, setLicenciaData] = useState(initialState);
 
   const handleSubmit = () => {
@@ -52,7 +52,8 @@ const Licencia = () => {
           alignItems: "flex-start",
         }}
       >
-        <Box id="licencias"
+        <Box
+          id="licencias"
           component={"form"}
           sx={{
             display: "flex",
@@ -233,35 +234,38 @@ const Licencia = () => {
             </Box>
           </Box>
         </Box>
-        <Box id="detallesVacaciones"
-          sx={{
-            border: "1px solid grey",
-            minHeight: "100vh",
-            minWidth: "30vw",
-            borderRadius: "10px",
-            margin: "5px 10px",
-          }}
-        >
-          <Box 
+        {!dashboardLic && (
+          <Box
+            id="detallesVacaciones"
             sx={{
-              borderBottom: "1px solid grey",
-              display: "flex",
-              flexDirection: "column",
-              flexWrap: "wrap"
+              border: "1px solid grey",
+              minHeight: "100vh",
+              minWidth: "30vw",
+              borderRadius: "10px",
+              margin: "5px 10px",
             }}
           >
-            <Typography
+            <Box
               sx={{
-                alignSelf: "center",
+                borderBottom: "1px solid grey",
+                display: "flex",
+                flexDirection: "column",
+                flexWrap: "wrap",
               }}
             >
-              Detalle de Vacaciones
-            </Typography>
-            <LicenciasDetalles />
-            <LicenciasDetalles />
-            <LicenciasDetalles />
+              <Typography
+                sx={{
+                  alignSelf: "center",
+                }}
+              >
+                Detalle de Vacaciones
+              </Typography>
+              <LicenciasDetalles />
+              <LicenciasDetalles />
+              <LicenciasDetalles />
+            </Box>
           </Box>
-        </Box>
+        )}
       </section>
     </>
   );

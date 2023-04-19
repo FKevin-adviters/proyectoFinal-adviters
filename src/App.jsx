@@ -23,13 +23,18 @@ function App() {
             <>
               <Route path="/" element={<Layout />}>
                 <Route
-                  index
+                  path="/"
                   element={
                     <DashboardPage
                       admin={user.data?.roles[0] === "SUPERVISOR"}
                     />
                   }
-                />
+                >
+                  <Route
+                    path="/:licenseId"
+                    element={<Licencia dashboardLic={true} />}
+                  />
+                </Route>
                 <Route path="licencia" element={<Licencia />} />
                 <Route path="calendario" element={<Calendario />} />
                 <Route path="perfil" element={<Perfil />} />

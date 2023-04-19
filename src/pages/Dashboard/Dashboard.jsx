@@ -14,6 +14,7 @@ import CardDiasDisp from "./Components/CardDiasDisp";
 import { useLicencias } from "../../Hooks/useLicencias";
 import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
+import { Outlet } from "react-router-dom";
 
 const Dashboard = ({ admin }) => {
   // const { data, isLoading, isError, isRefetching, isRefetchingError } =
@@ -173,6 +174,7 @@ const Dashboard = ({ admin }) => {
           </li>
         )}
       </Box>
+      <Outlet />
     </section>
   );
 };
