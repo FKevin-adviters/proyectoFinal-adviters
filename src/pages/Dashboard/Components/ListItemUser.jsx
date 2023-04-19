@@ -18,13 +18,20 @@ import { toast } from "react-toastify";
 import NotificacionUndo from "../../../Components/Notificacion/NotificacionUndo";
 
 const ListItemUser = ({ licencia, admin }) => {
-  const { usuario, fechaInicio, fechaFinal, tipo, id } = licencia;
+  const { usuarioDTO, startDate, endDate, licenseTypeId, licenseId } = licencia;
+
+  const names = {
+    0: "Tramites",
+    1: "Vacaciones",
+    2: "Dia de Estudio",
+    3: "Licencia Medica",
+  };
 
   const colores = {
-    Vacaciones: "purple",
-    Tramites: "yellow",
-    "Licencia Medica": "green",
-    "Dia de Estudio": "cyan",
+    0: "yellow",
+    1: "purple",
+    2: "cyan",
+    3: "green",
   };
 
   return (
@@ -37,7 +44,7 @@ const ListItemUser = ({ licencia, admin }) => {
         <Avatar alt="Shrek" src={shrek} />
       </ListItemAvatar>
       <ListItemText
-        primary={usuario}
+        primary={usuarioDTO.name + " " + usuarioDTO.lastname}
         secondary={
           <Box
             component={"span"}
@@ -48,7 +55,7 @@ const ListItemUser = ({ licencia, admin }) => {
               variant="subtitle2"
               color="text.secondary"
             >
-              {convertDates(fechaInicio)} - {convertDates(fechaFinal)}
+              {convertDates(startDate)} - {convertDates(endDate)}
             </Typography>
 
             <Typography
@@ -58,7 +65,7 @@ const ListItemUser = ({ licencia, admin }) => {
             >
               <Box
                 sx={{
-                  backgroundColor: colores[tipo],
+                  backgroundColor: colores[licenseTypeId],
                   padding: "5px",
                   margin: "0 5px",
                   borderRadius: "100%",
@@ -66,7 +73,7 @@ const ListItemUser = ({ licencia, admin }) => {
                 }}
                 component={"span"}
               ></Box>
-              {tipo}
+              {names[licenseTypeId]}
             </Typography>
           </Box>
         }
@@ -86,7 +93,7 @@ const ListItemUser = ({ licencia, admin }) => {
                 }}
                 onClick={() =>
                   toast.success(
-                    <NotificacionUndo idLicencia={id} estado={true} />
+                    <NotificacionUndo idLicencia={licenseId} estado={true} />
                   )
                 }
               />

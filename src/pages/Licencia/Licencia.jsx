@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Avatar,
@@ -15,6 +15,9 @@ import CalendarioButtons from "./Components/CalendarioButtons";
 import SelectFieldGenerico from "./Components/SelectFieldGenerico";
 import { LicenciasDetalles } from "./Components/LicenciasDetalles";
 import { AdjuntarArchivo } from "./Components/AdjuntarArchivo";
+import { daysBetweenDates } from "../../Utils/convertDates";
+import { ActionContext } from "../../Contexts/ContextProvider";
+import { toast } from "react-toastify";
 
 const initialState = {
   user: "",
@@ -29,10 +32,20 @@ const usuarios = ["Maicon", "Ezequiel", "Kevin"];
 const tipoLicencias = ["Vacaciones", "Enfermedad", "Examen"];
 
 const Licencia = ({ dashboardLic }) => {
+  const { user } = useContext(ActionContext);
   const [licenciaData, setLicenciaData] = useState(initialState);
 
   const handleSubmit = () => {
     console.log(licenciaData);
+    // daysBetweenDates();
+    if (
+      user.data.available_days <
+      daysBetweenDates(licenciaData.endDate, licenciaData.startDate)
+    ) {
+      toast.info(
+        "Por favor, ingrese un rango de días equivalente o menor a sus días disponibles."
+      );
+    }
   };
 
   const handleDesc = (e) => {
@@ -74,7 +87,7 @@ const Licencia = ({ dashboardLic }) => {
             <SelectFieldGenerico
               valores={usuarios}
               label={"Usuario"}
-              name={"user"}
+              name={"licenseUser"}
               setter={setLicenciaData}
               state={licenciaData}
             />
@@ -172,13 +185,20 @@ const Licencia = ({ dashboardLic }) => {
                   }}
                 >
                   <Typography variant="subtitle2" color={"#06B80D"}>
-                    8 días laborales
+                    {licenciaData.startDate &&
+                      licenciaData.endDate &&
+                      daysBetweenDates(
+                        licenciaData.endDate,
+                        licenciaData.startDate
+                      )}{" "}
+                    días laborales
                   </Typography>
                 </Box>
 
                 <Box sx={{ padding: " 0 15px" }}>
                   <Typography variant="subtitle2" color={"text.secondary"}>
-                    24 días disponibles
+                    {user.data.available_days ? user.data.available_days : "?"}{" "}
+                    días disponibles
                   </Typography>
                 </Box>
               </Box>

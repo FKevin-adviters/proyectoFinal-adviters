@@ -32,6 +32,7 @@ export const login = async (user) => {
 export const fetchContent = async (url, config = {}) => {
   try {
     const { headers: headersOptions, token } = config;
+    console.log(token);
     const headers = token
       ? {
           Authorization: `Bearer ${token}`,

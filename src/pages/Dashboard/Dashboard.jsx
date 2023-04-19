@@ -6,7 +6,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import "./Dashboard.css";
 import Buscador from "./Components/Buscador";
 import ListLicencias from "./Components/ListLicencias";
@@ -17,15 +17,16 @@ import CardFeriados from "./Components/CardFeriados";
 import { Outlet } from "react-router-dom";
 
 const Dashboard = ({ admin }) => {
-  // const { data, isLoading, isError, isRefetching, isRefetchingError } =
-  //   useLicencias();
-  let isLoading = true;
-  let isError = false;
-  let isRefetchingError = false;
-  let data = false;
+  const { getLicenciasDashboardAdmin, data, isError, isLoading } =
+    useLicencias();
 
   // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
   // parecido a este
+  useEffect(() => {
+    if (admin) {
+      getLicenciasDashboardAdmin();
+    }
+  }, []);
 
   return (
     <section className="dashboard_section">
@@ -67,7 +68,7 @@ const Dashboard = ({ admin }) => {
                 >
                   Lista solicitudes pendientes
                 </Typography>
-                {(isLoading || isRefetching) && (
+                {isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -75,11 +76,8 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {(isError || isRefetchingError) &&
-                  "ERROR AL CARGAR LAS LICENCIAS"}
-                {data && !isRefetching && (
-                  <ListLicencias admin={true} licencias={data} />
-                )}
+                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {data && <ListLicencias admin={true} licencias={data?.card1} />}
               </>
             ) : (
               // es usuario
@@ -115,7 +113,7 @@ const Dashboard = ({ admin }) => {
                 >
                   PROXIMAS LICENCIAS (APROBADAS)
                 </Typography>
-                {(isLoading || isRefetching) && (
+                {isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -123,9 +121,8 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {(isError || isRefetchingError) &&
-                  "ERROR AL CARGAR LAS LICENCIAS"}
-                {data && !isRefetching && <ListLicencias licencias={data} />}
+                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {data && <ListLicencias licencias={data?.card2} />}
               </>
             ) : (
               // es usuario
