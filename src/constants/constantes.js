@@ -1,3 +1,4 @@
+//Usuariosfield
 export const Column1 = [
   {
     id: "outlined-dni-number",
@@ -144,6 +145,8 @@ export const Column3 = [
     backName: "country",
   },
 ];
+
+//navbar
 export const MenuDesplegable1 = {
   id: "menu-desplegable1",
   values: [
@@ -164,3 +167,23 @@ export const MenuDesplegable3 = {
     { name: "Cerrar sesión", link: "/", userLogOut: true },
   ],
 };
+
+export const diasYferiadosNoL = [
+  "2023-01-01",
+  "2023-02-27",
+  "2023-03-24",
+  "2023-04-14",
+  "2023-05-01",
+  "2023-05-25",
+  "2023-06-16",
+  "2023-06-19",
+  "2023-07-08",
+  "2023-07-09",
+  "2023-07-17",
+  "2023-08-15",
+  "2023-10-09",
+  "2023-11-20",
+  "2023-12-08",
+  "2023-12-25",
+  "2023-12-29",
+];

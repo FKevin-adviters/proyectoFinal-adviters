@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { fetchContent } from "../Utils/fetchContent";
-
 export const useLicencias = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
@@ -31,18 +30,21 @@ export const useLicencias = () => {
       setData((old) => {
         return { ...old, card2: dataFetch1 };
       });
-      console.log(data);
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      throw new Error("No se ha logrado cargar las licencia");
     }
   };
 
   const getLicenciasDashboardUser = async () => {
-    let token = sessionStorage.getItem("token");
+    let token = JSON.parse(sessionStorage.getItem("token"));
+    let arr = token.split(" ");
+    console.log(arr[1]);
     try {
       let options = {
-        headers: token,
+        headers: {
+          token: arr[1],
+        },
       };
       setIsLoading(true);
       let data = await fetchContent(
@@ -52,8 +54,8 @@ export const useLicencias = () => {
       setIsLoading(false);
       return setData(data);
     } catch (error) {
-      console.log(data);
-      setIsError(true);
+      console.log(error);
+      throw new Error("No se ha logrado cargar las licencia");
     }
   };
 

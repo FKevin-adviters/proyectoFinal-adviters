@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Avatar,
@@ -7,7 +7,6 @@ import {
   Button,
   TextField,
   Divider,
-  Grid,
 } from "@mui/material";
 import "../Licencia/licencia.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -15,37 +14,55 @@ import CalendarioButtons from "./Components/CalendarioButtons";
 import SelectFieldGenerico from "./Components/SelectFieldGenerico";
 import { LicenciasDetalles } from "./Components/LicenciasDetalles";
 import { AdjuntarArchivo } from "./Components/AdjuntarArchivo";
-import { daysBetweenDates } from "../../Utils/convertDates";
+import { daysBetweenDates, getDaysWorkable } from "../../Utils/convertDates";
 import { ActionContext } from "../../Contexts/ContextProvider";
 import { toast } from "react-toastify";
+import { useUsuario } from "../../Hooks/useUsuario";
+import { useNavigate } from "react-router-dom";
+import { createLicencia } from "../../Services/licenciasServices";
 
-const initialState = {
-  user: "",
-  diasDisp: 24,
+let initialState = {
+  licenseUser: "",
   tipoLicencia: "",
-  supervisor: "Juan Pablo",
+  licenseSupervisor: "",
   description: "",
 };
 
 const usuarios = ["Maicon", "Ezequiel", "Kevin"];
 
-const tipoLicencias = ["Vacaciones", "Enfermedad", "Examen"];
+const tipoLicencias = [
+  { name: "Tramites", id: 0 },
+  { name: "Vacaciones", id: 1 },
+  { name: "Dia de Estudio", id: 2 },
+  { name: "Licencia Medica", id: 3 },
+];
 
 const Licencia = ({ dashboardLic }) => {
   const { user } = useContext(ActionContext);
+  const { getUsers, data } = useUsuario();
   const [licenciaData, setLicenciaData] = useState(initialState);
+  const redirect = useNavigate();
 
-  const handleSubmit = () => {
-    console.log(licenciaData);
-    // daysBetweenDates();
+  const handleSubmit = async () => {
+    console.log(getDaysWorkable(licenciaData.startDate, licenciaData.endDate));
     if (
       user.data.available_days <
       daysBetweenDates(licenciaData.endDate, licenciaData.startDate)
     ) {
-      toast.info(
+      return toast.info(
         "Por favor, ingrese un rango de días equivalente o menor a sus días disponibles."
       );
     }
+
+    // await createLicencia(licenciaData)
+    //   .then(() => {
+    //     toast.success("Se ha logrado crear la licencia");
+    //     redirect("/");
+    //   })
+    //   .catch(() => {
+    //     toast.error("No se ha logrado crear la licencia");
+    //   })
+    //   .finally(setLicenciaData(initialState));
   };
 
   const handleDesc = (e) => {
@@ -54,6 +71,22 @@ const Licencia = ({ dashboardLic }) => {
       [e.target.name]: e.target.value,
     }));
   };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      data?.map((user) => {
+        if (user.id == licenciaData?.licenseUser && user.supervisor != null) {
+          setLicenciaData((old) => {
+            return { ...old, licenseSupervisor: user.id };
+          });
+        }
+      });
+    }
+  }, [licenciaData.licenseUser]);
 
   return (
     <>
@@ -84,13 +117,15 @@ const Licencia = ({ dashboardLic }) => {
             justifyContent="space-between"
             sx={{ padding: "10px" }}
           >
-            <SelectFieldGenerico
-              valores={usuarios}
-              label={"Usuario"}
-              name={"licenseUser"}
-              setter={setLicenciaData}
-              state={licenciaData}
-            />
+            {data && (
+              <SelectFieldGenerico
+                valores={data}
+                label={"Usuario"}
+                name={"licenseUser"}
+                setter={setLicenciaData}
+                state={licenciaData}
+              />
+            )}
 
             {/* Título "Estado" e status da solicitação */}
             <Box
@@ -234,12 +269,36 @@ const Licencia = ({ dashboardLic }) => {
               <Typography variant="h6" sx={{ mb: 1 }}>
                 APROBACION A CARGO DE:
               </Typography>
-              <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <Avatar sx={{ width: "70px", height: "70px" }}>JP</Avatar>
-                <Typography variant="h5" fontWeight={"#FF8585"} color={"red"}>
-                  Juan Pablo
-                </Typography>
-              </Box>
+              {licenciaData?.licenseUser && data
+                ? data.map((user) => {
+                    if (
+                      user.id == licenciaData?.licenseUser &&
+                      user.supervisor != null
+                    ) {
+                      return (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                          }}
+                        >
+                          <Avatar sx={{ width: "70px", height: "70px" }}>
+                            {user.supervisor.name[0].toUpperCase() +
+                              user.supervisor.lastname[0].toUpperCase()}
+                          </Avatar>
+                          <Typography
+                            variant="h5"
+                            fontWeight={"#FF8585"}
+                            color={"red"}
+                          >
+                            {`${user.supervisor.name} ${user.supervisor.lastname}`}
+                          </Typography>
+                        </Box>
+                      );
+                    }
+                  })
+                : ""}
             </Box>
             {/* Botão de solicitação de aprovação */}
             <Box component={"li"} sx={{ alignSelf: "flex-end" }}>

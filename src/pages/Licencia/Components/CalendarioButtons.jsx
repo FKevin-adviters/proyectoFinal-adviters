@@ -32,6 +32,7 @@ const CalendarioButtons = ({ setLicenciaData }) => {
           setInfo(date, "startDate");
         }}
         withPortal
+        minDate={new Date()}
         name="startDate"
         filterDate={isWeekday}
         customInput={<MiniCalendario fecha={startDate} />}

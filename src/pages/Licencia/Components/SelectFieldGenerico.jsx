@@ -24,8 +24,8 @@ const SelectFieldGenerico = ({ valores, name, state, label, setter }) => {
       >
         <MenuItem disabled>Seleccionar {label}</MenuItem>
         {valores.map((valor) => (
-          <MenuItem value={valor} key={valor}>
-            {valor}
+          <MenuItem value={valor.id} key={valor.id}>
+            {valor.name}
           </MenuItem>
         ))}
       </Select>

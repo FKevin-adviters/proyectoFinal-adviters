@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { sendCreateUser, sendEditedUser } from "../Services/usuarioServices";
+import {
+  getAllUsers,
+  sendCreateUser,
+  sendEditedUser,
+} from "../Services/usuarioServices";
 import { toast } from "react-toastify";
 
 export const useUsuario = () => {
@@ -33,11 +37,21 @@ export const useUsuario = () => {
     }
   };
 
+  const getUsers = async () => {
+    try {
+      let data = await getAllUsers();
+      return setData(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return {
     isLoading,
     data,
     isError,
     createUser,
     editUser,
+    getUsers,
   };
 };
