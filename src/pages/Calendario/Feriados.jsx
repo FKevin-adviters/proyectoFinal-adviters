@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -32,13 +32,15 @@ function Feriados() {
   };
 
   useEffect(() => {
-    getFeriados()
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const fetchData = () =>
+      getFeriados()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    fetchData();
   }, []);
 
   return (
