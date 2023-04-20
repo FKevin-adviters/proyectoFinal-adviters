@@ -7,9 +7,7 @@ import {
 import { toast } from "react-toastify";
 
 export const useUsuario = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
-  const [isError, setIsError] = useState();
 
   const createUser = async (userData) => {
     try {
@@ -17,7 +15,7 @@ export const useUsuario = () => {
       return data;
     } catch (error) {
       console.log(error);
-      setIsError(true);
+      throw new Error("No ha sido posible crear el usuario");
     }
   };
 
@@ -30,10 +28,7 @@ export const useUsuario = () => {
       return data;
     } catch (error) {
       console.log(error);
-      setIsError(true);
-      toast.error("No se ha logrado crear el usuario, revise los campos", {
-        toastId: "created-user-error",
-      });
+      throw new Error("No ha sido posible editar el usuario");
     }
   };
 
@@ -42,14 +37,13 @@ export const useUsuario = () => {
       let data = await getAllUsers();
       return setData(data);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
+      throw new Error("No ha sido posible encontrar usuarios");
     }
   };
 
   return {
-    isLoading,
     data,
-    isError,
     createUser,
     editUser,
     getUsers,

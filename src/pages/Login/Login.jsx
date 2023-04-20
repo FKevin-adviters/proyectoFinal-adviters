@@ -5,6 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import LoginIcon from "@mui/icons-material/Login";
 import "./login.css";
 import { useLogin } from "../../Hooks/useLogin";
+import { toast } from "react-toastify";
 
 function CircularIndeterminate() {
   return (
@@ -23,10 +24,14 @@ function CircularIndeterminate() {
 
 function Login() {
   const [user, setUser] = useState({});
-  const { isLoading, submitLogin, isError } = useLogin();
+  const [isLoading, setIsLoading] = useState(false);
+  const { submitLogin } = useLogin();
 
   function handleLoginClick() {
-    submitLogin(user);
+    submitLogin(user).catch((e) => {
+      setIsLoading(false);
+      toast.error(e.message);
+    });
   }
 
   const handleChange = (e) => {

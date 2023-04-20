@@ -5,20 +5,15 @@ import { toast } from "react-toastify";
 
 export const useLogin = () => {
   const { setUserData } = useContext(ActionContext);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [data, setData] = useState();
 
   const submitLogin = async (user) => {
     try {
       sendEncryptUserToSS(user);
-      setIsLoading(true);
       let data = await loginUser(user);
-      setIsLoading(false);
       return setData(data);
     } catch (e) {
-      setIsError(e.message());
-      return toast.error("No ha sido posible loguearse, intente nuevamente");
+      throw new Error("No ha sido posible loguearse, intente nuevamente");
     }
   };
 
@@ -37,8 +32,6 @@ export const useLogin = () => {
   }, [data]);
 
   return {
-    isLoading,
     submitLogin,
-    isError,
   };
 };

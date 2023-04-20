@@ -6,7 +6,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import Buscador from "./Components/Buscador";
 import ListLicencias from "./Components/ListLicencias";
@@ -15,16 +15,33 @@ import { useLicencias } from "../../Hooks/useLicencias";
 import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
 import { Outlet } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Dashboard = ({ admin }) => {
-  const { getLicenciasDashboardAdmin, data, isError, isLoading } =
-    useLicencias();
+  const { getLicenciasDashboardAdmin, data } = useLicencias();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
   // parecido a este
   useEffect(() => {
     if (admin) {
-      getLicenciasDashboardAdmin();
+      const fetchData = () => {
+        getLicenciasDashboardAdmin()
+          .then(() => {
+            setIsLoading(false);
+            toast.success("La carga de licencias ha terminado", {
+              toastId: "licencias-success",
+            });
+          })
+          .catch(() => {
+            setIsError(true);
+            toast.error("No se ha logrado encontrar las licencias", {
+              toastId: "licencias-error",
+            });
+          });
+      };
+      return fetchData();
     }
   }, []);
 

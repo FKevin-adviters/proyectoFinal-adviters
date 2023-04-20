@@ -10,29 +10,9 @@ export const Method = {
   DELETE: "DELETE",
 };
 
-export const login = async (user) => {
-  const headers = {
-    "Content-Type": "application/json",
-  };
-
-  const request = {
-    method: Method.POST,
-    headers,
-    url: "/login",
-    user,
-  };
-
-  const promise = httpClient.request(request);
-  const {
-    data: { token },
-  } = await promise;
-  return token;
-};
-
 export const fetchContent = async (url, config = {}) => {
   try {
     const { headers: headersOptions, token } = config;
-    console.log(token);
     const headers = token
       ? {
           Authorization: `Bearer ${token}`,
