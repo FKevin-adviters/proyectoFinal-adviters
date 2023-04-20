@@ -1,17 +1,65 @@
-.day-number, .day-name {
-    font-family: 'Roboto';
+.cuadrado {
+    width: 102px;
+    height: 95px;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    border: 0.5px solid #797979;
+    cursor: pointer;
+}
+
+.encabezado {
+    width: 100%;
+    height: 37px;
+    background: #ff4646;
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 0.5px solid #797979;
+    font-family: Roboto;
+    color: #ffffff;
+    border-radius: 8px 8px 0px 0px;
+    font-size: 14px;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenido {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+.dia {
+    font-size: 24px;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.5px;
+    font-family: Roboto;
     font-style: normal;
-    font-weight: 400;
+    color: #797979;
+}
+
+.diaSemana {
     font-size: 20px;
     line-height: 150%;
     text-align: center;
     letter-spacing: 0.15px;
     text-transform: capitalize;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 400;
     color: #797979;
-
-    /* Inside auto layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    z-index: 0;
+    margin-top: -8px;
 }

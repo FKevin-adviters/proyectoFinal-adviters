@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useClima } from "../../../Hooks/useClima";
+import "./cardClima.css";
 
 const CardClima = () => {
   const { data, isLoading, isError, error } = useClima();
@@ -42,20 +43,15 @@ const CardClima = () => {
   return (
     <>
       {data && (
-        <Card sx={{ width: 300, height: "fit-content" }}>
+        <Card className="tarjeta-1">
           <CardContent>
-            <CardContent
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <CardContent className="contenido-tarjeta">
               {filteredData.img && (
                 <CardMedia
+                  className="media-tarjeta"
                   component="img"
                   image={filteredData.img}
                   alt="Estado del clima"
-                  sx={{ width: "40%" }}
                 />
               )}
               {filteredData.temp && (

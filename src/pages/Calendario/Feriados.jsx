@@ -13,9 +13,9 @@ import { getFeriados } from "../../Services/feriadosServices";
 
 function Feriados() {
   const [feriados, setFeriados] = useState([
-    { fecha: "01/05/2023", motivo: "Dia del trabajador" },
-    { fecha: "25/05/2023", motivo: "Revolucion de mayo" },
-    { fecha: "30/05/2023", motivo: "Bailo chamame" },
+    { fecha: "06/04/2023", motivo: "Jueves santo" },
+    { fecha: "07/04/2023", motivo: "Viernes santo" },
+    { fecha: "09/04/2023", motivo: "Domingo de pascuas" },
   ]);
 
   const [setNuevoFeriado] = useState(null);
@@ -30,8 +30,7 @@ function Feriados() {
     setNuevoFeriado(null);
     setMostrarModal(false);
   };
-
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchData = () =>
       getFeriados()
         .then((res) => {
@@ -41,30 +40,15 @@ function Feriados() {
           console.log(err);
         });
     fetchData();
-  }, []);
+  }, []); */
 
   return (
     <section className="seccionFeriados">
       <>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              width: "100%",
-              padding: "10px 20px",
-            }}
-          >
+        <Box className="caja-1">
+          <Box className="caja-2">
             <Typography variant="h4" color={"red"}>
-              FERIADOS
+              Feriados
             </Typography>
             <Button
               variant="contained"
@@ -74,21 +58,7 @@ function Feriados() {
               Nuevo Feriado
             </Button>
           </Box>
-          <Box
-            id="seccionFeriados"
-            sx={{
-              padding: "20px",
-              boxSizing: "border-box",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "flex-end",
-              width: "553px",
-              height: "396px",
-              border: "0.5px solid #797979",
-              borderRadius: "10px",
-            }}
-          >
+          <Box className="caja-3">
             <Box sx={{ marginTop: "1rem", width: "100%" }}>
               {feriados.map((feriado, index) => (
                 <FeriadosGenerico
@@ -121,42 +91,29 @@ function FeriadoModal({ onClose, onGuardar }) {
 
   return (
     <Modal open onClose={onClose}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          backgroundColor: "white",
-          boxShadow: 24,
-          p: 4,
-          borderRadius: "1rem",
-          minWidth: "400px",
-        }}
-      >
+      <Box className="caja-4">
         <Typography variant="h5">Nuevo Feriado</Typography>
         <Box sx={{ mt: "1rem" }}>
           <InputLabel htmlFor="fechaInput">Fecha</InputLabel>
           <TextField
+            className="fecha"
             type="date"
             id="fechaInput"
             value={fecha}
             onChange={(e) => setFecha(e.target.value)}
-            sx={{ width: "100%", mb: "1rem" }}
           />
           <InputLabel htmlFor="motivo">Motivo</InputLabel>
           <TextField
+            className="fecha"
             id="motivo"
             value={motivo}
             onChange={(e) => setMotivo(e.target.value)}
-            sx={{ width: "100%" }}
           />
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: "2rem" }}>
+        <Box className="caja-5">
           <Button
             variant="contained"
             onClick={handleGuardar}
-            sx={{ mr: "1rem" }}
           >
             Guardar
           </Button>

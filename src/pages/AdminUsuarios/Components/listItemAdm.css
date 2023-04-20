@@ -1,0 +1,9 @@
+.list-item-icon {
+    gap: 5px;
+    justify-content: center;
+}
+
+.edit-delete-icon {
+    cursor: pointer;
+}
+

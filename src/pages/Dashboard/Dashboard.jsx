@@ -14,7 +14,7 @@ import CardDiasDisp from "./Components/CardDiasDisp";
 import { useLicencias } from "../../Hooks/useLicencias";
 import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ActionContext } from "../../Contexts/ContextProvider";
 
@@ -41,7 +41,6 @@ const Dashboard = ({ admin }) => {
           })
           .catch(() => {
             setIsError(true);
-
             toast.error("No se ha logrado encontrar las licencias", {
               toastId: "licencias-error",
             });
@@ -75,9 +74,11 @@ const Dashboard = ({ admin }) => {
         <Buscador />
       ) : (
         <Box sx={{ display: "flex", justifyContent: "flex-end", mx: "20%" }}>
-          <Button variant="contained" color="success">
-            Crear Nueva Solicitud
-          </Button>
+          <Link to={"/licencia"}>
+            <Button variant="contained" color="success">
+              Crear Nueva Solicitud
+            </Button>
+          </Link>
         </Box>
       )}
       <Box

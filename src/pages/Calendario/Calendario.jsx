@@ -4,7 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { Box, Typography } from "@mui/material";
 import Feriados from "./Feriados";
-import "./feriados.css"
+import "./calendario.css";
 import CalendarioPrueba from "./CalendarioPrueba";
 
 const Calendario = () => {
@@ -15,18 +15,10 @@ const Calendario = () => {
   ]);
 
   return (
-    <Box id="calendarioFeriados"
-    sx={{ display: "flex"}}>
-      <Box
-        sx={{
-          padding: "20px",
-          border: "0.5px solid #797979",
-          margin: "10px",
-          borderRadius: "10px",
-        }}
-      >
+    <Box id="calendarioFeriados" className="calendarioFeriados">
+      <Box className="caja">
         <Typography variant="h4" color={"red"}>
-          Feriados
+          Calendario
         </Typography>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {/* <DateCalendar
@@ -38,14 +30,7 @@ const Calendario = () => {
             <CalendarioPrueba/>
         </LocalizationProvider>
       </Box>
-      <Box
-        sx={{
-          margin: "10px",
-          border: "0.5px solid #797979",
-          padding: "10px",
-          borderRadius: "10px",
-        }}
-      >
+      <Box className="caja">
         <Feriados />
       </Box>
     </Box>

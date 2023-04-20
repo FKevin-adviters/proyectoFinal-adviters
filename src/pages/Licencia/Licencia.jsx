@@ -73,15 +73,23 @@ const Licencia = ({ dashboardLic }) => {
       ).length,
     }));
 
-    // await createLicencia(licenciaData)
-    //   .then(() => {
-    //     toast.success("Se ha logrado crear la licencia");
-    //     redirect("/");
-    //   })
-    //   .catch(() => {
-    //     toast.error("No se ha logrado crear la licencia");
-    //   })
-    //   .finally(setLicenciaData(initialState));
+    setLicenciaData((old) => ({
+      ...old,
+      requiredDays: getDaysWorkable(
+        licenciaData.startDate,
+        licenciaData.endDate
+      ).length,
+    }));
+
+    await createLicencia(licenciaData)
+      .then(() => {
+        toast.success("Se ha logrado crear la licencia");
+        redirect("/");
+      })
+      .catch(() => {
+        toast.error("No se ha logrado crear la licencia");
+      })
+      .finally(setLicenciaData(initialState));
   };
 
   const handleDesc = (e) => {

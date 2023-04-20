@@ -1,0 +1,13 @@
+.tarjeta-1 {
+    width: 300px;
+    height: fit-content;
+}
+
+.contenido-tarjeta {
+    display: flex;
+    align-items: center;
+}
+
+.mmedia-tarjeta {
+    width: 40%;
+  }

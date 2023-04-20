@@ -13,7 +13,7 @@ function fakeFetch(date, { signal }) {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       const daysInMonth = date.daysInMonth();
-      const daysToHighlight = [0, 2, 25, 30]
+      const daysToHighlight = [0, 6, 7, 9]
 
       resolve({ daysToHighlight });
     }, 500);

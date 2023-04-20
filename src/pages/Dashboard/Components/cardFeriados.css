@@ -1,0 +1,9 @@
+.tarjeta {
+    width: 300px;
+    height: fit-content;
+}
+
+.caja-lista {
+    height: 100px;
+    overflow-y: auto;
+  }

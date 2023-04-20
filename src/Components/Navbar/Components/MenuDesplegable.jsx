@@ -3,6 +3,7 @@ import { ActionContext } from "../../../Contexts/ContextProvider";
 import { IconButton, Menu, MenuItem, MenuList } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Box } from "@mui/system";
+import "./menuDesplegable.css";
 
 const MenuDesplegable = ({ menu, iconButton }) => {
   const { user, userLogOut } = useContext(ActionContext);
@@ -62,7 +63,7 @@ const MenuDesplegable = ({ menu, iconButton }) => {
                 {menuItem.link ? (
                   <Link
                     to={menuItem.link}
-                    style={{ color: "black", textDecoration: "none" }}
+                    className="menu-desplegable-link"
                   >
                     {menuItem.name}
                   </Link>

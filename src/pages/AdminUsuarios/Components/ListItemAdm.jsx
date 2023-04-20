@@ -10,6 +10,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import './ListItemAdm.css';
 
 const ListItemAdm = ({ value }) => {
   const navigate = useNavigate();
@@ -21,13 +22,9 @@ const ListItemAdm = ({ value }) => {
       </ListItemAvatar>
       <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
       <ListItemText id={labelId} primary={`Rol ${value + 1}`} />
-      <ListItemIcon sx={{ gap: "5px", justifyContent: "center" }}>
-        <EditIcon
-          sx={{ cursor: "pointer" }}
-          color={"warning"}
-          onClick={() => navigate(`/admin-usuarios/edit/${value}`)}
-        />
-        <DeleteIcon sx={{ cursor: "pointer" }} color={"error"} />
+      <ListItemIcon className="list-item-icon">
+        <EditIcon className="edit-delete-icon" color={"warning"} onClick={() => navigate(`/admin-usuarios/edit/${value}`)} />
+        <DeleteIcon className="edit-delete-icon" color={"error"} />
       </ListItemIcon>
     </ListItem>
   );

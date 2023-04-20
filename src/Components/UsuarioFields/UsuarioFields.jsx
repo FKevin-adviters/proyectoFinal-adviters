@@ -74,29 +74,10 @@ const UsuarioFields = ({
         component={"form"}
         noValidate
         autoComplete="off"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-        }}
+        className="form-box"
       >
-        <Box
-          sx={{
-            flexWrap: "wrap",
-            display: "flex",
-            justifyContent: "flex-start",
-            gap: "10px",
-          }}
-        >
-          <Box
-            component={"div"}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "20px",
-              gap: "20px",
-            }}
-          >
+        <Box className="box-wrapper">
+          <Box component={"div"} className="box-content">
             {fileDataURL && (
               <img alt="profile image" src={fileDataURL} width={150} />
             )}
@@ -116,7 +97,7 @@ const UsuarioFields = ({
                 }}
               />
             </Button>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <FormControl variant="standard" className="form-control">
               <SelectFieldGenerico
                 valores={supervisores}
                 name={"supervisor"}
@@ -143,16 +124,7 @@ const UsuarioFields = ({
               );
             })}
           </Box>
-          <Box
-            component={"div"}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "20px",
-              gap: "20px",
-            }}
-          >
+          <Box component={"div"} className="box-content">
             {Column2.map((input) => {
               return (
                 <InputGenerico
@@ -170,16 +142,7 @@ const UsuarioFields = ({
               );
             })}
           </Box>
-          <Box
-            component={"div"}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "20px",
-              gap: "20px",
-            }}
-          >
+          <Box component={"div"} className="box-content">
             {Column3.map((input) => {
               return (
                 <InputGenerico
@@ -191,7 +154,7 @@ const UsuarioFields = ({
                   defaultValue={
                     defaultValues && !createdMode
                       ? input.backName !== "password" &&
-                        defaultValues[input.backName]
+                      defaultValues[input.backName]
                       : null
                   }
                 />
@@ -212,11 +175,7 @@ const UsuarioFields = ({
             )}
           </Box>
         </Box>
-        <Button
-          sx={{ alignSelf: "flex-end" }}
-          variant="contained"
-          onClick={handleSubmit}
-        >
+        <Button className="button-flex-end" variant="contained" onClick={handleSubmit}>
           Guardar
         </Button>
       </Box>

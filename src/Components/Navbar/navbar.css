@@ -1,0 +1,18 @@
+.navbar-appbar {
+    box-shadow: none;
+  }
+  
+  .navbar-toolbar {
+    list-style: none;
+  }
+  
+  .navbar-typography {
+    flex-grow: 1;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .navbar-link {
+    color: #797979;
+    text-decoration: none;
+  }
