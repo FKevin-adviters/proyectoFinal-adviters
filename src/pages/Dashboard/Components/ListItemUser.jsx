@@ -11,13 +11,11 @@ import {
 import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
-import shrek from "../../../Assets/Navbar/shrek.jpg";
 import { convertDates } from "../../../Utils/convertDates";
 import { toast } from "react-toastify";
-
-import NotificacionUndo from "../../../Components/Notificacion/NotificacionUndo";
 import { Link } from "react-router-dom";
 import { setStatusLicense } from "../../../Services/licenciasServices";
+import { colores } from "../../../constants/constantes";
 
 const names = {
   0: "Tramites",
@@ -26,20 +24,14 @@ const names = {
   3: "Licencia Medica",
 };
 
-const colores = {
-  0: "yellow",
-  1: "purple",
-  2: "cyan",
-  3: "green",
-};
-
-const ListItemUser = ({ licencia, admin }) => {
+const ListItemUser = ({ licencia, admin, refetch }) => {
   const { usuarioDTO, startDate, endDate, licenseTypeId, licenseId } = licencia;
 
   const updateLicense = (e, status) => {
     e.stopPropagation();
     setStatusLicense(licenseId, status)
       .then(() => {
+        refetch();
         toast.success(
           `Se ha logrado ${status == 1 ? "aprobar" : "denegar"} la licencia`,
           {

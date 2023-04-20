@@ -1,6 +1,6 @@
 import axios from "axios";
 const httpClient = axios.create({
-  baseURL: "http://localhost:9090/api",
+  baseURL: "http://localhost:8080/api",
 });
 export const Method = {
   GET: "GET",

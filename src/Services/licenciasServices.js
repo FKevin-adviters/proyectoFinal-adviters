@@ -82,3 +82,22 @@ export const setStatusLicense = async (idLicense, status) => {
     );
   }
 };
+
+export const getLicenseByStateAndHist = async (state, historial) => {
+  let token = JSON.parse(sessionStorage.getItem("token"));
+  let arr = token.split(" ");
+  console.log(arr[1]);
+
+  let options = {
+    token: arr[1],
+  };
+  try {
+    const res = await fetchContent(
+      `/licencias/?state=${state}&historial=${historial}`,
+      options
+    );
+    return res;
+  } catch {
+    throw new Error("No se han encontrado licencias");
+  }
+};

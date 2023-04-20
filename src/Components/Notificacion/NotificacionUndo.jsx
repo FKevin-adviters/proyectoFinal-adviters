@@ -2,11 +2,11 @@ import React from "react";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { toast } from "react-toastify";
-import { useLicencias } from "../../Hooks/useLicencias";
+// import { useLicencias } from "../../Hooks/useLicencias";
 import "./notificacionUndo.css";
 
 const NotificacionUndo = ({ idLicencia, estado, closeToast }) => {
-  const { refetch } = useLicencias();
+  // const { refetch } = useLicencias();
 
   //   para testear
   const promise = new Promise((resolve) => {

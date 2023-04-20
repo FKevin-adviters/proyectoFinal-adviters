@@ -11,59 +11,67 @@ import "./Dashboard.css";
 import Buscador from "./Components/Buscador";
 import ListLicencias from "./Components/ListLicencias";
 import CardDiasDisp from "./Components/CardDiasDisp";
-import { useLicencias } from "../../Hooks/useLicencias";
+// import { useLicencias } from "../../Hooks/useLicencias";
 import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
 import { Link, Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ActionContext } from "../../Contexts/ContextProvider";
+import { getLicenseByStateAndHist } from "../../Services/licenciasServices";
 
 const Dashboard = ({ admin }) => {
-  const { resAdminLicenses, resUserLicenses } = useLicencias();
+  // const {  } = useLicencias();
+  const [card1, setCard1] = useState();
+  const [card2, setCard2] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [data, setData] = useState();
 
   // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
   // parecido a este
   useEffect(() => {
     if (admin) {
       const fetchData = () => {
-        resAdminLicenses
-          .refetch()
+        // card1
+        getLicenseByStateAndHist(0, false)
           .then((res) => {
-            setIsLoading(false);
-            console.log(res.data);
-            setData(res.data);
-            toast.success("La carga de licencias ha terminado", {
-              toastId: "licencias-success",
-            });
+            setCard1(res);
           })
-          .catch(() => {
-            setIsError(true);
-            toast.error("No se ha logrado encontrar las licencias", {
-              toastId: "licencias-error",
-            });
+          .catch((err) => {
+            setCard1(null);
+            console.log(err);
+          });
+        // card2
+        getLicenseByStateAndHist(1, false)
+          .then((res) => {
+            setCard2(res);
+          })
+          .catch((err) => {
+            setCard2(null);
+            console.log(err);
           });
       };
       return fetchData();
     } else {
-      resUserLicenses
-        .refetch()
-        .then((res) => {
-          setIsLoading(false);
-          console.log(res.data);
-          setData(res.data);
-          toast.success("La carga de licencias ha terminado", {
-            toastId: "licencias-success",
+      const fetchData = () => {
+        // card1
+        getLicenseByStateAndHist(1, true)
+          .then((res) => {
+            setCard1(res);
+          })
+          .catch((err) => {
+            setCard1(null);
+            console.log(err);
           });
-        })
-        .catch(() => {
-          setIsError(true);
-          toast.error("No se ha logrado encontrar las licencias", {
-            toastId: "licencias-error",
+        // card2
+        getLicenseByStateAndHist(1, false)
+          .then((res) => {
+            setCard2(res);
+          })
+          .catch((err) => {
+            setCard2(null);
+            console.log(err);
           });
-        });
+      };
+      return fetchData();
     }
   }, []);
 
@@ -109,7 +117,7 @@ const Dashboard = ({ admin }) => {
                 >
                   Lista solicitudes pendientes
                 </Typography>
-                {resAdminLicenses.isLoading && (
+                {isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -117,11 +125,12 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {resAdminLicenses.isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {resAdminLicenses.data && (
+                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {card1 && (
                   <ListLicencias
                     admin={true}
-                    licencias={resAdminLicenses.data?.card1}
+                    licencias={card1}
+                    refetch={refetch}
                   />
                 )}
               </>
@@ -135,7 +144,7 @@ const Dashboard = ({ admin }) => {
                 >
                   Mi Historial de Solicitudes
                 </Typography>
-                {resUserLicenses.isLoading && (
+                {isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -143,10 +152,8 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {resUserLicenses.isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {resUserLicenses.data && (
-                  <ListLicencias licencias={resUserLicenses.data?.card1} />
-                )}
+                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {card1 && <ListLicencias licencias={card1} />}
               </>
             )}
           </section>
@@ -161,7 +168,7 @@ const Dashboard = ({ admin }) => {
                 >
                   PROXIMAS LICENCIAS (APROBADAS)
                 </Typography>
-                {resAdminLicenses.isLoading && (
+                {isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -169,10 +176,8 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {resAdminLicenses.isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {resAdminLicenses.data && (
-                  <ListLicencias licencias={resAdminLicenses.data?.card2} />
-                )}
+                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {card2 && <ListLicencias licencias={card2} />}
               </>
             ) : (
               // es usuario
@@ -184,7 +189,7 @@ const Dashboard = ({ admin }) => {
                 >
                   Mis Próximas licencias
                 </Typography>
-                {resUserLicenses.isLoading && (
+                {isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -192,10 +197,8 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {resUserLicenses.isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {resUserLicenses.data && (
-                  <ListLicencias licencias={resUserLicenses.data?.card2} />
-                )}
+                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {card2 && <ListLicencias licencias={card2} />}
               </>
             )}
           </section>

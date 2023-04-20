@@ -1,8 +1,8 @@
-import { Card, CardContent, Divider, List, Typography } from "@mui/material";
+import { Card, CardContent, Divider, List } from "@mui/material";
 import React from "react";
 import ListItemUser from "./ListItemUser";
 
-const ListLicencias = ({ admin, licencias }) => {
+const ListLicencias = ({ admin, licencias, refetch }) => {
   return (
     <Card
       sx={{ minWidth: "clamp(300px, 80%, 500px)" }}
@@ -25,7 +25,12 @@ const ListLicencias = ({ admin, licencias }) => {
             licencias.map((licencia, i, arr) => {
               return (
                 <>
-                  <ListItemUser key={i} licencia={licencia} admin={admin} />
+                  <ListItemUser
+                    key={i}
+                    licencia={licencia}
+                    admin={admin}
+                    refetch={refetch ? refetch : ""}
+                  />
                   {arr.length - 1 !== i ? <Divider /> : ""}
                 </>
               );
