@@ -40,8 +40,8 @@ const Dashboard = ({ admin }) => {
             });
           })
           .catch(() => {
-            setIsError(true)
-            
+            setIsError(true);
+
             toast.error("No se ha logrado encontrar las licencias", {
               toastId: "licencias-error",
             });
@@ -53,7 +53,8 @@ const Dashboard = ({ admin }) => {
         .refetch()
         .then((res) => {
           setIsLoading(false);
-          setData(res);
+          console.log(res.data);
+          setData(res.data);
           toast.success("La carga de licencias ha terminado", {
             toastId: "licencias-success",
           });
@@ -107,7 +108,7 @@ const Dashboard = ({ admin }) => {
                 >
                   Lista solicitudes pendientes
                 </Typography>
-                {isLoading && (
+                {resAdminLicenses.isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -115,8 +116,13 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {data && <ListLicencias admin={true} licencias={data?.card1} />}
+                {resAdminLicenses.isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {resAdminLicenses.data && (
+                  <ListLicencias
+                    admin={true}
+                    licencias={resAdminLicenses.data?.card1}
+                  />
+                )}
               </>
             ) : (
               // es usuario
@@ -128,7 +134,7 @@ const Dashboard = ({ admin }) => {
                 >
                   Mi Historial de Solicitudes
                 </Typography>
-                {isLoading && (
+                {resUserLicenses.isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -136,8 +142,10 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {data && <ListLicencias licencias={data} />}
+                {resUserLicenses.isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {resUserLicenses.data && (
+                  <ListLicencias licencias={resUserLicenses.data?.card1} />
+                )}
               </>
             )}
           </section>
@@ -152,7 +160,7 @@ const Dashboard = ({ admin }) => {
                 >
                   PROXIMAS LICENCIAS (APROBADAS)
                 </Typography>
-                {isLoading && (
+                {resAdminLicenses.isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -160,8 +168,10 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {data && <ListLicencias licencias={data?.card2} />}
+                {resAdminLicenses.isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {resAdminLicenses.data && (
+                  <ListLicencias licencias={resAdminLicenses.data?.card2} />
+                )}
               </>
             ) : (
               // es usuario
@@ -173,7 +183,7 @@ const Dashboard = ({ admin }) => {
                 >
                   Mis Próximas licencias
                 </Typography>
-                {isLoading && (
+                {resUserLicenses.isLoading && (
                   <Skeleton
                     variant="rectangular"
                     width={"300px"}
@@ -181,8 +191,10 @@ const Dashboard = ({ admin }) => {
                     animation="wave"
                   />
                 )}
-                {isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {data && <ListLicencias licencias={data} />}
+                {resUserLicenses.isError && "ERROR AL CARGAR LAS LICENCIAS"}
+                {resUserLicenses.data && (
+                  <ListLicencias licencias={resUserLicenses.data?.card2} />
+                )}
               </>
             )}
           </section>
@@ -191,7 +203,7 @@ const Dashboard = ({ admin }) => {
         {!admin && (
           /* hacer otro componente */
           <li className="dashboard_list-item item2">
-            <section>
+            {/* <section>
               <Typography variant="overline" color="text.secondary" mx={"5px"}>
                 Quien está ausente?
               </Typography>
@@ -205,7 +217,7 @@ const Dashboard = ({ admin }) => {
               )}
               {isError && "ERROR AL CARGAR LAS LICENCIAS"}
               {data && <ListLicencias licencias={data} />}
-            </section>
+            </section> */}
             <CardDiasDisp />
           </li>
         )}
