@@ -16,10 +16,14 @@ import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
 import { Link, Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getLicenseByStateAndHist } from "../../Services/licenciasServices";
+import {
+  getLicenseByStateAndHist,
+  getLicenseByUserAndHist,
+} from "../../Services/licenciasServices";
+import { ActionContext } from "../../Contexts/ContextProvider";
 
 const Dashboard = ({ admin }) => {
-  // const {  } = useLicencias();
+  const { user } = useContext(ActionContext);
   const [card1, setCard1] = useState();
   const [card2, setCard2] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -28,15 +32,14 @@ const Dashboard = ({ admin }) => {
   // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
   // parecido a este
   useEffect(() => {
-    if (admin) {
+    if (user.data.roles[0] == "SUPERVISOR") {
       const fetchData = () => {
         // card1
-        getLicenseByStateAndHist(0, false)
+        getLicenseByStateAndHist(0, true)
           .then((res) => {
             setCard1(res);
           })
           .catch((err) => {
-            setCard1(null);
             console.log(err);
           });
         // card2
@@ -45,7 +48,6 @@ const Dashboard = ({ admin }) => {
             setCard2(res);
           })
           .catch((err) => {
-            setCard2(null);
             console.log(err);
           });
       };
@@ -53,21 +55,19 @@ const Dashboard = ({ admin }) => {
     } else {
       const fetchData = () => {
         // card1
-        getLicenseByStateAndHist(1, true)
+        getLicenseByUserAndHist(user?.data?.id, true)
           .then((res) => {
             setCard1(res);
           })
           .catch((err) => {
-            setCard1(null);
             console.log(err);
           });
         // card2
-        getLicenseByStateAndHist(1, false)
+        getLicenseByUserAndHist(user?.data?.id, false)
           .then((res) => {
             setCard2(res);
           })
           .catch((err) => {
-            setCard2(null);
             console.log(err);
           });
       };
