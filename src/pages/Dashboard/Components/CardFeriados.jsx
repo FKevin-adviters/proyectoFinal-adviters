@@ -29,11 +29,11 @@ const CardFeriados = () => {
   return (
     <>
       {data && Array.isArray(data) && (
-        <Card sx={{ width: 300, height: "fit-content" }}>
+        <Card className="tarjeta">
           <CardContent>
             <img src={feriadosImg} alt="Feriados image" />
             <Typography variant="subtitle1">Próximos feriados</Typography>
-            <Box component={"ul"} sx={{ height: "100px", overflowY: "auto" }}>
+            <Box component={"ul"} className="caja-lista">
               {data.map(({ dia, mes, tipo }) => {
                 return (
                   <Typography

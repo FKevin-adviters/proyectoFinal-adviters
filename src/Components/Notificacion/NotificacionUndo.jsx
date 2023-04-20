@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { toast } from "react-toastify";
 import { useLicencias } from "../../Hooks/useLicencias";
+import "./notificacionUndo.css";
 
 const NotificacionUndo = ({ idLicencia, estado, closeToast }) => {
   const { refetch } = useLicencias();
@@ -26,17 +27,12 @@ const NotificacionUndo = ({ idLicencia, estado, closeToast }) => {
   };
 
   return (
-    <Box sx={{ display: "flex", gap: "5px" }}>
+    <div className="notificacion-undo">
       Se ha {estado ? "aprobado" : "denegado"} la licencia correctamente.
-      <Button
-        variant="outlined"
-        onClick={handleClick}
-        sx={{ fontSize: "1.5vmin" }}
-        size="small"
-      >
+      <Button variant="outlined" onClick={handleClick} size="small">
         UNDO
       </Button>
-    </Box>
+    </div>
   );
 };
 

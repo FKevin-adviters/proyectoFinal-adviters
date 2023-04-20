@@ -54,15 +54,15 @@ const Licencia = ({ dashboardLic }) => {
       );
     }
 
-    // await createLicencia(licenciaData)
-    //   .then(() => {
-    //     toast.success("Se ha logrado crear la licencia");
-    //     redirect("/");
-    //   })
-    //   .catch(() => {
-    //     toast.error("No se ha logrado crear la licencia");
-    //   })
-    //   .finally(setLicenciaData(initialState));
+    await createLicencia(licenciaData)
+      .then(() => {
+        toast.success("Se ha logrado crear la licencia");
+        redirect("/");
+      })
+      .catch(() => {
+        toast.error("No se ha logrado crear la licencia");
+      })
+      .finally(setLicenciaData(initialState));
   };
 
   const handleDesc = (e) => {

@@ -1,0 +1,8 @@
+.box {
+    border: 1px solid grey;
+    width: 65vw;
+    min-height: 100vh;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+}

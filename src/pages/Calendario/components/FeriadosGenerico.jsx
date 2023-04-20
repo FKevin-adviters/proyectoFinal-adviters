@@ -1,10 +1,11 @@
 import { Box, Divider, Typography } from "@mui/material";
+import "./feriadosGenerico.css";
 
 const FeriadosGenerico = ({ fecha, motivo }) => {
   return (
-    <Box sx={{flexDirection: "column" }}>
-      <Typography>{fecha}  {motivo}</Typography>     
-      <Divider sx={{ my: 2, bgcolor: "black" }} />
+    <Box className="one-box">
+      <Typography >{fecha}  {motivo}</Typography>     
+      <Box className="dividir" />
     </Box>
   );
 };
