@@ -18,7 +18,7 @@ import { daysBetweenDates, getDaysWorkable } from "../../Utils/convertDates";
 import { ActionContext } from "../../Contexts/ContextProvider";
 import { toast } from "react-toastify";
 import { useUsuario } from "../../Hooks/useUsuario";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   createLicencia,
   getLicenseById,
@@ -38,6 +38,13 @@ const tipoLicencias = [
   { name: "Licencia Medica", id: 3 },
 ];
 
+const estadoColores = {
+  PENDIENTE: "orange",
+  APROBADO: "green",
+  RECHAZADO: "red",
+  3: "green",
+};
+
 const Licencia = ({ dashboardLic }) => {
   const { user } = useContext(ActionContext);
   const { getUsers, data } = useUsuario();
@@ -48,7 +55,9 @@ const Licencia = ({ dashboardLic }) => {
   const redirect = useNavigate();
 
   const handleSubmit = async () => {
-    console.log(getDaysWorkable(licenciaData.startDate, licenciaData.endDate));
+    console.log(
+      getDaysWorkable(licenciaData.startDate, licenciaData.endDate).length
+    );
     if (
       user.data.available_days <
       daysBetweenDates(licenciaData.endDate, licenciaData.startDate)
@@ -101,12 +110,10 @@ const Licencia = ({ dashboardLic }) => {
 
   // hacemos un useEffect donde verificamos si tenemos un :licenseId de la ruta del dashboard
   useEffect(() => {
-    if (licenseId) {
-      getLicenseById(licenseId).then((res) => {
-        console.log(res);
-        setUnicaLicenciaData(res);
-      });
-    }
+    getLicenseById(licenseId).then((res) => {
+      console.log(res);
+      setUnicaLicenciaData(res);
+    });
   }, [licenseId]);
 
   return (
@@ -132,12 +139,19 @@ const Licencia = ({ dashboardLic }) => {
           }}
           onSubmit={handleSubmit}
         >
-          <Button sx={{
-            alignSelf: "flex-end",
-            color: "white",
-            backgroundColor: "red",
-            margin: "10px"
-          }}>X</Button>
+          {licenseId && (
+            <Link to={"/"} style={{ alignSelf: "flex-end" }}>
+              <Button
+                sx={{
+                  color: "white",
+                  backgroundColor: "red",
+                  margin: "10px",
+                }}
+              >
+                X
+              </Button>
+            </Link>
+          )}
           <Stack
             direction="row"
             spacing={2}
@@ -151,6 +165,11 @@ const Licencia = ({ dashboardLic }) => {
                 name={"licenseUser"}
                 setter={setLicenciaData}
                 state={licenciaData}
+                defaultValue={
+                  licenseId && unicaLicenciaData?.usuarioDTO?.id
+                    ? unicaLicenciaData?.usuarioDTO?.id
+                    : ""
+                }
               />
             )}
 
@@ -167,7 +186,8 @@ const Licencia = ({ dashboardLic }) => {
               <Typography
                 variant="subtitle1"
                 sx={{
-                  background: "#05CB3C",
+                  background:
+                    estadoColores[unicaLicenciaData?.status] || "green",
                   borderRadius: "16px",
                   color: "white",
                   padding: "0 15px",
@@ -176,7 +196,9 @@ const Licencia = ({ dashboardLic }) => {
                   alignItems: "center",
                 }}
               >
-                {"AUN NO ENVIADO"}
+                {licenseId && unicaLicenciaData
+                  ? unicaLicenciaData?.status
+                  : "AUN NO ENVIADO"}
               </Typography>
             </Box>
           </Stack>
@@ -207,6 +229,18 @@ const Licencia = ({ dashboardLic }) => {
                 >
                   TIPO DE LICENCIA
                 </Typography>
+                <SelectFieldGenerico
+                  valores={tipoLicencias}
+                  label={"Licencia"}
+                  name={"tipoLicencia"}
+                  setter={setLicenciaData}
+                  state={licenciaData}
+                  defaultValue={
+                    licenseId && unicaLicenciaData
+                      ? unicaLicenciaData?.licenseTypeId
+                      : ""
+                  }
+                />
               </Box>
               <AdjuntarArchivo />
             </Box>
@@ -222,7 +256,14 @@ const Licencia = ({ dashboardLic }) => {
               }}
             >
               {/* calendario */}
-              <CalendarioButtons setLicenciaData={setLicenciaData} />
+              <CalendarioButtons
+                defaultValues={
+                  licenseId && unicaLicenciaData
+                    ? [unicaLicenciaData.startDate, unicaLicenciaData.endDate]
+                    : ""
+                }
+                setLicenciaData={setLicenciaData}
+              />
 
               <Box
                 sx={{
@@ -269,12 +310,24 @@ const Licencia = ({ dashboardLic }) => {
               <Typography variant="h6">Descripcion</Typography>
               <TextField
                 id="descripcion"
-                label="Ingrese una descripción"
+                label={
+                  licenseId && unicaLicenciaData?.description != null
+                    ? null
+                    : "Ingrese una descripción"
+                }
                 variant="outlined"
                 name="description"
                 onChange={handleDesc}
+                defaultValue={
+                  licenseId && unicaLicenciaData
+                    ? unicaLicenciaData?.description
+                    : ""
+                }
                 multiline
                 rows={5}
+                disabled={
+                  licenseId && unicaLicenciaData?.description ? true : false
+                }
               />
             </Box>
 
@@ -319,17 +372,35 @@ const Licencia = ({ dashboardLic }) => {
                     }
                   })
                 : ""}
+              {licenseId &&
+              unicaLicenciaData?.usuarioDTO?.supervisor != null ? (
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <Avatar sx={{ width: "70px", height: "70px" }}>
+                    {unicaLicenciaData?.usuarioDTO?.supervisor?.name[0].toUpperCase() +
+                      unicaLicenciaData?.usuarioDTO?.supervisor?.lastname[0].toUpperCase()}
+                  </Avatar>
+                  <Typography variant="h5" fontWeight={"#FF8585"} color={"red"}>
+                    {`${unicaLicenciaData?.usuarioDTO?.supervisor?.name} ${unicaLicenciaData?.usuarioDTO?.supervisor?.lastname}`}
+                  </Typography>
+                </Box>
+              ) : (
+                ""
+              )}
             </Box>
-            <Box component={"li"} sx={{ alignSelf: "flex-end" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={handleSubmit}
-              >
-                Solicitar Aprobacion
-              </Button>
-            </Box>
+            {!licenseId && (
+              <Box component={"li"} sx={{ alignSelf: "flex-end" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={handleSubmit}
+                >
+                  Solicitar Aprobacion
+                </Button>
+              </Box>
+            )}
           </Box>
         </Box>
         {!dashboardLic && (

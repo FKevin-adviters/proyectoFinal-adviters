@@ -7,7 +7,7 @@ import { es } from "date-fns/locale";
 
 registerLocale("es", es);
 
-const CalendarioButtons = ({ setLicenciaData }) => {
+const CalendarioButtons = ({ setLicenciaData, defaultValues }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -35,7 +35,12 @@ const CalendarioButtons = ({ setLicenciaData }) => {
         minDate={new Date()}
         name="startDate"
         filterDate={isWeekday}
-        customInput={<MiniCalendario fecha={startDate} />}
+        customInput={
+          <MiniCalendario
+            fecha={startDate}
+            defaultValues={defaultValues ? defaultValues[0] : ""}
+          />
+        }
         locale={"es"}
       />
 
@@ -49,7 +54,12 @@ const CalendarioButtons = ({ setLicenciaData }) => {
         name="endDate"
         filterDate={isWeekday}
         minDate={startDate}
-        customInput={<MiniCalendario fecha={endDate} />}
+        customInput={
+          <MiniCalendario
+            fecha={endDate}
+            defaultValues={defaultValues ? defaultValues[1] : ""}
+          />
+        }
         locale={"es"}
       />
     </Box>

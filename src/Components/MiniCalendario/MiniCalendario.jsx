@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import moment from "moment/moment";
 
-function MiniCalendario({ fecha, onClick }) {
+function MiniCalendario({ fecha, onClick, defaultValues }) {
   const estilosEncabezado = {
     width: "100%",
     height: "37px",
@@ -63,10 +63,13 @@ function MiniCalendario({ fecha, onClick }) {
     cursor: "pointer",
   };
 
-  const fechaParsed = fecha ? moment(fecha) : null;
+  let fechaParsed = fecha ? moment(fecha) : null;
+  if (defaultValues) {
+    fechaParsed = moment(defaultValues);
+  }
 
   return (
-    <Box sx={estilosCuadrado} onClick={onClick}>
+    <Box sx={estilosCuadrado} onClick={!defaultValues ? onClick : undefined}>
       {/* Encabezado */}
       <Box
         sx={{
