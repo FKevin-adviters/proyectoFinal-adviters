@@ -12,6 +12,7 @@ import {
 } from "../../constants/constantes";
 import { ActionContext } from "../../Contexts/ContextProvider";
 
+import "./navbar.css"; 
 
 const Navbar = () => {
 
@@ -25,20 +26,19 @@ const Navbar = () => {
       position="static"
       component={"nav"}
       color="inherit"
-      sx={{ boxShadow: "none" }}
+      className="navbar-appbar" 
     >
-      <Toolbar component={"ul"} sx={{ listStyle: "none" }}>
+      <Toolbar component={"ul"} className="navbar-toolbar"> 
         <MenuDesplegable menu={MenuDesplegable1} iconButton={<MenuIcon />} />
         <Typography
           variant="h6"
           component={"li"}
-          sx={{
-            flexGrow: 1,
-            justifyContent: "center",
-            display: "flex",
-          }}
+          className="navbar-typography" 
         >
-          <Link to={"/"} style={{ color: "#797979", textDecoration: "none" }}>
+          <Link
+            to={"/"}
+            className="navbar-link" 
+          >
             Liberty
           </Link>
         </Typography>

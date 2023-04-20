@@ -2,24 +2,14 @@ import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import UsuarioFields from "../../../Components/UsuarioFields/UsuarioFields";
 import { useUsuario } from "../../../Hooks/useUsuario";
+import "./adminUsuariosCreate.css";
 
 const AdminUsuariosCreate = () => {
   const { createUser } = useUsuario();
   const [userInfo, setUserInfo] = useState({});
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        border: "1px solid grey",
-        width: "65vw",
-        minHeight: "100vh",
-        padding: "10px",
-        borderRadius: "10px",
-        margin: "10px",
-      }}
-    >
+    <Box className="box">
       <Typography variant="h4" color={"red"} padding={"20px"}>
         Crear usuario
       </Typography>
