@@ -17,22 +17,44 @@ import { toast } from "react-toastify";
 
 import NotificacionUndo from "../../../Components/Notificacion/NotificacionUndo";
 import { Link } from "react-router-dom";
+import { setStatusLicense } from "../../../Services/licenciasServices";
+
+const names = {
+  0: "Tramites",
+  1: "Vacaciones",
+  2: "Dia de Estudio",
+  3: "Licencia Medica",
+};
+
+const colores = {
+  0: "yellow",
+  1: "purple",
+  2: "cyan",
+  3: "green",
+};
 
 const ListItemUser = ({ licencia, admin }) => {
   const { usuarioDTO, startDate, endDate, licenseTypeId, licenseId } = licencia;
 
-  const names = {
-    0: "Tramites",
-    1: "Vacaciones",
-    2: "Dia de Estudio",
-    3: "Licencia Medica",
-  };
-
-  const colores = {
-    0: "yellow",
-    1: "purple",
-    2: "cyan",
-    3: "green",
+  const updateLicense = (e, status) => {
+    e.stopPropagation();
+    setStatusLicense(licenseId, status)
+      .then(() => {
+        toast.success(
+          `Se ha logrado ${status == 1 ? "aprobar" : "denegar"} la licencia`,
+          {
+            toastId: "license-status",
+          }
+        );
+      })
+      .catch(() => {
+        toast.error(
+          `No se ha podido ${status == 1 ? "aprobar" : "denegar"} la licencia`,
+          {
+            toastId: "license-status-error",
+          }
+        );
+      });
   };
 
   return (
@@ -108,11 +130,7 @@ const ListItemUser = ({ licencia, admin }) => {
                   color: "white",
                   cursor: "pointer",
                 }}
-                onClick={() =>
-                  toast.success(
-                    <NotificacionUndo idLicencia={licenseId} estado={true} />
-                  )
-                }
+                onClick={(e) => updateLicense(e, 1)}
               />
             </Tooltip>
             <Tooltip title="Denegar" arrow>
@@ -124,11 +142,7 @@ const ListItemUser = ({ licencia, admin }) => {
                   color: "white",
                   cursor: "pointer",
                 }}
-                onClick={() =>
-                  toast.success(
-                    <NotificacionUndo idLicencia={id} estado={false} />
-                  )
-                }
+                onClick={(e) => updateLicense(e, 2)}
               />
             </Tooltip>
           </ListItemIcon>

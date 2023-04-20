@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -8,7 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import FeriadosGenerico from "./components/FeriadosGenerico";
-import "./feriados.css"
+import "./feriados.css";
+import { getFeriados } from "../../Services/feriadosServices";
 
 function Feriados() {
   const [feriados, setFeriados] = useState([
@@ -16,7 +17,7 @@ function Feriados() {
     { fecha: "07/04/2023", motivo: "Viernes santo" },
     { fecha: "09/04/2023", motivo: "Domingo de pascuas" },
   ]);
-  
+
   const [setNuevoFeriado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
 
@@ -30,69 +31,82 @@ function Feriados() {
     setMostrarModal(false);
   };
 
+  useEffect(() => {
+    const fetchData = () =>
+      getFeriados()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    fetchData();
+  }, []);
+
   return (
     <section className="seccionFeriados">
-    <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <>
         <Box
           sx={{
             display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            width: "100%",
-            padding: "10px 20px",
-          }}
-        >
-          <Typography variant="h4" color={"red"}>
-            FERIADOS
-          </Typography>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={handleAgregarFeriado}
-          >
-            Nuevo Feriado
-          </Button>
-        </Box>
-        <Box id="seccionFeriados"
-          sx={{
-            padding: "20px",
-            boxSizing: "border-box",
-            display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            width: "553px",
-            height: "396px",
-            border: "0.5px solid #797979",
-            borderRadius: "10px",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <Box sx={{ marginTop: "1rem", width: "100%" }}>
-          {feriados.map((feriado, index) => (
-              <FeriadosGenerico
-                key={index}
-                fecha={feriado.fecha}
-                motivo={feriado.motivo}
-              />
-            ))}
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "10px 20px",
+            }}
+          >
+            <Typography variant="h4" color={"red"}>
+              FERIADOS
+            </Typography>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleAgregarFeriado}
+            >
+              Nuevo Feriado
+            </Button>
           </Box>
-          {mostrarModal && (
-            <FeriadoModal
-              onClose={() => setMostrarModal(false)}
-              onGuardar={handleGuardarFeriado}
-            />
-          )}
+          <Box
+            id="seccionFeriados"
+            sx={{
+              padding: "20px",
+              boxSizing: "border-box",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex-end",
+              width: "553px",
+              height: "396px",
+              border: "0.5px solid #797979",
+              borderRadius: "10px",
+            }}
+          >
+            <Box sx={{ marginTop: "1rem", width: "100%" }}>
+              {feriados.map((feriado, index) => (
+                <FeriadosGenerico
+                  key={index}
+                  fecha={feriado.fecha}
+                  motivo={feriado.motivo}
+                />
+              ))}
+            </Box>
+            {mostrarModal && (
+              <FeriadoModal
+                onClose={() => setMostrarModal(false)}
+                onGuardar={handleGuardarFeriado}
+              />
+            )}
+          </Box>
         </Box>
-      </Box>
-    </>
+      </>
     </section>
   );
 }
@@ -154,6 +168,5 @@ function FeriadoModal({ onClose, onGuardar }) {
     </Modal>
   );
 }
-
 
 export default Feriados;
