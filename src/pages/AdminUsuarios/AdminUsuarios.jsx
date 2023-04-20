@@ -3,11 +3,22 @@ import React from "react";
 import ListItemAdm from "./Components/ListItemAdm";
 import "./AdminUsuario.css";
 import { Link } from "react-router-dom";
+import { AlignVerticalCenter } from "@mui/icons-material";
 
 const AdminUsuarios = () => {
   return (
-    <Box component={"section"} className="admin_section">
-      <Box component={"article"} className="admin_list_container">
+    <Box component={"section"} className="admin_section" sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    }} >
+      <Box component={"article"} className="admin_list_container" sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "10px"
+      }}>
         <Stack direction="column" alignItems="center" spacing={1}>
           <Typography component={"h2"} variant={"h4"} color="error">
             Usuarios habilitados

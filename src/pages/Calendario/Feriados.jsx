@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -8,17 +8,19 @@ import {
   Typography,
 } from "@mui/material";
 import FeriadosGenerico from "./components/FeriadosGenerico";
-import "./feriados.css"
+import "./feriados.css";
+import { getFeriados } from "../../Services/feriadosServices";
 
 function Feriados() {
   const [feriados, setFeriados] = useState([
-    { fecha: "20/04", motivo: "-  Porque quiero" },
-    { fecha: "21/04", motivo: "-  Porque puedo" },
-    { fecha: "24/04", motivo: "-  Porque me gusta" },
-    { fecha: "25/04", motivo: "-  Porque lo necesito" },
-    { fecha: "26/04", motivo: "-  Porque lo deseo" },
-    { fecha: "27/04", motivo: "-  Porque lo amo" },
+    { fecha: "10-20", motivo: "Porque quiero" },
+    { fecha: "10-20", motivo: "Porque quiero" },
+    { fecha: "10-20", motivo: "Porque quiero" },
+    { fecha: "10-20", motivo: "Porque quiero" },
+    { fecha: "10-20", motivo: "Porque quiero" },
+    { fecha: "10-20", motivo: "Porque quiero" },
   ]);
+
   const [setNuevoFeriado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
 
@@ -31,6 +33,18 @@ function Feriados() {
     setNuevoFeriado(null);
     setMostrarModal(false);
   };
+
+  useEffect(() => {
+    const fetchData = () =>
+      getFeriados()
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    fetchData();
+  }, []);
 
   return (
     <section className="seccionFeriados">
@@ -115,6 +129,5 @@ function FeriadoModal({ onClose, onGuardar }) {
     </Modal>
   );
 }
-
 
 export default Feriados;

@@ -31,7 +31,7 @@ function App() {
                   }
                 >
                   <Route
-                    path="/:licenseId"
+                    path="/licencia/:licenseId"
                     element={<Licencia dashboardLic={true} />}
                   />
                 </Route>

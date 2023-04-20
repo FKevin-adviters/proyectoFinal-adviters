@@ -18,17 +18,19 @@ import { daysBetweenDates, getDaysWorkable } from "../../Utils/convertDates";
 import { ActionContext } from "../../Contexts/ContextProvider";
 import { toast } from "react-toastify";
 import { useUsuario } from "../../Hooks/useUsuario";
-import { useNavigate } from "react-router-dom";
-import { createLicencia } from "../../Services/licenciasServices";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  createLicencia,
+  getLicenseById,
+} from "../../Services/licenciasServices";
 
 let initialState = {
   licenseUser: "",
   tipoLicencia: "",
   licenseSupervisor: "",
   description: "",
+  requiredDays: "",
 };
-
-const usuarios = ["Maicon", "Ezequiel", "Kevin"];
 
 const tipoLicencias = [
   { name: "Tramites", id: 0 },
@@ -37,14 +39,23 @@ const tipoLicencias = [
   { name: "Licencia Medica", id: 3 },
 ];
 
+const estadoColores = {
+  PENDIENTE: "orange",
+  APROBADO: "green",
+  RECHAZADO: "red",
+  3: "green",
+};
+
 const Licencia = ({ dashboardLic }) => {
   const { user } = useContext(ActionContext);
   const { getUsers, data } = useUsuario();
   const [licenciaData, setLicenciaData] = useState(initialState);
+  const [unicaLicenciaData, setUnicaLicenciaData] = useState();
+  const { licenseId } = useParams();
+
   const redirect = useNavigate();
 
   const handleSubmit = async () => {
-    console.log(getDaysWorkable(licenciaData.startDate, licenciaData.endDate));
     if (
       user.data.available_days <
       daysBetweenDates(licenciaData.endDate, licenciaData.startDate)
@@ -53,6 +64,22 @@ const Licencia = ({ dashboardLic }) => {
         "Por favor, ingrese un rango de días equivalente o menor a sus días disponibles."
       );
     }
+
+    setLicenciaData((old) => ({
+      ...old,
+      requiredDays: getDaysWorkable(
+        licenciaData.startDate,
+        licenciaData.endDate
+      ).length,
+    }));
+
+    setLicenciaData((old) => ({
+      ...old,
+      requiredDays: getDaysWorkable(
+        licenciaData.startDate,
+        licenciaData.endDate
+      ).length,
+    }));
 
     await createLicencia(licenciaData)
       .then(() => {
@@ -72,10 +99,17 @@ const Licencia = ({ dashboardLic }) => {
     }));
   };
 
+  // obtenemos los usuarios para el select de usuario
   useEffect(() => {
-    getUsers();
+    getUsers().catch(() => {
+      toast.error(
+        "No se ha podido renderizar los usuarios, intente nuevamente"
+      );
+    });
   }, []);
 
+  // comprobamos si la licencia cambia de usuario y si el usuario tiene supervisor,
+  // en caso que tenga supervisor lo agregamos al objeto de la licencia
   useEffect(() => {
     if (data) {
       data?.map((user) => {
@@ -87,6 +121,14 @@ const Licencia = ({ dashboardLic }) => {
       });
     }
   }, [licenciaData.licenseUser]);
+
+  // hacemos un useEffect donde verificamos si tenemos un :licenseId de la ruta del dashboard
+  useEffect(() => {
+    getLicenseById(licenseId).then((res) => {
+      console.log(res);
+      setUnicaLicenciaData(res);
+    });
+  }, [licenseId]);
 
   return (
     <>
@@ -104,13 +146,26 @@ const Licencia = ({ dashboardLic }) => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "65vw",
+            width: "100vw",
             margin: "5px 10px",
             border: "0.5px solid #797979",
             borderRadius: "8px",
           }}
           onSubmit={handleSubmit}
         >
+          {licenseId && (
+            <Link to={"/"} style={{ alignSelf: "flex-end" }}>
+              <Button
+                sx={{
+                  color: "white",
+                  backgroundColor: "red",
+                  margin: "10px",
+                }}
+              >
+                X
+              </Button>
+            </Link>
+          )}
           <Stack
             direction="row"
             spacing={2}
@@ -124,6 +179,11 @@ const Licencia = ({ dashboardLic }) => {
                 name={"licenseUser"}
                 setter={setLicenciaData}
                 state={licenciaData}
+                defaultValue={
+                  licenseId && unicaLicenciaData?.usuarioDTO?.id
+                    ? unicaLicenciaData?.usuarioDTO?.id
+                    : ""
+                }
               />
             )}
 
@@ -140,7 +200,8 @@ const Licencia = ({ dashboardLic }) => {
               <Typography
                 variant="subtitle1"
                 sx={{
-                  background: "#05CB3C",
+                  background:
+                    estadoColores[unicaLicenciaData?.status] || "green",
                   borderRadius: "16px",
                   color: "white",
                   padding: "0 15px",
@@ -149,7 +210,9 @@ const Licencia = ({ dashboardLic }) => {
                   alignItems: "center",
                 }}
               >
-                {"AUN NO ENVIADO"}
+                {licenseId && unicaLicenciaData
+                  ? unicaLicenciaData?.status
+                  : "AUN NO ENVIADO"}
               </Typography>
             </Box>
           </Stack>
@@ -186,6 +249,11 @@ const Licencia = ({ dashboardLic }) => {
                   name={"tipoLicencia"}
                   setter={setLicenciaData}
                   state={licenciaData}
+                  defaultValue={
+                    licenseId && unicaLicenciaData
+                      ? unicaLicenciaData?.licenseTypeId
+                      : ""
+                  }
                 />
               </Box>
               <AdjuntarArchivo />
@@ -202,7 +270,14 @@ const Licencia = ({ dashboardLic }) => {
               }}
             >
               {/* calendario */}
-              <CalendarioButtons setLicenciaData={setLicenciaData} />
+              <CalendarioButtons
+                defaultValues={
+                  licenseId && unicaLicenciaData
+                    ? [unicaLicenciaData.startDate, unicaLicenciaData.endDate]
+                    : ""
+                }
+                setLicenciaData={setLicenciaData}
+              />
 
               <Box
                 sx={{
@@ -222,10 +297,10 @@ const Licencia = ({ dashboardLic }) => {
                   <Typography variant="subtitle2" color={"#06B80D"}>
                     {licenciaData.startDate &&
                       licenciaData.endDate &&
-                      daysBetweenDates(
-                        licenciaData.endDate,
-                        licenciaData.startDate
-                      )}{" "}
+                      getDaysWorkable(
+                        licenciaData.startDate,
+                        licenciaData.endDate
+                      ).length}{" "}
                     días laborales
                   </Typography>
                 </Box>
@@ -249,12 +324,24 @@ const Licencia = ({ dashboardLic }) => {
               <Typography variant="h6">Descripcion</Typography>
               <TextField
                 id="descripcion"
-                label="Ingrese una descripción"
+                label={
+                  licenseId && unicaLicenciaData?.description != null
+                    ? null
+                    : "Ingrese una descripción"
+                }
                 variant="outlined"
                 name="description"
                 onChange={handleDesc}
+                defaultValue={
+                  licenseId && unicaLicenciaData
+                    ? unicaLicenciaData?.description
+                    : ""
+                }
                 multiline
                 rows={5}
+                disabled={
+                  licenseId && unicaLicenciaData?.description ? true : false
+                }
               />
             </Box>
 
@@ -299,18 +386,35 @@ const Licencia = ({ dashboardLic }) => {
                     }
                   })
                 : ""}
+              {licenseId &&
+              unicaLicenciaData?.usuarioDTO?.supervisor != null ? (
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <Avatar sx={{ width: "70px", height: "70px" }}>
+                    {unicaLicenciaData?.usuarioDTO?.supervisor?.name[0].toUpperCase() +
+                      unicaLicenciaData?.usuarioDTO?.supervisor?.lastname[0].toUpperCase()}
+                  </Avatar>
+                  <Typography variant="h5" fontWeight={"#FF8585"} color={"red"}>
+                    {`${unicaLicenciaData?.usuarioDTO?.supervisor?.name} ${unicaLicenciaData?.usuarioDTO?.supervisor?.lastname}`}
+                  </Typography>
+                </Box>
+              ) : (
+                ""
+              )}
             </Box>
-            {/* Botão de solicitação de aprovação */}
-            <Box component={"li"} sx={{ alignSelf: "flex-end" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                onClick={handleSubmit}
-              >
-                Solicitar Aprobacion
-              </Button>
-            </Box>
+            {!licenseId && (
+              <Box component={"li"} sx={{ alignSelf: "flex-end" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={handleSubmit}
+                >
+                  Solicitar Aprobacion
+                </Button>
+              </Box>
+            )}
           </Box>
         </Box>
         {!dashboardLic && (
@@ -329,6 +433,7 @@ const Licencia = ({ dashboardLic }) => {
                 borderBottom: "1px solid grey",
                 display: "flex",
                 flexDirection: "column",
+                minHeight: "100%",
                 flexWrap: "wrap",
               }}
             >

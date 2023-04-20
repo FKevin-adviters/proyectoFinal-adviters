@@ -16,22 +16,45 @@ import { convertDates } from "../../../Utils/convertDates";
 import { toast } from "react-toastify";
 
 import NotificacionUndo from "../../../Components/Notificacion/NotificacionUndo";
+import { Link } from "react-router-dom";
+import { setStatusLicense } from "../../../Services/licenciasServices";
+
+const names = {
+  0: "Tramites",
+  1: "Vacaciones",
+  2: "Dia de Estudio",
+  3: "Licencia Medica",
+};
+
+const colores = {
+  0: "yellow",
+  1: "purple",
+  2: "cyan",
+  3: "green",
+};
 
 const ListItemUser = ({ licencia, admin }) => {
   const { usuarioDTO, startDate, endDate, licenseTypeId, licenseId } = licencia;
 
-  const names = {
-    0: "Tramites",
-    1: "Vacaciones",
-    2: "Dia de Estudio",
-    3: "Licencia Medica",
-  };
-
-  const colores = {
-    0: "yellow",
-    1: "purple",
-    2: "cyan",
-    3: "green",
+  const updateLicense = (e, status) => {
+    e.stopPropagation();
+    setStatusLicense(licenseId, status)
+      .then(() => {
+        toast.success(
+          `Se ha logrado ${status == 1 ? "aprobar" : "denegar"} la licencia`,
+          {
+            toastId: "license-status",
+          }
+        );
+      })
+      .catch(() => {
+        toast.error(
+          `No se ha podido ${status == 1 ? "aprobar" : "denegar"} la licencia`,
+          {
+            toastId: "license-status-error",
+          }
+        );
+      });
   };
 
   return (
@@ -40,45 +63,61 @@ const ListItemUser = ({ licencia, admin }) => {
         alignItems: "center",
       }}
     >
-      <ListItemAvatar>
-        <Avatar alt="Shrek" src={shrek} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={usuarioDTO.name + " " + usuarioDTO.lastname}
-        secondary={
-          <Box
-            component={"span"}
-            sx={{ display: "flex", flexDirection: "column" }}
-          >
-            <Typography
-              component="span"
-              variant="subtitle2"
-              color="text.secondary"
+      <Link
+        to={`/licencia/${licenseId}`}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          textDecoration: "none",
+        }}
+      >
+        <ListItemAvatar>
+          <Avatar>
+            {usuarioDTO.name[0].toUpperCase() +
+              usuarioDTO.lastname[0].toUpperCase()}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={usuarioDTO.name + " " + usuarioDTO.lastname}
+          secondary={
+            <Box
+              component={"span"}
+              sx={{ display: "flex", flexDirection: "column" }}
             >
-              {convertDates(startDate)} - {convertDates(endDate)}
-            </Typography>
+              <Typography
+                component="span"
+                variant="subtitle2"
+                color="text.secondary"
+              >
+                {convertDates(startDate)} - {convertDates(endDate)}
+              </Typography>
 
-            <Typography
-              component="span"
-              variant="subtitle2"
-              color="text.secondary"
-            >
-              <Box
-                sx={{
-                  backgroundColor: colores[licenseTypeId],
-                  padding: "5px",
-                  margin: "0 5px",
-                  borderRadius: "100%",
-                  display: "inline-block",
-                }}
-                component={"span"}
-              ></Box>
-              {names[licenseTypeId]}
-            </Typography>
-          </Box>
-        }
-        sx={{ display: "flex", flexDirection: "column" }}
-      />
+              <Typography
+                component="span"
+                variant="subtitle2"
+                color="text.secondary"
+              >
+                <Box
+                  sx={{
+                    backgroundColor: colores[licenseTypeId],
+                    padding: "5px",
+                    margin: "0 5px",
+                    borderRadius: "100%",
+                    display: "inline-block",
+                  }}
+                  component={"span"}
+                ></Box>
+                {names[licenseTypeId]}
+              </Typography>
+            </Box>
+          }
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            color: "black",
+          }}
+        />
+      </Link>
       {admin && (
         <Box sx={{ display: "flex", marginLeft: "50px" }}>
           <ListItemIcon sx={{ gap: "15px", justifyContent: "center" }}>
@@ -91,11 +130,7 @@ const ListItemUser = ({ licencia, admin }) => {
                   color: "white",
                   cursor: "pointer",
                 }}
-                onClick={() =>
-                  toast.success(
-                    <NotificacionUndo idLicencia={licenseId} estado={true} />
-                  )
-                }
+                onClick={(e) => updateLicense(e, 1)}
               />
             </Tooltip>
             <Tooltip title="Denegar" arrow>
@@ -107,11 +142,7 @@ const ListItemUser = ({ licencia, admin }) => {
                   color: "white",
                   cursor: "pointer",
                 }}
-                onClick={() =>
-                  toast.success(
-                    <NotificacionUndo idLicencia={id} estado={false} />
-                  )
-                }
+                onClick={(e) => updateLicense(e, 2)}
               />
             </Tooltip>
           </ListItemIcon>

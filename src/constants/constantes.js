@@ -6,6 +6,7 @@ export const Column1 = [
     type: "number",
     name: "dni",
     backName: "dni",
+    required: "true"
   },
   {
     id: "outlined-correo-email",
@@ -13,6 +14,7 @@ export const Column1 = [
     type: "email",
     name: "email",
     backName: "email",
+    required: "true"
   },
   {
     id: "outlined-calle-text",
@@ -41,6 +43,7 @@ export const Column1 = [
     type: "number",
     name: "available_days",
     backName: "available_days",
+    required: "true"
   },
 ];
 export const Column2 = [
@@ -50,6 +53,7 @@ export const Column2 = [
     type: "text",
     name: "nombre",
     backName: "name",
+    required: "true"
   },
   {
     id: "outlined-apellido-text",
@@ -57,6 +61,7 @@ export const Column2 = [
     type: "text",
     name: "apellido",
     backName: "lastname",
+    required: "true"
   },
   {
     id: "outlined-fechaNacimiento-number",
@@ -64,6 +69,7 @@ export const Column2 = [
     type: "date",
     name: "fnacimiento",
     backName: "birth_date",
+    required: "true"
   },
   {
     id: "outlined-cuil-text",
@@ -71,6 +77,7 @@ export const Column2 = [
     type: "text",
     name: "cuil",
     backName: "cuil",
+    required: "true"
   },
   {
     id: "outlined-telefono-text",
@@ -78,6 +85,7 @@ export const Column2 = [
     type: "number",
     name: "telefono",
     backName: "phone",
+    required: "true"
   },
   {
     id: "outlined-calleNumber-number",
@@ -108,6 +116,7 @@ export const Column3 = [
     type: "password",
     name: "password",
     backName: "password",
+    required: "true"
   },
   {
     id: "outlined-passwordRepetir-pass",
@@ -115,6 +124,7 @@ export const Column3 = [
     type: "password",
     name: "password",
     backName: "password",
+    required: "true"
   },
   {
     id: "outlined-fechaIngreso-number",
