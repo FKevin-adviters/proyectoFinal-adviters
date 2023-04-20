@@ -35,7 +35,8 @@ const Dashboard = ({ admin }) => {
             });
           })
           .catch(() => {
-            setIsError(true);
+            setIsError(true)
+            
             toast.error("No se ha logrado encontrar las licencias", {
               toastId: "licencias-error",
             });
