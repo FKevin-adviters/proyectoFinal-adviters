@@ -12,9 +12,9 @@ import "./feriados.css"
 
 function Feriados() {
   const [feriados, setFeriados] = useState([
-    { fecha: "01/05/2023", motivo: "Dia del trabajador" },
-    { fecha: "25/05/2023", motivo: "Revolucion de mayo" },
-    { fecha: "30/05/2023", motivo: "Bailo chamame" },
+    { fecha: "06/04/2023", motivo: "Jueves santo" },
+    { fecha: "07/04/2023", motivo: "Viernes santo" },
+    { fecha: "09/04/2023", motivo: "Domingo de pascuas" },
   ]);
   
   const [setNuevoFeriado] = useState(null);

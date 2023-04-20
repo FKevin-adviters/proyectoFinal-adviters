@@ -16,6 +16,7 @@ import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
 import { Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
+import { render } from "react-dom";
 
 const Dashboard = ({ admin }) => {
   const { getLicenciasDashboardAdmin, data } = useLicencias();
@@ -36,7 +37,6 @@ const Dashboard = ({ admin }) => {
           })
           .catch(() => {
             setIsError(true)
-            
             toast.error("No se ha logrado encontrar las licencias", {
               toastId: "licencias-error",
             });
