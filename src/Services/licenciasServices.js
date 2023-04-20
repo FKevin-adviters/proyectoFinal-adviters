@@ -33,3 +33,23 @@ export const createLicencia = async (licencia) => {
     throw new Error("No se ha logrado crear la licencia");
   }
 };
+
+export const getLicenseById = async (id) => {
+  let token = JSON.parse(sessionStorage.getItem("token"));
+  let arr = token.split(" ");
+  console.log(arr[1]);
+
+  try {
+    let options = {
+      headers: {
+        token: arr[1],
+      },
+    };
+
+    let data = await fetchContent("/licencias/" + id, options);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("No se ha logrado crear la licencia");
+  }
+};

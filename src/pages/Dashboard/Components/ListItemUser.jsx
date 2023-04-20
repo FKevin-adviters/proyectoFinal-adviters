@@ -16,6 +16,7 @@ import { convertDates } from "../../../Utils/convertDates";
 import { toast } from "react-toastify";
 
 import NotificacionUndo from "../../../Components/Notificacion/NotificacionUndo";
+import { Link } from "react-router-dom";
 
 const ListItemUser = ({ licencia, admin }) => {
   const { usuarioDTO, startDate, endDate, licenseTypeId, licenseId } = licencia;
@@ -40,45 +41,61 @@ const ListItemUser = ({ licencia, admin }) => {
         alignItems: "center",
       }}
     >
-      <ListItemAvatar>
-        <Avatar alt="Shrek" src={shrek} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={usuarioDTO.name + " " + usuarioDTO.lastname}
-        secondary={
-          <Box
-            component={"span"}
-            sx={{ display: "flex", flexDirection: "column" }}
-          >
-            <Typography
-              component="span"
-              variant="subtitle2"
-              color="text.secondary"
+      <Link
+        to={`/licencia/${licenseId}`}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          textDecoration: "none",
+        }}
+      >
+        <ListItemAvatar>
+          <Avatar>
+            {usuarioDTO.name[0].toUpperCase() +
+              usuarioDTO.lastname[0].toUpperCase()}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={usuarioDTO.name + " " + usuarioDTO.lastname}
+          secondary={
+            <Box
+              component={"span"}
+              sx={{ display: "flex", flexDirection: "column" }}
             >
-              {convertDates(startDate)} - {convertDates(endDate)}
-            </Typography>
+              <Typography
+                component="span"
+                variant="subtitle2"
+                color="text.secondary"
+              >
+                {convertDates(startDate)} - {convertDates(endDate)}
+              </Typography>
 
-            <Typography
-              component="span"
-              variant="subtitle2"
-              color="text.secondary"
-            >
-              <Box
-                sx={{
-                  backgroundColor: colores[licenseTypeId],
-                  padding: "5px",
-                  margin: "0 5px",
-                  borderRadius: "100%",
-                  display: "inline-block",
-                }}
-                component={"span"}
-              ></Box>
-              {names[licenseTypeId]}
-            </Typography>
-          </Box>
-        }
-        sx={{ display: "flex", flexDirection: "column" }}
-      />
+              <Typography
+                component="span"
+                variant="subtitle2"
+                color="text.secondary"
+              >
+                <Box
+                  sx={{
+                    backgroundColor: colores[licenseTypeId],
+                    padding: "5px",
+                    margin: "0 5px",
+                    borderRadius: "100%",
+                    display: "inline-block",
+                  }}
+                  component={"span"}
+                ></Box>
+                {names[licenseTypeId]}
+              </Typography>
+            </Box>
+          }
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            color: "black",
+          }}
+        />
+      </Link>
       {admin && (
         <Box sx={{ display: "flex", marginLeft: "50px" }}>
           <ListItemIcon sx={{ gap: "15px", justifyContent: "center" }}>

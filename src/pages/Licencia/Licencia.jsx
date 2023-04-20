@@ -18,8 +18,11 @@ import { daysBetweenDates, getDaysWorkable } from "../../Utils/convertDates";
 import { ActionContext } from "../../Contexts/ContextProvider";
 import { toast } from "react-toastify";
 import { useUsuario } from "../../Hooks/useUsuario";
-import { useNavigate } from "react-router-dom";
-import { createLicencia } from "../../Services/licenciasServices";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  createLicencia,
+  getLicenseById,
+} from "../../Services/licenciasServices";
 
 let initialState = {
   licenseUser: "",
@@ -27,8 +30,6 @@ let initialState = {
   licenseSupervisor: "",
   description: "",
 };
-
-const usuarios = ["Maicon", "Ezequiel", "Kevin"];
 
 const tipoLicencias = [
   { name: "Tramites", id: 0 },
@@ -41,6 +42,9 @@ const Licencia = ({ dashboardLic }) => {
   const { user } = useContext(ActionContext);
   const { getUsers, data } = useUsuario();
   const [licenciaData, setLicenciaData] = useState(initialState);
+  const [unicaLicenciaData, setUnicaLicenciaData] = useState();
+  const { licenseId } = useParams();
+
   const redirect = useNavigate();
 
   const handleSubmit = async () => {
@@ -72,10 +76,17 @@ const Licencia = ({ dashboardLic }) => {
     }));
   };
 
+  // obtenemos los usuarios para el select de usuario
   useEffect(() => {
-    getUsers();
+    getUsers().catch(() => {
+      toast.error(
+        "No se ha podido renderizar los usuarios, intente nuevamente"
+      );
+    });
   }, []);
 
+  // comprobamos si la licencia cambia de usuario y si el usuario tiene supervisor,
+  // en caso que tenga supervisor lo agregamos al objeto de la licencia
   useEffect(() => {
     if (data) {
       data?.map((user) => {
@@ -87,6 +98,16 @@ const Licencia = ({ dashboardLic }) => {
       });
     }
   }, [licenciaData.licenseUser]);
+
+  // hacemos un useEffect donde verificamos si tenemos un :licenseId de la ruta del dashboard
+  useEffect(() => {
+    if (licenseId) {
+      getLicenseById(licenseId).then((res) => {
+        console.log(res);
+        setUnicaLicenciaData(res);
+      });
+    }
+  }, [licenseId]);
 
   return (
     <>
@@ -180,13 +201,6 @@ const Licencia = ({ dashboardLic }) => {
                 >
                   TIPO DE LICENCIA
                 </Typography>
-                <SelectFieldGenerico
-                  valores={tipoLicencias}
-                  label={"Licencia"}
-                  name={"tipoLicencia"}
-                  setter={setLicenciaData}
-                  state={licenciaData}
-                />
               </Box>
               <AdjuntarArchivo />
             </Box>

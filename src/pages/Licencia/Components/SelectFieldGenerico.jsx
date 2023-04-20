@@ -1,7 +1,14 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useState } from "react";
 
-const SelectFieldGenerico = ({ valores, name, state, label, setter }) => {
+const SelectFieldGenerico = ({
+  valores,
+  name,
+  state,
+  label,
+  setter,
+  defaultValue,
+}) => {
   const [selected, setSelected] = useState();
 
   const handleChange = (e) => {
@@ -17,7 +24,7 @@ const SelectFieldGenerico = ({ valores, name, state, label, setter }) => {
       <Select
         labelId={`${name}-label`}
         id={`${name}-select`}
-        value={selected}
+        value={defaultValue || selected}
         label={label}
         name={name}
         onChange={handleChange}

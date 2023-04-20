@@ -3,8 +3,6 @@ import { fetchContent } from "../Utils/fetchContent";
 export const useLicencias = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
-  const [isError, setIsError] = useState(false);
-
   const getLicenciasDashboardAdmin = async () => {
     let token = JSON.parse(sessionStorage.getItem("token"));
     let arr = token.split(" ");
@@ -62,7 +60,6 @@ export const useLicencias = () => {
   return {
     data,
     isLoading,
-    isError,
     getLicenciasDashboardAdmin,
     getLicenciasDashboardUser,
   };
