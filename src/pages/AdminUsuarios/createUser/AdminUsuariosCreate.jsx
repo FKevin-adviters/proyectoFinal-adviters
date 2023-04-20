@@ -10,6 +10,8 @@ const AdminUsuariosCreate = () => {
   return (
     <Box
       sx={{
+        display: "flex",
+        flexDirection: "column",
         border: "1px solid grey",
         width: "65vw",
         minHeight: "100vh",

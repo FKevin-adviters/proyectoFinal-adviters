@@ -133,6 +133,7 @@ const UsuarioFields = ({
                   type={input.type}
                   name={input.name}
                   setter={setter}
+                  required={input.required}
                   defaultValue={
                     defaultValues && !createdMode
                       ? defaultValues[input.backName]

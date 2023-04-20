@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import React from "react";
 import { convertDates } from "../../Utils/convertDates";
 
-const InputGenerico = ({ id, label, type, name, setter, defaultValue }) => {
+const InputGenerico = ({ id, label, type, name, setter, defaultValue, required }) => {
   const handleChange = (event) => {
     setter((old) => {
       return {
@@ -26,6 +26,7 @@ const InputGenerico = ({ id, label, type, name, setter, defaultValue }) => {
       label={label}
       type={type}
       name={name}
+      required={required}
       onChange={handleChange}
       defaultValue={checkDefaultValue()}
       InputLabelProps={{
