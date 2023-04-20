@@ -6,7 +6,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Dashboard.css";
 import Buscador from "./Components/Buscador";
 import ListLicencias from "./Components/ListLicencias";
@@ -16,20 +16,25 @@ import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
 import { Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ActionContext } from "../../Contexts/ContextProvider";
 
 const Dashboard = ({ admin }) => {
-  const { getLicenciasDashboardAdmin, data } = useLicencias();
+  const { resAdminLicenses, resUserLicenses } = useLicencias();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [data, setData] = useState();
 
   // cuando tengamos el array de licencias a renderizar, se pasaría por iteracion un objeto
   // parecido a este
   useEffect(() => {
     if (admin) {
       const fetchData = () => {
-        getLicenciasDashboardAdmin()
-          .then(() => {
+        resAdminLicenses
+          .refetch()
+          .then((res) => {
             setIsLoading(false);
+            console.log(res.data);
+            setData(res.data);
             toast.success("La carga de licencias ha terminado", {
               toastId: "licencias-success",
             });
@@ -42,6 +47,22 @@ const Dashboard = ({ admin }) => {
           });
       };
       return fetchData();
+    } else {
+      resUserLicenses
+        .refetch()
+        .then((res) => {
+          setIsLoading(false);
+          setData(res);
+          toast.success("La carga de licencias ha terminado", {
+            toastId: "licencias-success",
+          });
+        })
+        .catch(() => {
+          setIsError(true);
+          toast.error("No se ha logrado encontrar las licencias", {
+            toastId: "licencias-error",
+          });
+        });
     }
   }, []);
 

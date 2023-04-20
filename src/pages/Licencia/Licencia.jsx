@@ -29,6 +29,7 @@ let initialState = {
   tipoLicencia: "",
   licenseSupervisor: "",
   description: "",
+  requiredDays: "",
 };
 
 const tipoLicencias = [
@@ -55,9 +56,6 @@ const Licencia = ({ dashboardLic }) => {
   const redirect = useNavigate();
 
   const handleSubmit = async () => {
-    console.log(
-      getDaysWorkable(licenciaData.startDate, licenciaData.endDate).length
-    );
     if (
       user.data.available_days <
       daysBetweenDates(licenciaData.endDate, licenciaData.startDate)
@@ -66,6 +64,14 @@ const Licencia = ({ dashboardLic }) => {
         "Por favor, ingrese un rango de días equivalente o menor a sus días disponibles."
       );
     }
+
+    setLicenciaData((old) => ({
+      ...old,
+      requiredDays: getDaysWorkable(
+        licenciaData.startDate,
+        licenciaData.endDate
+      ).length,
+    }));
 
     // await createLicencia(licenciaData)
     //   .then(() => {
@@ -283,10 +289,10 @@ const Licencia = ({ dashboardLic }) => {
                   <Typography variant="subtitle2" color={"#06B80D"}>
                     {licenciaData.startDate &&
                       licenciaData.endDate &&
-                      daysBetweenDates(
-                        licenciaData.endDate,
-                        licenciaData.startDate
-                      )}{" "}
+                      getDaysWorkable(
+                        licenciaData.startDate,
+                        licenciaData.endDate
+                      ).length}{" "}
                     días laborales
                   </Typography>
                 </Box>

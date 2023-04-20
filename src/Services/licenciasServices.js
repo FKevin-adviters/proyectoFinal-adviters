@@ -53,3 +53,32 @@ export const getLicenseById = async (id) => {
     throw new Error("No se ha logrado crear la licencia");
   }
 };
+
+export const setStatusLicense = async (idLicense, status) => {
+  let token = JSON.parse(sessionStorage.getItem("token"));
+  let arr = token.split(" ");
+  console.log(arr[1]);
+
+  try {
+    let options = {
+      headers: {
+        token: arr[1],
+      },
+      body: {
+        id: idLicense,
+        estadoLicencia: {
+          idState: status,
+        },
+      },
+      method: "PUT",
+    };
+
+    let data = await fetchContent("/licencias/" + idLicense, options);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error(
+      "No se ha podido actualizar la licencia, intente nuevamente más tarde"
+    );
+  }
+};
