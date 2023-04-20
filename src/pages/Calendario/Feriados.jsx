@@ -12,13 +12,11 @@ import "./feriados.css"
 
 function Feriados() {
   const [feriados, setFeriados] = useState([
-    { fecha: "10-20", motivo: "Porque quiero" },
-    { fecha: "10-20", motivo: "Porque quiero" },
-    { fecha: "10-20", motivo: "Porque quiero" },
-    { fecha: "10-20", motivo: "Porque quiero" },
-    { fecha: "10-20", motivo: "Porque quiero" },
-    { fecha: "10-20", motivo: "Porque quiero" },
+    { fecha: "01/05/2023", motivo: "Dia del trabajador" },
+    { fecha: "25/05/2023", motivo: "Revolucion de mayo" },
+    { fecha: "30/05/2023", motivo: "Bailo chamame" },
   ]);
+  
   const [setNuevoFeriado] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
 
@@ -78,7 +76,7 @@ function Feriados() {
           }}
         >
           <Box sx={{ marginTop: "1rem", width: "100%" }}>
-            {feriados.map((feriado, index) => (
+          {feriados.map((feriado, index) => (
               <FeriadosGenerico
                 key={index}
                 fecha={feriado.fecha}

@@ -125,13 +125,19 @@ const Licencia = ({ dashboardLic }) => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "65vw",
+            width: "100vw",
             margin: "5px 10px",
             border: "0.5px solid #797979",
             borderRadius: "8px",
           }}
           onSubmit={handleSubmit}
         >
+          <Button sx={{
+            alignSelf: "flex-end",
+            color: "white",
+            backgroundColor: "red",
+            margin: "10px"
+          }}>X</Button>
           <Stack
             direction="row"
             spacing={2}
@@ -314,7 +320,6 @@ const Licencia = ({ dashboardLic }) => {
                   })
                 : ""}
             </Box>
-            {/* Botão de solicitação de aprovação */}
             <Box component={"li"} sx={{ alignSelf: "flex-end" }}>
               <Button
                 variant="contained"
@@ -343,6 +348,7 @@ const Licencia = ({ dashboardLic }) => {
                 borderBottom: "1px solid grey",
                 display: "flex",
                 flexDirection: "column",
+                minHeight: "100%",
                 flexWrap: "wrap",
               }}
             >
