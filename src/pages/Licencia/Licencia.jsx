@@ -375,17 +375,28 @@ const Licencia = ({ dashboardLic }) => {
                     }
                   })
                 : ""}
-              {licenseId &&
-              unicaLicenciaData?.usuarioDTO?.supervisor != null ? (
+              {licenseId && supervisor != null ? (
                 <Box
                   sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
-                  <Avatar sx={{ width: "70px", height: "70px" }}>
-                    {unicaLicenciaData?.usuarioDTO?.supervisor?.name[0].toUpperCase() +
-                      unicaLicenciaData?.usuarioDTO?.supervisor?.lastname[0].toUpperCase()}
-                  </Avatar>
+                  {user?.data?.profile_picture.length > 500 ? (
+                    <CardMedia
+                      component="img"
+                      src={user.data.profile_picture}
+                      sx={{
+                        width: "40px",
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                      }}
+                    />
+                  ) : (
+                    <Avatar sx={{ width: "70px", height: "70px" }}>
+                      {supervisor?.name[0].toUpperCase() +
+                        supervisor?.lastname[0].toUpperCase()}
+                    </Avatar>
+                  )}
                   <Typography variant="h5" fontWeight={"#FF8585"} color={"red"}>
-                    {`${unicaLicenciaData?.usuarioDTO?.supervisor?.name} ${unicaLicenciaData?.usuarioDTO?.supervisor?.lastname}`}
+                    {`${supervisor?.name} ${supervisor?.lastname}`}
                   </Typography>
                 </Box>
               ) : (

@@ -1,19 +1,24 @@
 import {
+  Avatar,
   Box,
   Button,
+  CardMedia,
   FormControl,
   FormControlLabel,
   Switch,
+  Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import InputGenerico from "./InputGenerico";
 import { Column1, Column2, Column3 } from "../../constants/constantes";
 import SelectFieldGenerico from "../../pages/Licencia/Components/SelectFieldGenerico";
 import { toast } from "react-toastify";
 import "./usuarioFields.css";
+import { useUsuario } from "../../Hooks/useUsuario";
+import { ActionContext } from "../../Contexts/ContextProvider";
+import { getUserById } from "../../Services/usuarioServices";
 
-const supervisores = ["Lautaro", "Luis", "Eric"];
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 const UsuarioFields = ({
@@ -21,18 +26,13 @@ const UsuarioFields = ({
   setter,
   state,
   createdMode,
-  idUser,
-  fetchFn,
+  handleSubmitForm,
 }) => {
   const [file, setFile] = useState(null);
   const [fileDataURL, setFileDataURL] = useState(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(state);
-
-    fetchFn(state, idUser || "");
-  };
+  const [supervisor, setSupervisor] = useState();
+  const { getUsersByRol, data } = useUsuario();
+  const { user } = useContext(ActionContext);
 
   const handleChange = (e) => {
     const file = e.target.files[0];
@@ -41,6 +41,15 @@ const UsuarioFields = ({
       return;
     }
     setFile(file);
+  };
+
+  const handleSwitch = (e) => {
+    setter(() => {
+      return {
+        ...state,
+        [e.target.name]: [e.target.value ? "SUPERVISOR" : "USUARIO"],
+      };
+    });
   };
 
   useEffect(() => {
@@ -68,6 +77,35 @@ const UsuarioFields = ({
     };
   }, [file]);
 
+  useEffect(() => {
+    if (createdMode) {
+      const fetchData = () => {
+        getUsersByRol().catch((err) => {
+          console.log(err);
+          toast.error("No se han podido cargar los supervisores", {
+            toastId: "toast-users-error",
+          });
+        });
+      };
+      return fetchData();
+    } else {
+      if (
+        user.data?.profile_picture != null &&
+        user.data?.profile_picture?.length > 500
+      ) {
+        setFileDataURL(user.data?.profile_picture);
+      }
+      if (user.data?.supervisorId != null)
+        getUserById(user.data?.supervisorId)
+          .then((res) => {
+            setSupervisor(res);
+          })
+          .catch(() => {
+            setSupervisor(null);
+          });
+    }
+  }, []);
+
   return (
     <Box id="seccionPerfil">
       <Box
@@ -75,6 +113,7 @@ const UsuarioFields = ({
         noValidate
         autoComplete="off"
         className="form-box"
+        onSubmit={handleSubmitForm}
       >
         <Box className="box-wrapper">
           <Box component={"div"} className="box-content">
@@ -97,15 +136,63 @@ const UsuarioFields = ({
                 }}
               />
             </Button>
-            <FormControl variant="standard" className="form-control">
-              <SelectFieldGenerico
-                valores={supervisores}
-                name={"supervisor"}
-                label={"Bajo supervision de:"}
-                setter={setter}
-                state={state}
-              />
-            </FormControl>
+            {data && createdMode && data?.supervisores ? (
+              <FormControl variant="standard" className="form-control">
+                <SelectFieldGenerico
+                  valores={data && data?.supervisores ? data.supervisores : ""}
+                  name={"supervisorId"}
+                  label={"Bajo supervision de:"}
+                  setter={setter}
+                  state={state}
+                />
+              </FormControl>
+            ) : (
+              ""
+            )}
+            {supervisor && !createdMode ? (
+              <Box
+                sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                title="Supervisor"
+              >
+                {supervisor?.profile_picture != null &&
+                supervisor?.profile_picture.length > 500 ? (
+                  <>
+                    <CardMedia
+                      component="img"
+                      src={supervisor.profile_picture}
+                      sx={{
+                        width: "40px",
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                      }}
+                    />
+                    <Typography
+                      variant="h5"
+                      fontWeight={"#FF8585"}
+                      color={"red"}
+                    >
+                      {`${supervisor?.name} ${supervisor?.lastname}`}
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <Avatar sx={{ width: "70px", height: "70px" }}>
+                      {supervisor?.name[0].toUpperCase() +
+                        supervisor?.lastname[0].toUpperCase()}
+                    </Avatar>
+                    <Typography
+                      variant="h5"
+                      fontWeight={"#FF8585"}
+                      color={"red"}
+                    >
+                      {`${supervisor?.name} ${supervisor?.lastname}`}
+                    </Typography>
+                  </>
+                )}
+              </Box>
+            ) : (
+              ""
+            )}
             {Column1.map((input) => {
               return (
                 <InputGenerico
@@ -114,7 +201,7 @@ const UsuarioFields = ({
                   type={input.type}
                   name={input.name}
                   setter={setter}
-                  required={input.required}
+                  required={input.required ? true : false}
                   defaultValue={
                     defaultValues && !createdMode
                       ? defaultValues[input.backName]
@@ -138,6 +225,7 @@ const UsuarioFields = ({
                       ? defaultValues[input.backName]
                       : null
                   }
+                  required={input.required ? true : false}
                 />
               );
             })}
@@ -154,9 +242,10 @@ const UsuarioFields = ({
                   defaultValue={
                     defaultValues && !createdMode
                       ? input.backName !== "password" &&
-                      defaultValues[input.backName]
+                        defaultValues[input.backName]
                       : null
                   }
+                  required={input.required ? true : false}
                 />
               );
             })}
@@ -173,9 +262,18 @@ const UsuarioFields = ({
                 label="Administrador"
               />
             )}
+            {user?.data?.roles[0] == "SUPERVISOR" && !defaultValues ? (
+              <FormControlLabel
+                control={<Switch name="roles" onChange={handleSwitch} />}
+                name="roles"
+                label="Administrador"
+              />
+            ) : (
+              ""
+            )}
           </Box>
         </Box>
-        <Button className="button-flex-end" variant="contained" onClick={handleSubmit}>
+        <Button className="button-flex-end" variant="contained" type="submit">
           Guardar
         </Button>
       </Box>

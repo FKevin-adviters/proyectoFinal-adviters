@@ -3,10 +3,31 @@ import React, { useState } from "react";
 import UsuarioFields from "../../../Components/UsuarioFields/UsuarioFields";
 import { useUsuario } from "../../../Hooks/useUsuario";
 import "./adminUsuariosCreate.css";
+import { toast } from "react-toastify";
 
 const AdminUsuariosCreate = () => {
   const { createUser } = useUsuario();
   const [userInfo, setUserInfo] = useState({});
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.target.reportValidity();
+
+    console.log(userInfo);
+    createUser(userInfo)
+      .then(() => {
+        toast.success("Se ha creado el usuario", {
+          toastId: "toast-user-created",
+        });
+      })
+      .catch((err) => {
+        e.target.reset();
+        console.log(err);
+        toast.error("No ha sido posible crear el usuario, intente más tarde.", {
+          toastId: "toast-user-create-error",
+        });
+      });
+  };
 
   return (
     <Box className="box">
@@ -18,6 +39,7 @@ const AdminUsuariosCreate = () => {
         state={userInfo}
         createdMode={true}
         fetchFn={createUser}
+        handleSubmitForm={handleSubmit}
       />
     </Box>
   );

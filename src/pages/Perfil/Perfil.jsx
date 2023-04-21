@@ -6,9 +6,7 @@ import { ActionContext } from "../../Contexts/ContextProvider";
 const Perfil = () => {
   const { user } = useContext(ActionContext);
   const [userInfo, setUserInfo] = useState();
-  if (userInfo) {
-    console.log(userInfo);
-  }
+
   return (
     <Box
       component={"section"}

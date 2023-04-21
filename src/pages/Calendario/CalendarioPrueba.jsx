@@ -1,26 +1,26 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
-import Badge from '@mui/material/Badge';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { PickersDay } from '@mui/x-date-pickers/PickersDay';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
-import Feriados from './Feriados';
+import * as React from "react";
+import PropTypes from "prop-types";
+import dayjs from "dayjs";
+import Badge from "@mui/material/Badge";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { PickersDay } from "@mui/x-date-pickers/PickersDay";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
+import Feriados from "./Feriados";
 
 function fakeFetch(date, { signal }) {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
       const daysInMonth = date.daysInMonth();
-      const daysToHighlight = [0, 6, 7, 9]
+      const daysToHighlight = [0, 6, 7, 9];
 
       resolve({ daysToHighlight });
     }, 500);
   });
 }
 
-const initialValue = dayjs('2022-04-17');
+const initialValue = dayjs("2022-04-17");
 
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
@@ -32,9 +32,13 @@ function ServerDay(props) {
     <Badge
       key={props.day.toString()}
       overlap="circular"
-      badgeContent={isSelected ? '🚩  ' : undefined}
+      badgeContent={isSelected ? "🚩  " : undefined}
     >
-      <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
+      <PickersDay
+        {...other}
+        outsideCurrentMonth={outsideCurrentMonth}
+        day={day}
+      />
     </Badge>
   );
 }
@@ -54,7 +58,7 @@ ServerDay.propTypes = {
 export default function CalendarioPrueba() {
   const requestAbortController = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [highlightedDays, setHighlightedDays] = React.useState([  ]);
+  const [highlightedDays, setHighlightedDays] = React.useState([]);
 
   const fetchHighlightedDays = (date) => {
     const controller = new AbortController();
@@ -67,7 +71,7 @@ export default function CalendarioPrueba() {
       })
       .catch((error) => {
         // ignore the error if it's caused by `controller.abort`
-        if (error.name !== 'AbortError') {
+        if (error.name !== "AbortError") {
           throw error;
         }
       });
@@ -96,6 +100,7 @@ export default function CalendarioPrueba() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
+        sx={{ width: "100%" }}
         defaultValue={initialValue}
         loading={isLoading}
         onMonthChange={handleMonthChange}
@@ -108,6 +113,7 @@ export default function CalendarioPrueba() {
             highlightedDays,
           },
         }}
+        readOnly
       />
     </LocalizationProvider>
   );

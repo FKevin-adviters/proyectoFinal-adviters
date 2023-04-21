@@ -24,10 +24,11 @@ const Calendario = () => {
           {/* <DateCalendar
             slotProps={{
               day: {
-                highlightedDays: [1, 2, 15]
-              } 
-            }}/> */}
-            <CalendarioPrueba/>
+                highlightedDays: [1, 2, 15],
+              },
+            }}
+          /> */}
+          <CalendarioPrueba />
         </LocalizationProvider>
       </Box>
       <Box className="caja">

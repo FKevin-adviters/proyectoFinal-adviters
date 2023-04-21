@@ -3,7 +3,7 @@ import { fetchContent } from "../Utils/fetchContent";
 export const sendCreateUser = async (user) => {
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-  console.log(arr[1]);
+
   try {
     let options = {
       headers: { token: arr[1] },
@@ -35,7 +35,7 @@ export const sendEditedUser = async (userData, id) => {
 export const getAllUsers = async () => {
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-  console.log(arr[1]);
+
   try {
     let options = {
       headers: {
@@ -46,5 +46,39 @@ export const getAllUsers = async () => {
     return data;
   } catch (error) {
     throw new Error("No se han encontrado usuarios: " + error?.message);
+  }
+};
+
+export const getAllUsersByRole = async () => {
+  let token = JSON.parse(sessionStorage.getItem("token"));
+  let arr = token.split(" ");
+
+  try {
+    let options = {
+      headers: {
+        token: arr[1],
+      },
+    };
+    let data = await fetchContent("/usuario/roles", options);
+    return data;
+  } catch (error) {
+    throw new Error("No se han encontrado usuarios: " + error?.message);
+  }
+};
+
+export const getUserById = async (idUser) => {
+  let token = JSON.parse(sessionStorage.getItem("token"));
+  let arr = token.split(" ");
+
+  try {
+    let options = {
+      headers: {
+        token: arr[1],
+      },
+    };
+    let data = await fetchContent("/usuario/" + idUser, options);
+    return data;
+  } catch (error) {
+    throw new Error("No se ha encontrado el usuario: " + error?.message);
   }
 };

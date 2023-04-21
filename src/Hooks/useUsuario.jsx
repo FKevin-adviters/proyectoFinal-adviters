@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   getAllUsers,
+  getAllUsersByRole,
   sendCreateUser,
   sendEditedUser,
 } from "../Services/usuarioServices";
@@ -11,7 +12,8 @@ export const useUsuario = () => {
 
   const createUser = async (userData) => {
     try {
-      let data = await sendCreateUser(userData);
+      let user = { roles: ["USUARIO"], ...userData };
+      let data = await sendCreateUser(user);
       return data;
     } catch (error) {
       console.log(error);
@@ -42,10 +44,21 @@ export const useUsuario = () => {
     }
   };
 
+  const getUsersByRol = async () => {
+    try {
+      let data = await getAllUsersByRole();
+      return setData(data);
+    } catch (error) {
+      console.log(error);
+      throw new Error("No ha sido posible encontrar usuarios por rol");
+    }
+  };
+
   return {
     data,
     createUser,
     editUser,
     getUsers,
+    getUsersByRol,
   };
 };
