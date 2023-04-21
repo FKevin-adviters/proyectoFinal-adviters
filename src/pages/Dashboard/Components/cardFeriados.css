@@ -6,4 +6,9 @@
 .caja-lista {
     height: 100px;
     overflow-y: auto;
+    list-style-type: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }

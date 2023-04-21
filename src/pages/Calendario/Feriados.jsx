@@ -30,7 +30,7 @@ function Feriados() {
     setNuevoFeriado(null);
     setMostrarModal(false);
   };
-  /* useEffect(() => {
+   useEffect(() => {
     const fetchData = () =>
       getFeriados()
         .then((res) => {
@@ -40,7 +40,7 @@ function Feriados() {
           console.log(err);
         });
     fetchData();
-  }, []); */
+  }, []); 
 
   return (
     <section className="seccionFeriados">

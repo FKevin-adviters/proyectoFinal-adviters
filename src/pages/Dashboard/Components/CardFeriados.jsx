@@ -1,8 +1,10 @@
-import { Card, CardContent, Skeleton, Typography } from "@mui/material";
+import { Card, CardContent, Divider, Skeleton, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import feriadosImg from "../../../Assets/Dashboard/feriadoImg.jpg";
 import { useFeriados } from "../../../Hooks/useFeriados";
+import { convertDates } from "../../../Utils/convertDates";
+import "./cardFeriados.css"
 const CardFeriados = () => {
   const { data, isLoading, isError, error } = useFeriados();
 
@@ -30,19 +32,22 @@ const CardFeriados = () => {
     <>
       {data && Array.isArray(data) && (
         <Card className="tarjeta">
-          <CardContent>
+          <CardContent sx={{display: "flex", flexDirection: "column"
+        , alignItems: "flex-start"}}>
             <img src={feriadosImg} alt="Feriados image" />
-            <Typography variant="subtitle1">Próximos feriados</Typography>
+            <Typography variant="h6">Próximos feriados</Typography>
             <Box component={"ul"} className="caja-lista">
-              {data.map(({ dia, mes, tipo }) => {
+              {data.map(({ date, description}) => {
                 return (
-                  <Typography
-                    key={tipo}
+                  <><Typography
+                    key={description}
                     component={"li"}
+
                     color={"text.secondary"}
+
                   >
-                    {`${dia} - ${mes} (${tipo})`}
-                  </Typography>
+                    {`${convertDates(date)} (${description})`}
+                  </Typography><Divider flexItem/></>
                 );
               })}
             </Box>
