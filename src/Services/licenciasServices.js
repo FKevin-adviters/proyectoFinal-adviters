@@ -7,7 +7,7 @@ export const createLicencia = async (licencia) => {
   licencia.endDate = moment(licencia.endDate).toISOString();
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-
+  let days = getDaysWorkable(licencia.startDate, licencia.endDate).length;
   try {
     let options = {
       headers: {
@@ -22,8 +22,7 @@ export const createLicencia = async (licencia) => {
         estadoLicencia: {
           idState: 0,
         },
-        requiredDays: getDaysWorkable(licencia.startDate, licencia.endDate)
-          .length,
+        requiredDays: days,
       },
     };
     let data = await fetchContent(
@@ -40,7 +39,6 @@ export const createLicencia = async (licencia) => {
 export const getLicenseById = async (id) => {
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-  console.log(arr[1]);
 
   try {
     let options = {
@@ -60,7 +58,6 @@ export const getLicenseById = async (id) => {
 export const setStatusLicense = async (idLicense, status) => {
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-  console.log(arr[1]);
 
   try {
     let options = {
@@ -89,7 +86,6 @@ export const setStatusLicense = async (idLicense, status) => {
 export const getLicenseByStateAndHist = async (state, historial) => {
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-  console.log(arr[1]);
 
   let options = {
     token: arr[1],
@@ -108,7 +104,6 @@ export const getLicenseByStateAndHist = async (state, historial) => {
 export const getLicenseByUserAndHist = async (idUser, historial) => {
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-  console.log(arr[1]);
 
   let options = {
     token: arr[1],

@@ -168,8 +168,9 @@ const Licencia = ({ dashboardLic }) => {
                 name={"licenseUser"}
                 setter={setLicenciaData}
                 state={licenciaData}
+                userSelectedById={setUserSelectedById}
                 defaultValue={
-                  licenseId && unicaLicenciaData?.usuarioDTO?.id
+                  licenseId && unicaLicenciaData?.usuarioDTO?.id != null
                     ? unicaLicenciaData?.usuarioDTO?.id
                     : ""
                 }
@@ -315,7 +316,7 @@ const Licencia = ({ dashboardLic }) => {
                 id="descripcion"
                 label={
                   licenseId && unicaLicenciaData?.description != null
-                    ? null
+                    ? undefined
                     : "Ingrese una descripción"
                 }
                 variant="outlined"
@@ -329,7 +330,9 @@ const Licencia = ({ dashboardLic }) => {
                 multiline
                 rows={5}
                 disabled={
-                  licenseId && unicaLicenciaData?.description ? true : false
+                  licenseId && unicaLicenciaData?.description != null
+                    ? true
+                    : false
                 }
               />
             </Box>
@@ -375,11 +378,13 @@ const Licencia = ({ dashboardLic }) => {
                     }
                   })
                 : ""}
-              {licenseId && supervisor != null ? (
+              {licenseId &&
+              unicaLicenciaData?.usuarioDTO?.supervisor != null ? (
                 <Box
                   sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
-                  {user?.data?.profile_picture.length > 500 ? (
+                  {unicaLicenciaData?.usuarioDTO?.supervisor?.profile_picture
+                    .length > 500 ? (
                     <CardMedia
                       component="img"
                       src={user.data.profile_picture}
@@ -391,12 +396,12 @@ const Licencia = ({ dashboardLic }) => {
                     />
                   ) : (
                     <Avatar sx={{ width: "70px", height: "70px" }}>
-                      {supervisor?.name[0].toUpperCase() +
-                        supervisor?.lastname[0].toUpperCase()}
+                      {unicaLicenciaData?.usuarioDTO?.supervisor?.name[0].toUpperCase() +
+                        unicaLicenciaData?.usuarioDTO?.supervisor?.lastname[0].toUpperCase()}
                     </Avatar>
                   )}
                   <Typography variant="h5" fontWeight={"#FF8585"} color={"red"}>
-                    {`${supervisor?.name} ${supervisor?.lastname}`}
+                    {`${unicaLicenciaData?.usuarioDTO?.supervisor?.name} ${unicaLicenciaData?.usuarioDTO?.supervisor?.lastname}`}
                   </Typography>
                 </Box>
               ) : (

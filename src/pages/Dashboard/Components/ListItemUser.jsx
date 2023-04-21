@@ -34,13 +34,13 @@ const ListItemUser = ({ licencia, admin }) => {
     e.stopPropagation();
     setStatusLicense(licenseId, status)
       .then(() => {
-        redirect(0);
         toast.success(
           `Se ha logrado ${status == 1 ? "aprobar" : "denegar"} la licencia`,
           {
             toastId: "license-status",
           }
         );
+        redirect(0);
       })
       .catch(() => {
         toast.error(
