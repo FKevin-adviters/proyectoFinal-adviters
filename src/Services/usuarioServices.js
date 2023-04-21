@@ -69,7 +69,6 @@ export const getAllUsersByRole = async () => {
 export const getUserById = async (idUser) => {
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-
   try {
     let options = {
       headers: {

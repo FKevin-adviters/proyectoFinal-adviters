@@ -24,11 +24,11 @@ import {
   getLicenseById,
 } from "../../Services/licenciasServices";
 import { estadoColores } from "../../constants/constantes";
+import { getUserById } from "../../Services/usuarioServices";
 
 // mover a carpeta constantes!
 let initialState = {
   licenseUser: "",
-  tipoLicencia: "",
   licenseSupervisor: "",
   description: "",
   requiredDays: "",
@@ -41,11 +41,15 @@ const tipoLicencias = [
   { name: "Licencia Medica", id: 3 },
 ];
 
+// no llegué a modularizar este componente y separar los estados
+// porque me enfoqué en el back
 const Licencia = ({ dashboardLic }) => {
   const { user } = useContext(ActionContext);
   const { getUsers, data } = useUsuario();
   const [licenciaData, setLicenciaData] = useState(initialState);
   const [unicaLicenciaData, setUnicaLicenciaData] = useState();
+  const [userSelectedById, setUserSelectedById] = useState();
+  const [userSelect, setUserSelect] = useState();
   const { licenseId } = useParams();
 
   const redirect = useNavigate();
@@ -62,6 +66,7 @@ const Licencia = ({ dashboardLic }) => {
       );
     }
 
+    console.log(licenciaData);
     await createLicencia(licenciaData)
       .then(() => {
         toast.success("Se ha logrado crear la licencia");
@@ -119,6 +124,25 @@ const Licencia = ({ dashboardLic }) => {
     });
   }, [licenseId]);
 
+  useEffect(() => {
+    if (userSelectedById != null) {
+      const fetchData = () => {
+        getUserById(userSelectedById)
+          .then((res) => {
+            console.log(res);
+            setUserSelect(res);
+          })
+          .catch(() => {
+            toast.error(
+              "No se ha logrado sacar la informacion del usuario seleccionado",
+              { toastId: "toast-user-selected" }
+            );
+          });
+      };
+      return fetchData();
+    }
+  }, [userSelectedById]);
+
   return (
     <>
       <section
@@ -168,7 +192,7 @@ const Licencia = ({ dashboardLic }) => {
                 name={"licenseUser"}
                 setter={setLicenciaData}
                 state={licenciaData}
-                userSelectedById={setUserSelectedById}
+                setUserSelectedById={setUserSelectedById}
                 defaultValue={
                   licenseId && unicaLicenciaData?.usuarioDTO?.id != null
                     ? unicaLicenciaData?.usuarioDTO?.id
@@ -240,10 +264,15 @@ const Licencia = ({ dashboardLic }) => {
                   setter={setLicenciaData}
                   state={licenciaData}
                   defaultValue={
-                    licenseId && unicaLicenciaData
+                    licenseId &&
+                    unicaLicenciaData &&
+                    !licenciaData?.tipoLicencia
                       ? unicaLicenciaData?.licenseTypeId
-                      : ""
+                      : licenciaData
+                      ? licenciaData?.tipoLicencia
+                      : undefined
                   }
+                  createdMode={true}
                 />
               </Box>
               <AdjuntarArchivo />
@@ -297,7 +326,10 @@ const Licencia = ({ dashboardLic }) => {
 
                 <Box sx={{ padding: " 0 15px" }}>
                   <Typography variant="subtitle2" color={"text.secondary"}>
-                    {user.data.available_days ? user.data.available_days : "?"}{" "}
+                    {user.data.available_days && !userSelect?.available_days
+                      ? user.data.available_days
+                      : ""}
+                    {userSelect?.available_days && userSelect?.available_days}{" "}
                     días disponibles
                   </Typography>
                 </Box>
@@ -383,7 +415,9 @@ const Licencia = ({ dashboardLic }) => {
                 <Box
                   sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
-                  {unicaLicenciaData?.usuarioDTO?.supervisor?.profile_picture
+                  {unicaLicenciaData?.usuarioDTO?.supervisor?.profile_picture !=
+                    null &&
+                  unicaLicenciaData?.usuarioDTO?.supervisor?.profile_picture
                     .length > 500 ? (
                     <CardMedia
                       component="img"

@@ -51,6 +51,7 @@ const Navbar = () => {
         <MenuDesplegable
           menu={MenuDesplegable3}
           iconButton={
+            user?.data?.profile_picture != null &&
             user?.data?.profile_picture.length > 500 ? (
               <CardMedia
                 component="img"
