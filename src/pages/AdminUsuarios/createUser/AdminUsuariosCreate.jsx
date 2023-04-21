@@ -11,23 +11,28 @@ const AdminUsuariosCreate = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    e.target.reportValidity();
-
-    console.log(userInfo);
-    createUser(userInfo)
-      .then(() => {
-        toast.success("Se ha creado el usuario", {
-          toastId: "toast-user-created",
+    if (e.target.reportValidity()) {
+      return createUser(userInfo)
+        .then(() => {
+          toast.success("Se ha creado el usuario", {
+            toastId: "toast-user-created",
+          });
+          e.target.reset();
+          setUserInfo({});
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(
+            "No ha sido posible crear el usuario, intente más tarde.",
+            {
+              toastId: "toast-user-create-error",
+            }
+          );
         });
-        e.target.reset();
-      })
-      .catch((err) => {
-        e.target.reset();
-        console.log(err);
-        toast.error("No ha sido posible crear el usuario, intente más tarde.", {
-          toastId: "toast-user-create-error",
-        });
-      });
+    }
+    return toast.error("Complete los campos necesarios", {
+      toastId: "toast-create-user-errorVal",
+    });
   };
 
   return (

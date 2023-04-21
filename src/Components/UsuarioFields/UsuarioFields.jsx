@@ -47,7 +47,7 @@ const UsuarioFields = ({
     setter(() => {
       return {
         ...state,
-        [e.target.name]: [e.target.value ? "SUPERVISOR" : "USUARIO"],
+        [e.target.name]: [e.target.value == true ? "SUPERVISOR" : "USUARIO"],
       };
     });
   };
