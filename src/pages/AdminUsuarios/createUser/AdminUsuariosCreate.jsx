@@ -19,6 +19,7 @@ const AdminUsuariosCreate = () => {
         toast.success("Se ha creado el usuario", {
           toastId: "toast-user-created",
         });
+        e.target.reset();
       })
       .catch((err) => {
         e.target.reset();

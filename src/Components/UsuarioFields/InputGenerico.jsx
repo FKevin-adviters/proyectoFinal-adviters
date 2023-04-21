@@ -12,10 +12,15 @@ const InputGenerico = ({
   required,
 }) => {
   const handleChange = (event) => {
+    let nameInput = event.target.name;
+    let valueInput = event.target.value;
+    if (nameInput === ("dni" || "cuil" || "phone") && valueInput != null) {
+      valueInput = event.target.name.toString();
+    }
     setter((old) => {
       return {
         ...old,
-        [event.target.name]: event.target.value,
+        [nameInput]: valueInput,
       };
     });
   };

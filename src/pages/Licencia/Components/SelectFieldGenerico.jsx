@@ -8,11 +8,17 @@ const SelectFieldGenerico = ({
   label,
   setter,
   defaultValue,
+  setUserSelectedById,
+  createdMode,
 }) => {
   const [selected, setSelected] = useState();
 
   const handleChange = (e) => {
     setSelected(e.target.value);
+    if (!createdMode) {
+      setUserSelectedById(e.target.value);
+    }
+
     setter(() => {
       return { ...state, [e.target.name]: e.target.value };
     });

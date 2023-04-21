@@ -144,6 +144,7 @@ const UsuarioFields = ({
                   label={"Bajo supervision de:"}
                   setter={setter}
                   state={state}
+                  createdMode={true}
                 />
               </FormControl>
             ) : (
