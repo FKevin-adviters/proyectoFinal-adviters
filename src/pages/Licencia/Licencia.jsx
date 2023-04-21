@@ -415,7 +415,9 @@ const Licencia = ({ dashboardLic }) => {
                 <Box
                   sx={{ display: "flex", alignItems: "center", gap: "10px" }}
                 >
-                  {unicaLicenciaData?.usuarioDTO?.supervisor?.profile_picture
+                  {unicaLicenciaData?.usuarioDTO?.supervisor?.profile_picture !=
+                    null &&
+                  unicaLicenciaData?.usuarioDTO?.supervisor?.profile_picture
                     .length > 500 ? (
                     <CardMedia
                       component="img"
