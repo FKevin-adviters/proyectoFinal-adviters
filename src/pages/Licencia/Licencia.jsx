@@ -14,7 +14,7 @@ import CalendarioButtons from "./Components/CalendarioButtons";
 import SelectFieldGenerico from "./Components/SelectFieldGenerico";
 import { LicenciasDetalles } from "./Components/LicenciasDetalles";
 import { AdjuntarArchivo } from "./Components/AdjuntarArchivo";
-import { daysBetweenDates, getDaysWorkable } from "../../Utils/convertDates";
+import { getDaysWorkable } from "../../Utils/convertDates";
 import { ActionContext } from "../../Contexts/ContextProvider";
 import { toast } from "react-toastify";
 import { useUsuario } from "../../Hooks/useUsuario";
@@ -23,7 +23,9 @@ import {
   createLicencia,
   getLicenseById,
 } from "../../Services/licenciasServices";
+import { estadoColores } from "../../constants/constantes";
 
+// mover a carpeta constantes!
 let initialState = {
   licenseUser: "",
   tipoLicencia: "",
@@ -39,13 +41,6 @@ const tipoLicencias = [
   { name: "Licencia Medica", id: 3 },
 ];
 
-const estadoColores = {
-  PENDIENTE: "orange",
-  APROBADO: "green",
-  RECHAZADO: "red",
-  3: "green",
-};
-
 const Licencia = ({ dashboardLic }) => {
   const { user } = useContext(ActionContext);
   const { getUsers, data } = useUsuario();
@@ -55,31 +50,17 @@ const Licencia = ({ dashboardLic }) => {
 
   const redirect = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(e.target);
     if (
       user.data.available_days <
-      daysBetweenDates(licenciaData.endDate, licenciaData.startDate)
+      getDaysWorkable(licenciaData.startDate, licenciaData.endDate).length
     ) {
       return toast.info(
         "Por favor, ingrese un rango de días equivalente o menor a sus días disponibles."
       );
     }
-
-    setLicenciaData((old) => ({
-      ...old,
-      requiredDays: getDaysWorkable(
-        licenciaData.startDate,
-        licenciaData.endDate
-      ).length,
-    }));
-
-    setLicenciaData((old) => ({
-      ...old,
-      requiredDays: getDaysWorkable(
-        licenciaData.startDate,
-        licenciaData.endDate
-      ).length,
-    }));
 
     await createLicencia(licenciaData)
       .then(() => {
@@ -87,9 +68,14 @@ const Licencia = ({ dashboardLic }) => {
         redirect("/");
       })
       .catch(() => {
+        setLicenciaData(initialState);
+        e.target.reset();
         toast.error("No se ha logrado crear la licencia");
       })
-      .finally(setLicenciaData(initialState));
+      .finally(() => {
+        setLicenciaData(initialState);
+        e.target.reset();
+      });
   };
 
   const handleDesc = (e) => {
@@ -105,6 +91,9 @@ const Licencia = ({ dashboardLic }) => {
       toast.error(
         "No se ha podido renderizar los usuarios, intente nuevamente"
       );
+    });
+    setLicenciaData((old) => {
+      return { ...old, createdBy: user?.data?.id };
     });
   }, []);
 
@@ -409,7 +398,7 @@ const Licencia = ({ dashboardLic }) => {
                   variant="contained"
                   color="primary"
                   size="large"
-                  onClick={handleSubmit}
+                  type="submit"
                 >
                   Solicitar Aprobacion
                 </Button>

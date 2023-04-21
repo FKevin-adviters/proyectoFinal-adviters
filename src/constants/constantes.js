@@ -204,3 +204,10 @@ export const colores = {
   2: "cyan",
   3: "green",
 };
+
+export const estadoColores = {
+  PENDIENTE: "orange",
+  APROBADO: "green",
+  RECHAZADO: "red",
+  3: "green",
+};

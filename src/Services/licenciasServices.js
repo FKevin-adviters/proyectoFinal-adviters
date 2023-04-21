@@ -1,12 +1,13 @@
 import moment from "moment";
 import { fetchContent } from "../Utils/fetchContent";
+import { getDaysWorkable } from "../Utils/convertDates";
 
 export const createLicencia = async (licencia) => {
   licencia.startDate = moment(licencia.startDate).toISOString();
   licencia.endDate = moment(licencia.endDate).toISOString();
   let token = JSON.parse(sessionStorage.getItem("token"));
   let arr = token.split(" ");
-  console.log(arr[1]);
+
   try {
     let options = {
       headers: {
@@ -21,6 +22,8 @@ export const createLicencia = async (licencia) => {
         estadoLicencia: {
           idState: 0,
         },
+        requiredDays: getDaysWorkable(licencia.startDate, licencia.endDate)
+          .length,
       },
     };
     let data = await fetchContent(
@@ -112,7 +115,9 @@ export const getLicenseByUserAndHist = async (idUser, historial) => {
   };
   try {
     const res = await fetchContent(
-      `/licencias/usuario/${idUser}/list?historial=${historial}`,
+      `/licencias/usuario/${idUser}/list${
+        historial != null && `?historial=${historial}`
+      }`,
       options
     );
     return res;

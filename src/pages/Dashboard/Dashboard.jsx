@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Skeleton, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import "./Dashboard.css";
 import Buscador from "./Components/Buscador";
@@ -15,7 +8,6 @@ import CardDiasDisp from "./Components/CardDiasDisp";
 import CardClima from "./Components/CardClima";
 import CardFeriados from "./Components/CardFeriados";
 import { Link, Outlet } from "react-router-dom";
-import { toast } from "react-toastify";
 import {
   getLicenseByStateAndHist,
   getLicenseByUserAndHist,
@@ -35,7 +27,7 @@ const Dashboard = ({ admin }) => {
     if (user.data.roles[0] == "SUPERVISOR") {
       const fetchData = () => {
         // card1
-        getLicenseByStateAndHist(0, true)
+        getLicenseByStateAndHist(0, false)
           .then((res) => {
             setCard1(res);
           })
@@ -104,7 +96,7 @@ const Dashboard = ({ admin }) => {
           <CardClima />
           <CardFeriados />
         </li>
-        <li className="dashboard_list-item ">
+        <li className="dashboard_list-item item3">
           {/* hacer dos componentes */}
           <section>
             {admin ? (
@@ -126,13 +118,7 @@ const Dashboard = ({ admin }) => {
                   />
                 )}
                 {isError && "ERROR AL CARGAR LAS LICENCIAS"}
-                {card1 && (
-                  <ListLicencias
-                    admin={true}
-                    licencias={card1}
-                    refetch={refetch}
-                  />
-                )}
+                {card1 && <ListLicencias admin={true} licencias={card1} />}
               </>
             ) : (
               // es usuario

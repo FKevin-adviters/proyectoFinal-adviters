@@ -5,7 +5,7 @@ import ListItemUser from "./ListItemUser";
 const ListLicencias = ({ admin, licencias, refetch }) => {
   return (
     <Card
-      sx={{ minWidth: "clamp(300px, 80%, 500px)" }}
+      sx={{ minWidth: "clamp(200px, 80%, 500px)" }}
       className="listLicencias_card"
     >
       <CardContent>
